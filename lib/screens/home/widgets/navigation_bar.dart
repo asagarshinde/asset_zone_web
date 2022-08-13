@@ -54,7 +54,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             Expanded(
               flex: 5,
               child: Container(
-                child: Row(
+                child: Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: getMenuItems(),
                 )
               ),
