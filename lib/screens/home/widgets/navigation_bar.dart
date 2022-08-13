@@ -21,7 +21,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         );
         myMenuItems.add(
           const SizedBox(
-            width: 60,
+            width: 20,
           ),
         );
       },
@@ -39,9 +39,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         child: Row(
           children: [
             Expanded(
-              flex: 5,
+              flex: 1,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(40, 8, 40, 8),
+                padding: const EdgeInsets.fromLTRB(10, 0, 0,0),
                 child: Text(
                   "The Asset Zone",
                   style: kMenuItemStyle.copyWith(
@@ -49,10 +49,20 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 ),
               ),
             ),
-            ...getMenuItems(),
-            const SizedBox(width: 40),
+            // SizedBox(width: 30,),
+            // Spacer(),
             Expanded(
-              flex: 3,
+              flex: 5,
+              child: Container(
+                child: Row(
+                  children: getMenuItems(),
+                )
+              ),
+            ),
+            // const SizedBox(width: 20),
+            // Spacer(),
+            Expanded(
+              flex: 1,
               child: IconButton(
                 onPressed: () => showDialog(
                     context: context, builder: (context) => const AuthDialog()),
