@@ -51,7 +51,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               ),
             ),
             ...getMenuItems(),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20),
             IconButton(
               onPressed: () {
                 Navigator.push(
@@ -59,7 +59,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   MaterialPageRoute(builder: (context) => FormAddFirebase()),
                 );
               },
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
             const SizedBox(width: 40),
             Expanded(
@@ -67,7 +67,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               child: IconButton(
                 onPressed: () => showDialog(
                     context: context, builder: (context) => const AuthDialog()),
-                icon: Icon(
+                icon: const Icon(
                   size: 45,
                   Icons.person_outline_rounded,
                   color: kIconColor,
@@ -102,29 +102,28 @@ class _AppBarDropDownButtonState extends State<AppBarDropDownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          isDense: true,
-          isExpanded: false,
-          value: widget.itemString[0],
-          items: widget.itemString.map(
-            (String item) {
-              return DropdownMenuItem(
-                alignment: Alignment.centerLeft,
-                value: item,
-                child: Text(item, style: kMenuItemStyle),
-              );
-            },
-          ).toList(),
-          onChanged: (selectedValue) {
-            setState(
-              () {
-                selectedValue = selectedValue.toString();
-              },
+    return DropdownButtonHideUnderline(
+      child: DropdownButton(
+        isDense: true,
+        isExpanded: false,
+        value: widget.itemString[0],
+        items: widget.itemString.map(
+          (String item) {
+            return DropdownMenuItem(
+              alignment: Alignment.centerLeft,
+              value: item,
+              child: Text(item, style: kMenuItemStyle),
             );
           },
-        ),
+        ).toList(),
+        onChanged: (selectedValue) {
+          setState(
+            () {
+              selectedValue = selectedValue.toString();
+              print(selectedValue);
+            },
+          );
+        },
       ),
     );
   }
@@ -167,5 +166,15 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+
+class SimpleNavigationBar extends StatelessWidget {
+  const SimpleNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

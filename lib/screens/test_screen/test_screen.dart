@@ -13,7 +13,7 @@ class _TestPageScreenState extends State<TestPageScreen> {
 
   Future<List<Widget>?> getData() async{
     PropertiesList propertiesList = PropertiesList();
-    List<Widget>? pl = await propertiesList.propertyList();
+    List<Widget>? pl = await propertiesList.propertyList("For Rent");
     // await Future.delayed(Duration(seconds: 5));
     print(pl);
     return pl;

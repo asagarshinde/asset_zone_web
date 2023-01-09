@@ -96,7 +96,7 @@ class _MyButtonState extends State<MyButton> {
         splashColor: Colors.white,
         onTap: () {
           setState(() {
-            print("video from list : ${lstPD.length}");
+            // print("video from list : ${lstPD.length}");
           });
 
           PropertyDetailsFirestore dbservice = PropertyDetailsFirestore();

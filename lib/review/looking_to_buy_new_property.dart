@@ -1,13 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class LookingToBuyNewProperty extends StatefulWidget {
   const LookingToBuyNewProperty({Key? key}) : super(key: key);
 
   @override
-  State<LookingToBuyNewProperty> createState() => _LookingToBuyNewPropertyState();
+  State<LookingToBuyNewProperty> createState() =>
+      _LookingToBuyNewPropertyState();
 }
 
 class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
@@ -18,13 +20,14 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
         children: [
           SizedBox(
             width: double.infinity,
-            height: 700,
+            // height: MediaQuery.of(context).size.height,
             child: Image.asset(
               'assets/image.jpg',
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 height: 50,
@@ -36,19 +39,23 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                   decoration: BoxDecoration(
                     //border: Border.all(color: Colors.black, width: 4),
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      new BoxShadow(
-                        color: Colors.purple,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: kSecondaryColor,
                       ),
                     ],
                   ),
-                  child: Center(
+                  child: const Center(
                       child: Text("Buy Or Sell",
-                          style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1),
-                              fontSize: 30, fontWeight: FontWeight.w500))),
+                          style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500))),
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               Container(
                 height: 400,
                 width: 800,
@@ -56,67 +63,79 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Center(
                         child: AutoSizeText(
-                          "S H E L T O S  R E A L E  S T A T E",
+                          "T H E  |  A S S E T S  |  Z O N E  |  R E A L E  |  S T A T E",
                           style: GoogleFonts.montserrat(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: Color.fromRGBO(255, 255, 255, 1)),
+                              color: const Color.fromRGBO(255, 255, 255, 1)),
                         ),
                       ),
                     ),
-                    SizedBox(height: 50,),
+                    const SizedBox(
+                      height: 50,
+                    ),
                     Center(
                       child: AutoSizeText(
-                         "Looking To Buy A New Property Or Sell An ",
+                        "Looking To Buy A New Property Or Sell An ",
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                            color: const Color.fromRGBO(255, 255, 255, 1)),
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Center(
                       child: AutoSizeText(
                         "Existing One? Real Homes Provides An Easy",
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                            color: const Color.fromRGBO(255, 255, 255, 1)),
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Center(
                       child: AutoSizeText(
                         "Solution!",
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                            color: const Color.fromRGBO(255, 255, 255, 1)),
                       ),
                     ),
-                    SizedBox(height: 50,),
+                    const SizedBox(
+                      height: 50,
+                    ),
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(170, 0, 0, 0),
-                            child: MyButton(
-                              title: "Submit Property",width: 200,
-                            ),
-                        ),
-                        SizedBox(width: 50,),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                          padding: const EdgeInsets.fromLTRB(170, 0, 0, 0),
                           child: MyButton(
-                            title: "Browse Property",width: 200,
+                            title: "Submit Property",
+                            width: 200,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                          child: MyButton(
+                            title: "Browse Property",
+                            width: 200,
                           ),
                         ),
                       ],
                     )
                   ],
-                )
+                ),
               ),
             ],
           )

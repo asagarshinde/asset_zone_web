@@ -30,7 +30,7 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
   final String projectType;
   final String projectDescription;
 
-  FeaturedProjectDescriptionTile({
+  const FeaturedProjectDescriptionTile({
     Key? key,
     required this.cityName,
     required this.projectType,
@@ -41,20 +41,19 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (builder, constraints) {
       final width = constraints.maxWidth;
-      final scale_factor = width/1600;
       return Padding(
         padding: EdgeInsets.only(left: width < 900 ? 25 : 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 32.0, 0, 4),
+              padding: const EdgeInsets.fromLTRB(0, 32.0, 0, 4),
               child: AutoSizeText(
                 cityName.toUpperCase(),
                 minFontSize: 10,
                 textAlign: TextAlign.start,
-                style: GoogleFonts.rubik(
-                     letterSpacing: 4, color: Colors.black38),
+                style:
+                    GoogleFonts.rubik(letterSpacing: 4, color: Colors.black38),
               ),
             ),
             Row(
@@ -69,7 +68,7 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
                       maxLines: 1,
                       textAlign: TextAlign.start,
                       style: GoogleFonts.rubik(
-                        fontSize: 20,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: kSecondaryColor),
                     ),
@@ -86,12 +85,15 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
                           horizontal: 8.0, vertical: 2.0),
                       child: AutoSizeText(
                         projectType.toUpperCase(),
-                        style: GoogleFonts.rubik(fontSize: 12, color: Colors.white),
+                        style: GoogleFonts.rubik(
+                            fontSize: 12, color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                Spacer(flex: 1,)
+                const Spacer(
+                  flex: 1,
+                )
               ],
             ),
             Padding(
@@ -112,41 +114,62 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
             ),
             Row(
               children: [
-                if (!Responsive.isMobile(context)) Expanded(
-                  child: Icon(
-                    Icons.bed_rounded,
-                    color: Colors.black,
+                if (!Responsive.isMobile(context))
+                  const Expanded(
+                    child: Icon(
+                      Icons.bed_rounded,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Expanded(child: AutoSizeText("Bed: 5", maxLines:2, minFontSize: 5,style: GoogleFonts.rubik(fontSize: 13),)),
-                if (!Responsive.isMobile(context)) SizedBox(
-                  height: 12,
-                  child: VerticalDivider(
-                    thickness: 2,
-                    color: Colors.black38,
+                Expanded(
+                    child: AutoSizeText(
+                  "Bed: 5",
+                  maxLines: 2,
+                  minFontSize: 5,
+                  style: GoogleFonts.rubik(fontSize: 13),
+                )),
+                if (!Responsive.isMobile(context))
+                  const SizedBox(
+                    height: 12,
+                    child: VerticalDivider(
+                      thickness: 2,
+                      color: Colors.black38,
+                    ),
                   ),
-                ),
-                if (!Responsive.isMobile(context)) Expanded(
-                  child: Icon(
-                    Icons.bathtub_rounded,
-                    color: Colors.black,
+                if (!Responsive.isMobile(context))
+                  const Expanded(
+                    child: Icon(
+                      Icons.bathtub_rounded,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Expanded(child: AutoSizeText("Baths: 3", minFontSize: 5,style: GoogleFonts.rubik(fontSize: 13),)),
-                if (!Responsive.isMobile(context)) SizedBox(
-                  height: 12,
-                  child: VerticalDivider(
-                    thickness: 2,
-                    color: Colors.black38,
+                Expanded(
+                    child: AutoSizeText(
+                  "Baths: 3",
+                  minFontSize: 5,
+                  style: GoogleFonts.rubik(fontSize: 13),
+                )),
+                if (!Responsive.isMobile(context))
+                  const SizedBox(
+                    height: 12,
+                    child: VerticalDivider(
+                      thickness: 2,
+                      color: Colors.black38,
+                    ),
                   ),
-                ),
-                if (!Responsive.isMobile(context)) Expanded(
-                  child: Icon(
-                    Icons.square_foot_outlined,
-                    color: Colors.black,
+                if (!Responsive.isMobile(context))
+                  const Expanded(
+                    child: Icon(
+                      Icons.square_foot_outlined,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Expanded(child: AutoSizeText("Sq. Foot: 5000", minFontSize: 5,style: GoogleFonts.rubik(fontSize: 13),)),
+                Expanded(
+                    child: AutoSizeText(
+                  "Sq. Foot: 5000",
+                  minFontSize: 5,
+                  style: GoogleFonts.rubik(fontSize: 13),
+                )),
                 if (!Responsive.isMobile(context)) Spacer()
               ],
             ),
@@ -157,8 +180,8 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
                     border: Border.all(color: kSecondaryColor, width: 2),
                     borderRadius: BorderRadius.circular(12.0)),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 8.0),
                   child: AutoSizeText(
                     "OPEN HOUSE",
                     style:
@@ -184,7 +207,7 @@ class FeaturedProjectDesktop extends StatelessWidget {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
         print(
-            "FeaturedProjectLayer1 height : ${height}, width: ${width}, mheight : ${MediaQuery.of(context).size.height}");
+            "FeaturedProjectLayer1 height : $height, width: $width, mheight : ${MediaQuery.of(context).size.height}");
         return Stack(
           // alignment: Alignment.center,
           children: [
@@ -218,26 +241,26 @@ class FeaturedProjectDesktop extends StatelessWidget {
             ),
             Positioned(
               top: 200,
-              left: width/3,
+              left: width / 3,
               child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.40,
                   child: const FeatureProjectLayer2()),
             ),
             Positioned(
-              left: width/12,
-              top: height/2.5,
+              left: width / 12,
+              top: height / 3,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.35,
-                child: Card(
+                child: const Card(
                   color: Colors.white,
                   clipBehavior: Clip.antiAlias,
-                  shape: const RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: FeaturedProjectDescriptionTile(
                     cityName: "nashik city",
                     projectType: "Open house",
                     projectDescription:
-                    "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
+                        "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
                   ),
                 ),
               ),
@@ -259,7 +282,7 @@ class FeaturedProjectTablet extends StatelessWidget {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
         print(
-            "FeaturedProjectLayer1 height : ${height}, width: ${width}, mheight : ${MediaQuery.of(context).size.height}");
+            "FeaturedProjectLayer1 height : $height, width: $width, mheight : ${MediaQuery.of(context).size.height}");
         return Stack(
           // alignment: Alignment.center,
           children: [
@@ -294,26 +317,26 @@ class FeaturedProjectTablet extends StatelessWidget {
             ),
             Positioned(
               top: 250,
-              left: (MediaQuery.of(context).size.width * 0.3)/3,
+              left: (MediaQuery.of(context).size.width * 0.3) / 3,
               child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.80,
                   child: const FeatureProjectLayer2()),
             ),
             Positioned(
-              left: (MediaQuery.of(context).size.width * 0.35)/3,
+              left: (MediaQuery.of(context).size.width * 0.35) / 3,
               top: 500,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
-                child: Card(
+                child: const Card(
                   color: Colors.white,
                   clipBehavior: Clip.antiAlias,
-                  shape: const RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: FeaturedProjectDescriptionTile(
                     cityName: "nashik city",
                     projectType: "Open house",
                     projectDescription:
-                    "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
+                        "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
                   ),
                 ),
               ),
@@ -335,7 +358,7 @@ class FeaturedProjectMobile extends StatelessWidget {
         final width = constraints.maxWidth;
         final height = constraints.maxHeight;
         print(
-            "FeaturedProjectLayer1 height : ${height}, width: ${width}, mheight : ${MediaQuery.of(context).size.height}");
+            "FeaturedProjectLayer1 height : $height, width: $width, mheight : ${MediaQuery.of(context).size.height}");
         return Stack(
           // alignment: Alignment.center,
           children: [
@@ -370,26 +393,26 @@ class FeaturedProjectMobile extends StatelessWidget {
             ),
             Positioned(
               top: 150,
-              left: (MediaQuery.of(context).size.width * 0.05)/2,
+              left: (MediaQuery.of(context).size.width * 0.05) / 2,
               child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.95,
                   child: const FeatureProjectLayer2()),
             ),
             Positioned(
-              left: (MediaQuery.of(context).size.width * 0.1)/2,
-              top: width< 400 ? 350 : 400,
+              left: (MediaQuery.of(context).size.width * 0.1) / 2,
+              top: width < 400 ? 350 : 400,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.90,
-                child: Card(
+                child: const Card(
                   color: Colors.white,
                   clipBehavior: Clip.antiAlias,
-                  shape: const RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: FeaturedProjectDescriptionTile(
                     cityName: "nashik city",
                     projectType: "Open house",
                     projectDescription:
-                    "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
+                        "Different types of housing can be use same physical type. connected \nresidences might be owned by a single entity or owned separately with an \naggrement covering the relationship between units and common areas \nand concerns",
                   ),
                 ),
               ),
@@ -399,4 +422,17 @@ class FeaturedProjectMobile extends StatelessWidget {
       },
     );
   }
+}
+
+Widget featuredProject({context, width}) {
+  return Container(
+    color: Colors.white70,
+    height: MediaQuery.of(context).size.height,
+    width: MediaQuery.of(context).size.width,
+    child: width < 500
+        ? const FeaturedProjectMobile()
+        : width < 900
+            ? const FeaturedProjectTablet()
+            : const FeaturedProjectDesktop(),
+  );
 }

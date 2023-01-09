@@ -1,8 +1,18 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/controllers/home_page_card_controller.dart';
 
+import '../home_screen.dart';
+
 class PropertiesForCardsView extends StatefulWidget {
-  const PropertiesForCardsView({Key? key}) : super(key: key);
+  final double width;
+
+  final String propertiesFor;
+
+  const PropertiesForCardsView(
+      {Key? key, required this.width, required this.propertiesFor})
+      : super(key: key);
 
   @override
   State<PropertiesForCardsView> createState() => _PropertiesForCardsViewState();
@@ -11,7 +21,7 @@ class PropertiesForCardsView extends StatefulWidget {
 class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
   Future<List<Widget>?> getData() async {
     PropertiesList propertiesList = PropertiesList();
-    List<Widget>? pl = await propertiesList.propertyList();
+    List<Widget>? pl = await propertiesList.propertyList(widget.propertiesFor);
     // await Future.delayed(Duration(seconds: 5));
     return pl;
   }
@@ -23,12 +33,26 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Widget> data = snapshot.data! as List<Widget>;
-          return Center(
-            child: Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runAlignment: WrapAlignment.center,
-              children: data,
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+                widget.width > 1200 ? widget.width * 0.08 : 10, 0, 0, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...propertiesForText(
+                    width: widget.width,
+                    heading: "Properties ${widget.propertiesFor}",
+                    subheading:
+                        "Elegant retreat in Coral Gables setting. This home provides entertaining spaces with kitchen opening"),
+                const SizedBox(height: 20),
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runAlignment: WrapAlignment.center,
+                  children: data,
+                ),
+                const SizedBox(height: 50)
+              ],
             ),
           );
         } else if (snapshot.hasError) {
@@ -39,4 +63,48 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
       },
     );
   }
+}
+
+class PaddedTextHeading extends StatelessWidget {
+  const PaddedTextHeading(
+      {Key? key,
+      required this.width,
+      required this.text,
+      this.fontSize = 30,
+      required this.font,
+      this.fontWeight = FontWeight.w100})
+      : super(key: key);
+
+  final double width;
+  final String text;
+  final String font;
+  final double fontSize;
+  final FontWeight fontWeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoSizeText(
+      text,
+      style: TextStyle(
+          fontFamily: font,
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: const Color(0xFF586167)),
+    );
+  }
+}
+
+propertiesForText({heading, subheading, width}) {
+  return [
+    PaddedTextHeading(
+        font: GoogleFonts.montserrat().toString(),
+        fontWeight: FontWeight.w700,
+        width: width,
+        text: heading),
+    PaddedTextHeading(
+        font: GoogleFonts.roboto().toString(),
+        width: width,
+        text: subheading,
+        fontSize: 19),
+  ];
 }

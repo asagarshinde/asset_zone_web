@@ -54,17 +54,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPaintSizeEnabled = false;
-    return GetMaterialApp(
+    return MaterialApp.router(
+      routerConfig: _router,
       debugShowCheckedModeBanner: false,
       title: 'The Assets Zone',
       theme: themeData,
       //home: LookingToBuyNewProperty(),
-      home: const HomeScreen(title: 'Flutter Demo Home Page'),
+      // home: const HomeScreen(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-final GoRouter _router = GoRouter(
+final _router = GoRouter(
   routes: <GoRoute>[
     GoRoute(
       path: '/',

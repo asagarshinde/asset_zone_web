@@ -38,10 +38,10 @@ class PropertyDetailsFirestore extends GetxController {
 }
 
 class PropertiesList {
-  Future<List<Widget>?> propertyList() async {
+  Future<List<Widget>?> propertyList(propety_for) async {
     PropertyDetailsFirestore dbservice = PropertyDetailsFirestore();
     List<Widget> property_list = [];
-    var properties = await dbservice.retrievePropertyDetails("For Rent");
+    var properties = await dbservice.retrievePropertyDetails(propety_for);
     // print(properties);
     for (var property in properties) {
       print("received property is");
