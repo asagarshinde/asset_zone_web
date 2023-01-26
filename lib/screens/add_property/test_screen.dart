@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_asset_zone_web/controllers/home_page_card_controller.dart';
+import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 // import 'package:the_asset_zone_web/controllers/list_mode.dart';
 
 class TestPageScreen extends StatefulWidget {

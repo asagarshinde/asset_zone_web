@@ -5,13 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/controllers/single_page_property_controller.dart';
 import 'package:the_asset_zone_web/footer_section/footer_page.dart';
+import 'package:the_asset_zone_web/screens/home/components/properties_for_rent_cards.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/right_side_controller_container.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/single_page_property_middle_about_container.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/single_page_prperty_middle_location_container.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class SinglePagePropertyMiddleDesktop extends StatefulWidget {
-  SinglePagePropertyMiddleDesktop({Key? key, required this.propertyDetails})
+  const SinglePagePropertyMiddleDesktop(
+      {Key? key, required this.propertyDetails})
       : super(key: key);
   final propertyDetails;
 
@@ -39,154 +41,63 @@ class _SinglePagePropertyMiddleDesktopState
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    //print(widget.propertyDetails["location"]);
     return Column(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: width > 950 ? width * 0.08 : width * 0.08),
+              horizontal: width > 950 ? width * 0.13 : width * 0.09),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 flex: 3,
-                child: Container(
-                  color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: buildMenuBar()),
-                      getMiddleWidget(controller.middle_widget.value, width),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                      ),
-                      ReviewWidget(isMobile: false),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: AutoSizeText(
-                          "Write A Review",
-                          style: GoogleFonts.rubik(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(blurRadius: 8.0, color: Colors.black12)
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Row(children: buildMenuBar()),
+                            getMiddleWidget(
+                                controller.middle_widget.value, width),
+                          ],
                         ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      SizedBox(
-                        width: 400,
-                        child: Form(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextFormField(
-                              controller: name,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person,
-                                    color: Colors.deepOrangeAccent),
-                                //hintText: 'Enter your full name',
-                                labelText: 'Name',
-                                labelStyle: TextStyle(
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.deepOrangeAccent)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide()),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              controller: email,
-                              decoration: const InputDecoration(
-                                icon: Icon(
-                                  Icons.email,
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                                // hintText: 'Enter your Email',
-                                labelText: 'Email ID',
-                                labelStyle: TextStyle(
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.deepOrangeAccent)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide()),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              controller: message,
-                              minLines: 1,
-                              maxLines: 5,
-                              keyboardType: TextInputType.multiline,
-                              decoration: const InputDecoration(
-                                icon: Icon(
-                                  Icons.message,
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                                //hintText: 'Message',
-                                labelText: 'Message',
-                                labelStyle: TextStyle(
-                                  color: Colors.deepOrangeAccent,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.deepOrangeAccent)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide()),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Map<String, dynamic> data = {
-                                  "reviews": {
-                                    "name": name.text,
-                                    "email": email.text,
-                                    "message": message.text,
-                                  },
-                                };
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.deepOrangeAccent,
-                              ),
-                              child: const Text(
-                                "Submit",
-                              ),
-                            ),
-                          ],
-                        )),
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: AutoSizeText(
+                          "Similar properties",
+                          style: kTextHeader1Style,
+                        ),
                       ),
+                      PropertiesForCardsView(
+                        limit: 4,
+                          width: width,
+                          propertiesFor: "all",
+                          showDescription: false),
                     ],
                   ),
                 ),
               ),
               const SizedBox(
-                width: 10,
+                width: 30,
               ),
               const SizedBox(
-                width: 250,
-                height: 1200,
+                width: 300,
+                height: 1000,
                 child: RightSideControllerContainer(),
               ),
               const SizedBox(
@@ -194,6 +105,9 @@ class _SinglePagePropertyMiddleDesktopState
               )
             ],
           ),
+        ),
+        const SizedBox(
+          height: 50,
         ),
         SizedBox(width: width, child: const FooterPage()),
       ],

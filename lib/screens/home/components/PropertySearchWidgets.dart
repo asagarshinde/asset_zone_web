@@ -2,7 +2,68 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constants/constants.dart';
-import '../../../controllers/search_panel_controller.dart';
+import '../../../controllers/search_controller.dart';
+
+
+class AutoCompleteTextField extends StatefulWidget {
+  AutoCompleteTextField({Key? key}) : super(key: key);
+  static const List<String> _kOption = <String>[
+    "rajiv nagar",
+    "sapana nagar"
+  ];
+  final _searchPanelController = Get.put(SearchController());
+
+  @override
+  State<AutoCompleteTextField> createState() => _AutoCompleteTextFieldState();
+}
+
+class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
+      child: Autocomplete<String>(
+        optionsViewBuilder: (BuildContext context, var onSelected,
+            Iterable options) {
+          return Align(
+            alignment: Alignment.topLeft,
+            child: Material(
+              child: Container(
+                width: 300,
+                color: kSecondaryColor,
+                child: ListView.builder(
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final option = options.elementAt(index);
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(
+                            title: Text(
+                              option, style: const TextStyle(color: Colors.white),)
+                        ),
+                      );
+                    }),
+              ),
+            ),
+          );
+        },
+        optionsBuilder: (TextEditingValue textEditingValue) {
+          if (textEditingValue.text == "") {
+            return const Iterable<String>.empty();
+          }
+          return AutoCompleteTextField._kOption.where((option) {
+            return option.contains(textEditingValue.text.toLowerCase());
+          });
+        },
+        onSelected: (String selection) {
+          widget._searchPanelController.searchLocation = selection;
+          debugPrint('You just selected $selection');
+        },),
+    );
+  }
+}
 
 class PropertySearchCardSearchField extends StatefulWidget {
   const PropertySearchCardSearchField({Key? key}) : super(key: key);
@@ -14,7 +75,7 @@ class PropertySearchCardSearchField extends StatefulWidget {
 
 class _PropertySearchCardSearchFieldState
     extends State<PropertySearchCardSearchField> {
-  final _searchPanelController = Get.put(SearchPanelController());
+  final _searchPanelController = Get.put(SearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +99,7 @@ class _PropertySearchCardSearchFieldState
             });
           },
           decoration: const InputDecoration(
-              // contentPadding: EdgeInsets.symmetric(horizontal: 40.0),
+            // contentPadding: EdgeInsets.symmetric(horizontal: 40.0),
               border: InputBorder.none),
           initialValue: "Search Location",
           textAlign: TextAlign.center,
@@ -58,7 +119,7 @@ class PropertySearchCardSearchRangeSlider extends StatefulWidget {
 
 class _PropertySearchCardSearchRangeSliderState
     extends State<PropertySearchCardSearchRangeSlider> {
-  final _searchPanelController = Get.put(SearchPanelController());
+  final _searchPanelController = Get.put(SearchController());
 
   @override // const SizedBox(
   //   width: 120,
@@ -97,21 +158,22 @@ class PropertySearchCardSearchRangeSliderSelectedValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final _searchPanelController = Get.put(SearchPanelController());
+      final _searchPanelController = Get.put(SearchController());
       var myselect = select == "end"
           ? _searchPanelController.currentRangeValuesPrice.value.end
           : _searchPanelController.currentRangeValuesPrice.value.start;
       return AutoSizeText(
+        overflow: TextOverflow.clip,
         select == "end" ? "${myselect / 1000}K" : "${myselect / 1000}K - ",
         // "${_currentRangeValuesPrice.end.toInt()}",
-        style: khomePagePropertySearchPanelDDPanel,
+        style: kTextDefaultStyle,
       );
     });
   }
 }
 
 class dummyTextWidget extends StatelessWidget {
-  final _searchPanelController = Get.put(SearchPanelController());
+  final _searchPanelController = Get.put(SearchController());
 
   dummyTextWidget({Key? key}) : super(key: key);
 
@@ -132,7 +194,7 @@ class PropertyTypeDropDown extends StatefulWidget {
 class _PropertyTypeDropDownState extends State<PropertyTypeDropDown> {
   @override
   Widget build(BuildContext context) {
-    final searchPanelController = Get.put(SearchPanelController());
+    final searchPanelController = Get.put(SearchController());
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
       child: DecoratedBox(
@@ -154,8 +216,8 @@ class _PropertyTypeDropDownState extends State<PropertyTypeDropDown> {
                   searchPanelController.selectedPropertyType.value =
                       value.toString();
                   searchPanelController.selectedPropertySubType.value =
-                      maxRoomsDD[
-                          searchPanelController.selectedPropertyType.value]![0];
+                  maxRoomsDD[
+                  searchPanelController.selectedPropertyType.value]![0];
                   searchPanelController.getPropertySubType(value);
                 }
               });
@@ -179,7 +241,7 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final searchPanelController = Get.put(SearchPanelController());
+      final searchPanelController = Get.put(SearchController());
       return DropdownButtonHideUnderline(
         child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),

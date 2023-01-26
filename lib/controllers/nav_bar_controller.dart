@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
-import 'package:the_asset_zone_web/screens/property/property_screen.dart';
-import 'package:the_asset_zone_web/screens/services/services_screen.dart';
+import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
+import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
 
 class NavBarController extends GetxController {
+  static NavBarController instance = Get.find();
   // reactive map is not working. when clicked on any menu color is not changing.
   // after converting the Map to RxMap it started working.
   // Ref:- https://stackoverflow.com/questions/68249333/flutter-getx-updating-item-in-children-list-is-not-reactive
@@ -21,17 +22,11 @@ class NavBarController extends GetxController {
 
   bool homeSelected = true;
 
-
-
-
   setSelectedMenu(menu) {
     menuSelectedMap.forEach(
       (key, value) {
-        // key = key.replaceAll(" ", "replace");
         if (menu == key) {
-          // print("clicked menu is $menu");
           menuSelectedMap[key] = true;
-          // print(menuSelectedMap);
         } else {
           menuSelectedMap[key] = false;
         }
@@ -48,7 +43,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const  HomeScreen(title: "The Asset Zone");
+        return const HomeScreen(title: "The Asset Zone");
       },
     ),
     GoRoute(
@@ -60,7 +55,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/property',
       builder: (BuildContext context, GoRouterState state) {
-        return const PropertyScreen();
+        return PropertyScreen();
       },
     ),
     GoRoute(
@@ -81,25 +76,32 @@ GoRouter router = GoRouter(
         return const CityScreen();
       },
     ),
+    GoRoute(
+      path: '/singleproperty',
+      builder: (BuildContext context, GoRouterState state) {
+        print(state.extra);
+        return SinglePagePropertyView(state.extra);
+      },
+    ),
   ],
 );
 
 class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
+  // https://medium.flutterdevs.com/tracking-screen-transition-by-route-observer-flutter-dadd8773699c
   // without route observer when back button pressed last clicked menu remains selected.
   // e.g if i click on home --> city --> property and pressed back button screen moves to city but property remains highlighted.
   final _navigationBarController = Get.put(NavBarController());
+
   void _sendScreenView(PageRoute<dynamic> route) {
     var screenName = route.settings.name?.replaceAll("/", "");
-    if (screenName == "aboutus"){
+    if (screenName == "aboutus") {
       screenName = "about us";
-    }
-    else if (screenName == ""){
+    } else if (screenName == "") {
       screenName = "home";
     }
     _navigationBarController.setSelectedMenu(screenName);
     // do something with it, ie. send it to your analytics service collector
   }
-
 
   @override
   void didPush(Route route, Route? previousRoute) {

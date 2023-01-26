@@ -48,7 +48,7 @@ class PropertySearchPanel extends StatelessWidget {
                               padding: const EdgeInsets.all(15.0),
                               child: Text(
                                 "Budget ",
-                                style: khomePagePropertySearchPanelDDPanel,
+                                style: kTextDefaultStyle,
                               ),
                             ),
                             PropertySearchCardSearchRangeSliderSelectedValue(

@@ -100,7 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               // SizedBox(
                               //     height: width * 0.8,
                               //     child: const FindProperty()),
-                              SizedBox(height: MediaQuery.of(context).size.height , child: const LookingToBuyNewProperty())
+                              SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: const LookingToBuyNewProperty())
                             ],
                           ),
                         ],
@@ -137,20 +139,20 @@ class HomePageSecondSection extends StatelessWidget {
             height: 50,
           ),
           Row(
-            children: [
+            children: const [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
+                padding: EdgeInsets.fromLTRB(0, 45, 8, 8),
                 child: MyButton(title: "For Rent"),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
+                padding: EdgeInsets.fromLTRB(0, 45, 8, 8),
                 child: MyButton(title: "For Buy"),
               ),
             ],
           ),
           const SizedBox(height: 40),
           width < 700
-              ? const PropertySearchMobileView()
+              ? PropertySearchMobileView()
               : width < 950
                   ? const PropertySearchTabletView()
                   : const PropertySearchPanel(),

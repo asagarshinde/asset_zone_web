@@ -1,95 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/nav_bar_controller.dart';
 import 'package:the_asset_zone_web/screens/login/auth_dialog.dart';
-import 'package:the_asset_zone_web/screens/test_screen/form_add_firebase.dart';
 import '../../../constants/constants.dart';
 
-class MyNavigationBar extends StatefulWidget {
-  const MyNavigationBar({Key? key}) : super(key: key);
-
-  @override
-  State<MyNavigationBar> createState() => _MyNavigationBarState();
-}
-
-class _MyNavigationBarState extends State<MyNavigationBar> {
-  List<Widget> getMenuItems() {
-    List<Widget> myMenuItems = [];
-    menus.forEach(
-      (key, value) {
-        myMenuItems.add(
-          AppBarDropDownButton(
-            itemString: [key.toUpperCase(), ...value],
-          ),
-        );
-        myMenuItems.add(
-          const SizedBox(
-            width: 60,
-          ),
-        );
-      },
-    );
-    return myMenuItems;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 1,
-      child: Container(
-        height: 70,
-        decoration: const BoxDecoration(color: kAppBarPrimaryColor),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 5,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(40, 8, 40, 8),
-                child: Text(
-                  "The Asset Zone",
-                  style: kMenuItemStyle.copyWith(
-                      fontWeight: FontWeight.w400, fontSize: 20),
-                ),
-              ),
-            ),
-            ...getMenuItems(),
-            const SizedBox(width: 20),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => FormAddFirebase()),
-                );
-              },
-              icon: const Icon(Icons.add),
-            ),
-            const SizedBox(width: 40),
-            Expanded(
-              flex: 3,
-              child: IconButton(
-                onPressed: () => showDialog(
-                    context: context, builder: (context) => const AuthDialog()),
-                icon: const Icon(
-                  size: 45,
-                  Icons.person_outline_rounded,
-                  color: kIconColor,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class AppBarDropDownButton extends StatefulWidget {
-  List<String> itemString = [];
+  final List<String> itemString;
 
-  AppBarDropDownButton({Key? key, required List<String> this.itemString})
+  const AppBarDropDownButton({Key? key, required this.itemString})
       : super(key: key);
 
   @override
@@ -117,7 +37,7 @@ class _AppBarDropDownButtonState extends State<AppBarDropDownButton> {
             return DropdownMenuItem(
               alignment: Alignment.centerLeft,
               value: item,
-              child: Text(item, style: kMenuItemStyle),
+              child: Text(item, style: kTextDefaultStyle),
             );
           },
         ).toList(),
@@ -195,13 +115,11 @@ class MyMenuButton extends StatelessWidget {
             GoRouter.of(context).go("/${text.replaceAll(' ', '')}");
           },
           highlightColor: Colors.deepOrangeAccent,
-          child: Text(
-            text,
-            style: kMenuItemStyle.copyWith(
-                color: _navigationBarController.menuSelectedMap[text]!
-                    ? Colors.deepOrangeAccent
-                    : Colors.black45),
-          ),
+          child: Text(text,
+              style: kTextDefaultStyle.copyWith(
+                  color: _navigationBarController.menuSelectedMap[text]!
+                      ? Colors.deepOrangeAccent
+                      : Colors.black)),
         ),
       ),
     );
@@ -210,8 +128,6 @@ class MyMenuButton extends StatelessWidget {
 
 class SimpleMenuBar extends StatelessWidget {
   SimpleMenuBar({Key? key}) : super(key: key);
-
-  final _navigationBarController = Get.put(NavBarController());
 
   List<Widget> getMenuList(menuSelectedMap) {
     List<Widget> menuWidgets = [];
@@ -235,7 +151,7 @@ class SimpleMenuBar extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(40, 8, 40, 8),
                 child: Text(
                   "The Asset Zone",
-                  style: kMenuItemStyle.copyWith(
+                  style: kTextDefaultStyle.copyWith(
                       fontWeight: FontWeight.w400, fontSize: 20),
                 ),
               ),
@@ -244,7 +160,7 @@ class SimpleMenuBar extends StatelessWidget {
                 flex: 6,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: getMenuList(_navigationBarController.menuSelectedMap),
+                  children: getMenuList(navBarController.menuSelectedMap),
                 )),
             const SizedBox(width: 20),
             Expanded(
@@ -255,7 +171,7 @@ class SimpleMenuBar extends StatelessWidget {
                 icon: const Icon(
                   size: 45,
                   Icons.person_outline_rounded,
-                  color: kIconColor,
+                  color: kPrimaryColor,
                 ),
               ),
             ),
