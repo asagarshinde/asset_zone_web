@@ -16,10 +16,10 @@ class PropertyScreen extends StatelessWidget {
       appBar: Responsive.isDesktop(context)
           ? PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.width, 70),
-              child: SimpleMenuBar(),
+              child: const MySimpleDrawer(),
             )
           : AppBar(backgroundColor: kPrimaryColor),
-      drawer: const MyDrawer(),
+      drawer: const MySimpleDrawer(),
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         controller: scrollController,

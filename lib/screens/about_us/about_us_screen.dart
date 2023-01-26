@@ -11,12 +11,13 @@ class AboutUs extends StatelessWidget {
     return Scaffold(
       appBar: Responsive.isDesktop(context)
           ? PreferredSize(
-        preferredSize: Size(MediaQuery.of(context).size.width, 70),
-        child: SimpleMenuBar(),
-      )
+              preferredSize: Size(MediaQuery.of(context).size.width, 70),
+              child: SimpleMenuBar(),
+            )
           : AppBar(
-        backgroundColor: kPrimaryColor,
-      ),
+              backgroundColor: kPrimaryColor,
+            ),
+      drawer: const MySimpleDrawer(),
       body: Text("This is property About us screen."),
     );
   }

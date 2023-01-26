@@ -23,7 +23,7 @@ class SinglePagePropertyView extends StatelessWidget {
               child: SimpleMenuBar() //MyNavigationBar(),
             )
           : AppBar(backgroundColor: kPrimaryColor),
-      drawer: const MyDrawer(),
+      drawer: const MySimpleDrawer(),
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         controller: scrollController,

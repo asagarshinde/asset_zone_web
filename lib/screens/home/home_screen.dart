@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           : AppBar(
               backgroundColor: kPrimaryColor,
             ),
-      drawer: const MyDrawer(),
+      drawer: const MySimpleDrawer(),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return SingleChildScrollView(

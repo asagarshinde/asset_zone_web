@@ -6,93 +6,49 @@ import 'package:the_asset_zone_web/controllers/nav_bar_controller.dart';
 import 'package:the_asset_zone_web/screens/login/auth_dialog.dart';
 import '../../../constants/constants.dart';
 
-class AppBarDropDownButton extends StatefulWidget {
-  final List<String> itemString;
 
-  const AppBarDropDownButton({Key? key, required this.itemString})
-      : super(key: key);
+class MySimpleDrawer extends StatelessWidget {
+  const MySimpleDrawer({Key? key}) : super(key: key);
 
-  @override
-  State<AppBarDropDownButton> createState() => _AppBarDropDownButtonState();
-}
-
-class _AppBarDropDownButtonState extends State<AppBarDropDownButton> {
-  // List<String> itemStrings = ["HOME", "1", "2", "3"];
-
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton(
-        isDense: true,
-        isExpanded: false,
-        value: widget.itemString[0],
-        items: widget.itemString.map(
-          (String item) {
-            return DropdownMenuItem(
-              alignment: Alignment.centerLeft,
-              value: item,
-              child: Text(item, style: kTextDefaultStyle),
-            );
-          },
-        ).toList(),
-        onChanged: (selectedValue) {
-          setState(
-            () {
-              selectedValue = selectedValue.toString();
-              print(selectedValue);
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-
-  getDrawerItems() {
-    List<Widget> myMenuItems = [];
-    menus.forEach(
+  List<Widget> getMenuList(menuSelectedMap) {
+    List<Widget> menuWidgets = [];
+    menuSelectedMap.forEach(
       (key, value) {
-        myMenuItems.add(
-          AppBarDropDownButton(
-            itemString: [key.toUpperCase(), ...value],
-          ),
-        );
-        myMenuItems.add(
-          const SizedBox(
-            height: 10,
+        menuWidgets.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: MyMenuButton(text: key),
           ),
         );
       },
     );
-    return myMenuItems;
+    return menuWidgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-              child: Text(
-            "The Assets Zone",
-            style: Theme.of(context).textTheme.headline6,
-          )),
-          ...getDrawerItems()
-        ],
-      ),
+    return Obx(
+      () {
+        return Container(
+          color: kIconBackgroundColor,
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Text(
+                  "The Assets Zone",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              ...getMenuList(navBarController.menuSelectedMap)
+            ],
+          ),
+        );
+      },
     );
   }
 }
+
+//
 
 class MyMenuButton extends StatelessWidget {
   final text;
