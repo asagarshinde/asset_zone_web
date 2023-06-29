@@ -5,6 +5,6 @@ import 'package:the_asset_zone_web/controllers/single_page_property_controller.d
 
 NavBarController navBarController = NavBarController.instance;
 PropertyController propertyController = PropertyController.instance;
-SearchController searchController = SearchController.instance;
+MySearchController searchController = MySearchController.instance;
 SinglePagePropertyController singlePagePropertyController =
     SinglePagePropertyController();

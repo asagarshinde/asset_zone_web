@@ -11,7 +11,7 @@ class AutoCompleteTextField extends StatefulWidget {
     "rajiv nagar",
     "sapana nagar"
   ];
-  final _searchPanelController = Get.put(SearchController());
+  final _searchPanelController = Get.put(MySearchController());
 
   @override
   State<AutoCompleteTextField> createState() => _AutoCompleteTextFieldState();
@@ -75,7 +75,7 @@ class PropertySearchCardSearchField extends StatefulWidget {
 
 class _PropertySearchCardSearchFieldState
     extends State<PropertySearchCardSearchField> {
-  final _searchPanelController = Get.put(SearchController());
+  final _searchPanelController = Get.put(MySearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ class PropertySearchCardSearchRangeSlider extends StatefulWidget {
 
 class _PropertySearchCardSearchRangeSliderState
     extends State<PropertySearchCardSearchRangeSlider> {
-  final _searchPanelController = Get.put(SearchController());
+  final _searchPanelController = Get.put(MySearchController());
 
   @override // const SizedBox(
   //   width: 120,
@@ -158,7 +158,7 @@ class PropertySearchCardSearchRangeSliderSelectedValue extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final _searchPanelController = Get.put(SearchController());
+      final _searchPanelController = Get.put(MySearchController());
       var myselect = select == "end"
           ? _searchPanelController.currentRangeValuesPrice.value.end
           : _searchPanelController.currentRangeValuesPrice.value.start;
@@ -173,7 +173,7 @@ class PropertySearchCardSearchRangeSliderSelectedValue extends StatelessWidget {
 }
 
 class dummyTextWidget extends StatelessWidget {
-  final _searchPanelController = Get.put(SearchController());
+  final _searchPanelController = Get.put(MySearchController());
 
   dummyTextWidget({Key? key}) : super(key: key);
 
@@ -194,7 +194,7 @@ class PropertyTypeDropDown extends StatefulWidget {
 class _PropertyTypeDropDownState extends State<PropertyTypeDropDown> {
   @override
   Widget build(BuildContext context) {
-    final searchPanelController = Get.put(SearchController());
+    final searchPanelController = Get.put(MySearchController());
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
       child: DecoratedBox(
@@ -241,7 +241,7 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final searchPanelController = Get.put(SearchController());
+      final searchPanelController = Get.put(MySearchController());
       return DropdownButtonHideUnderline(
         child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),

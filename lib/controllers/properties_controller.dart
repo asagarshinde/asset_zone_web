@@ -28,7 +28,7 @@ class PropertyController extends GetxController {
 
   searchProperty() {
     final tempPropertyList = [];
-    final searchPanelController = Get.put(SearchController());
+    final searchPanelController = Get.put(MySearchController());
     String propertySubType =
         searchPanelController.selectedPropertySubType.value;
     String propertyType = searchPanelController.selectedPropertyType.value;
@@ -75,6 +75,13 @@ class PropertyController extends GetxController {
     return snapshot.docs.map((docSnapshot) {
       return PropertyDetails.fromMap(docSnapshot.data());
     }).toList();
+  }
+
+  setPropertyList() async {
+    List<PropertyDetails> properties = await retrieveAllPropertyDetails();
+    for (var property in properties) {
+      propertiesList.add(property);
+    }
   }
 
   Future<List<Map>> retrievePropertyDetails(String status,

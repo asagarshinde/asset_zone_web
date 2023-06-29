@@ -15,7 +15,7 @@ void main() async {
   await initialization.then((value) {
     Get.put(NavBarController());
     Get.put(PropertyController());
-    Get.put(SearchController());
+    Get.put(MySearchController());
     Get.put(SinglePagePropertyController());
   }
   );

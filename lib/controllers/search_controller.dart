@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../constants/constants.dart';
 
-class SearchController extends GetxController {
-  static SearchController instance = Get.find();
+class MySearchController extends GetxController {
+  static MySearchController instance = Get.find();
   Key dropDownKey = const ValueKey("propertySearchPanel");
 
   String searchString = "Search Location".obs();

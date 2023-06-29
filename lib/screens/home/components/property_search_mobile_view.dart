@@ -48,7 +48,7 @@ class PropertySearchMobileView extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Center(
+                Center(
                   child: MyButton(
                     title: "Search",
                     height: 40,
