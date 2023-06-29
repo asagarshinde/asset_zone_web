@@ -1,11 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+// import 'package:the_asset_zone_web/search/propety_screen.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'PropertySearchWidgets.dart';
 
 class PropertySearchMobileView extends StatelessWidget {
-  const PropertySearchMobileView({Key? key}) : super(key: key);
-
+  PropertySearchMobileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -20,7 +21,8 @@ class PropertySearchMobileView extends StatelessWidget {
             margin: const EdgeInsets.all(0.0),
             child: Column(
               children: [
-                const PropertySearchCardSearchField(),
+                AutoCompleteTextField(),
+                // const PropertySearchCardSearchField(),
                 const PropertyTypeDropDown(),
                 PropertySubTypeDropDown(),
                 const PropertySearchCardSearchRangeSlider(),
@@ -29,10 +31,12 @@ class PropertySearchMobileView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left:8.0),
-                      child: Text(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: AutoSizeText(
+                        softWrap: true,
+                        maxLines: 2,
                         "Budget ",
-                        style: khomePagePropertySearchPanelDDPanel,
+                        style: kTextDefaultStyle,
                       ),
                     ),
                     PropertySearchCardSearchRangeSliderSelectedValue(
@@ -41,8 +45,15 @@ class PropertySearchMobileView extends StatelessWidget {
                         select: "end"),
                   ],
                 ),
-                SizedBox(height: 20,),
-                Center(child: MyButton(title: "Search", height: 40,)),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: MyButton(
+                    title: "Search",
+                    height: 40,
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 )

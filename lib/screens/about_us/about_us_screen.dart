@@ -3,8 +3,8 @@ import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 
-class CityScreen extends StatelessWidget {
-  const CityScreen({Key? key}) : super(key: key);
+class AboutUs extends StatelessWidget {
+  const AboutUs({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CityScreen extends StatelessWidget {
               backgroundColor: kPrimaryColor,
             ),
       drawer: const MySimpleDrawer(),
-      body: Text("This is property screen."),
+      body: Text("This is property About us screen."),
     );
   }
 }

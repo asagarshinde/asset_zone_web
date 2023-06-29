@@ -3,7 +3,7 @@ import 'package:the_asset_zone_web/screens/single_property_page/components/short
 import 'package:the_asset_zone_web/screens/single_property_page/components/short_detail_card_right_column.dart';
 
 class ShortDetailCardDesktop extends StatelessWidget {
-  ShortDetailCardDesktop({Key? key, @required this.propertyDetails}) : super(key: key);
+  const ShortDetailCardDesktop({Key? key, @required this.propertyDetails}) : super(key: key);
   final propertyDetails;
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ShortDetailCardDesktop extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: width > 950 ? width * 0.08 : width * 0.08),
+          horizontal: width > 950 ? width * 0.13 : width * 0.08),
       child: Card(
         elevation: 4,
         child: Padding(
@@ -20,7 +20,7 @@ class ShortDetailCardDesktop extends StatelessWidget {
             children: [
               Expanded(flex: 5, child: leftColumn(propertyDetails: propertyDetails,)),
               // Expanded(flex: 1, child: Spacer()),
-              Expanded(flex: 2, child: rightColumn())
+              const Expanded(flex: 2, child: rightColumn())
             ],
           ),
         ),

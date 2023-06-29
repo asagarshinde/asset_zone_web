@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/short_detail_card.dart';
@@ -7,7 +8,7 @@ import 'package:the_asset_zone_web/screens/single_property_page/components/singl
 import 'package:the_asset_zone_web/screens/single_property_page/components/top_images_view.dart';
 
 class SinglePagePropertyView extends StatelessWidget {
-  SinglePagePropertyView(this.propertyDetails);
+  SinglePagePropertyView(this.propertyDetails, {super.key});
 
   final ScrollController scrollController = ScrollController();
   final Key singlePropertyKey = const Key("singlePageProperty");
@@ -19,10 +20,10 @@ class SinglePagePropertyView extends StatelessWidget {
       appBar: Responsive.isDesktop(context)
           ? PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.width, 70),
-              child: const MyNavigationBar(),
+              child: SimpleMenuBar() //MyNavigationBar(),
             )
           : AppBar(backgroundColor: kPrimaryColor),
-      drawer: const MyDrawer(),
+      drawer: const MySimpleDrawer(),
       body: CustomScrollView(
         scrollDirection: Axis.vertical,
         controller: scrollController,
@@ -66,4 +67,9 @@ class SinglePagePropertyView extends StatelessWidget {
       ),
     );
   }
+}
+
+getSinglePageProperty({@required propertyId}) {
+  PropertyController property = PropertyController();
+  var property_details = property.getPropertyFromId(propertyId: propertyId);
 }

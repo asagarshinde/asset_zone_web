@@ -1,9 +1,4 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -30,10 +25,12 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
   String Bedrooms = "";
   String Garege = "";
   String Halls = "";
+
   //TextEditingController Bathrooms = TextEditingController();
   // TextEditingController Balcony = TextEditingController();
   // TextEditingController Bedrooms = TextEditingController();
   TextEditingController City = TextEditingController();
+
   //TextEditingController Garage = TextEditingController();
   //TextEditingController Halls = TextEditingController();
   TextEditingController Price = TextEditingController();
@@ -42,12 +39,10 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
   TextEditingController PropertyStatus = TextEditingController();
   TextEditingController PropertyType = TextEditingController();
 
-
   TextEditingController Date = TextEditingController();
   TextEditingController FloorPlan = TextEditingController();
   TextEditingController Gallery = TextEditingController();
   TextEditingController Video = TextEditingController();
-
 
   bool isFeatured = false;
 
@@ -55,19 +50,12 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final _selectNumbers = ['1','2','3','4','5'];
+  final _selectNumbers = ['1', '2', '3', '4', '5'];
   String _selectedValueBathrooms = '1';
   String _selectedValueBalcony = '1';
   String _selectedValueBedrooms = '1';
   String _selectedValueGarege = '1';
   String _selectedValueHalls = '1';
-
-
-
-
-
-
-
 
   @override
   void initState() {
@@ -75,12 +63,8 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     List<Asset> images = <Asset>[];
 
     @override
@@ -109,8 +93,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
       });
     }
 
-
-
     // File _image = File('');
     //
     // Future<dynamic> getImage() async {
@@ -137,9 +119,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
     //   });
     // }
 
-
-
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -147,11 +126,14 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
           child: Center(
             child: Form(
                 key: _formKey,
-                child:Column(
+                child: Column(
                   children: [
-
                     Container(
-                      child: Center(child: Text("Admin Form",style: TextStyle(fontSize: 20),)),
+                      child: Center(
+                          child: Text(
+                        "Admin Form",
+                        style: TextStyle(fontSize: 20),
+                      )),
                     ),
 
                     //{ property details
@@ -184,7 +166,10 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                           labelText: 'Email ID',
                         ),
                         validator: (value) {
-                          if(value == null || value.isEmpty || !value.contains('@') || !value.contains('.')){
+                          if (value == null ||
+                              value.isEmpty ||
+                              !value.contains('@') ||
+                              !value.contains('.')) {
                             return 'Invalid Email';
                           }
                           return null;
@@ -195,9 +180,9 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: TextFormField(
                         controller: Phone,
-                        validator: (value){
+                        validator: (value) {
                           //if (value != null)
-                          if(value?.length != 10 ){
+                          if (value?.length != 10) {
                             return 'Mobile Number must be of 10 digit';
                           } else {
                             return null;
@@ -214,12 +199,13 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: TextFormField(
                         controller: Pan,
-                        validator: (value){
+                        validator: (value) {
                           //if (value != null)
-                          if (value.toString().isEmpty){
+                          if (value.toString().isEmpty) {
                             return "";
                           }
-                          if(!value!.contains(r'^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$')){
+                          if (!value!.contains(
+                              r'^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$')) {
                             return 'Pan Number is not valid';
                           } else {
                             return null;
@@ -259,15 +245,18 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
-                          label: Text("Bathrooms",),
+                          label: Text(
+                            "Bathrooms",
+                          ),
                           icon: const Icon(Icons.bathtub_outlined),
                         ),
                         value: _selectedValueBathrooms,
-                        items: _selectNumbers.map(
-                                (e) {
-                              return DropdownMenuItem(child: Text(e),value: e,);
-                            }
-                        ).toList(),
+                        items: _selectNumbers.map((e) {
+                          return DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
                             _selectedValueBathrooms = val as String;
@@ -281,15 +270,18 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
-                          label: Text("Balcony",),
+                          label: Text(
+                            "Balcony",
+                          ),
                           icon: const Icon(Icons.balcony),
                         ),
                         value: _selectedValueBalcony,
-                        items: _selectNumbers.map(
-                                (e) {
-                              return DropdownMenuItem(child: Text(e),value: e,);
-                            }
-                        ).toList(),
+                        items: _selectNumbers.map((e) {
+                          return DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
                             _selectedValueBalcony = val as String;
@@ -303,15 +295,18 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
-                          label: Text("Bedrooms",),
+                          label: Text(
+                            "Bedrooms",
+                          ),
                           icon: const Icon(Icons.bedroom_parent),
                         ),
                         value: _selectedValueBedrooms,
-                        items: _selectNumbers.map(
-                                (e) {
-                              return DropdownMenuItem(child: Text(e),value: e,);
-                            }
-                        ).toList(),
+                        items: _selectNumbers.map((e) {
+                          return DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
                             _selectedValueBedrooms = val as String;
@@ -336,15 +331,18 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
-                          label: Text("Garege",),
+                          label: Text(
+                            "Garege",
+                          ),
                           icon: const Icon(Icons.garage),
                         ),
                         value: _selectedValueGarege,
-                        items: _selectNumbers.map(
-                                (e) {
-                              return DropdownMenuItem(child: Text(e),value: e,);
-                            }
-                        ).toList(),
+                        items: _selectNumbers.map((e) {
+                          return DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
                             _selectedValueGarege = val as String;
@@ -357,15 +355,18 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                       child: DropdownButtonFormField(
                         decoration: InputDecoration(
-                          label: Text("Halls",),
+                          label: Text(
+                            "Halls",
+                          ),
                           icon: const Icon(Icons.room_preferences_outlined),
                         ),
                         value: _selectedValueHalls,
-                        items: _selectNumbers.map(
-                                (e) {
-                              return DropdownMenuItem(child: Text(e),value: e,);
-                            }
-                        ).toList(),
+                        items: _selectNumbers.map((e) {
+                          return DropdownMenuItem(
+                            child: Text(e),
+                            value: e,
+                          );
+                        }).toList(),
                         onChanged: (val) {
                           setState(() {
                             _selectedValueHalls = val as String;
@@ -444,27 +445,25 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                       ),
                     ),
 
-
-                 TextButton(
-                   child: Text("Pick images"),
-                   onPressed: pickImages,
-                       ),
+                    TextButton(
+                      child: Text("Pick images"),
+                      onPressed: pickImages,
+                    ),
                     Expanded(
-                     child: GridView.count(
-                      crossAxisCount: 3,
-                       children: List.generate(images.length, (index) {
-                         Asset asset = images[index];
+                      child: GridView.count(
+                        crossAxisCount: 3,
+                        children: List.generate(images.length, (index) {
+                          Asset asset = images[index];
                           return AssetThumb(
-                          asset: asset,
-                          width: 300,
-                          height: 300,
-                        );
-                       }),
-                   ),
-                 ),
+                            asset: asset,
+                            width: 300,
+                            height: 300,
+                          );
+                        }),
+                      ),
+                    ),
 
-
-            // Container(
+                    // Container(
                     //   padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                     //   child: Row(
                     //     children: [
@@ -533,104 +532,95 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                         padding: EdgeInsets.fromLTRB(300, 30, 300, 0),
                         child: Center(
                             child: TextField(
-                              controller: Date,
-                              //editing controller of this TextField
-                              decoration: InputDecoration(
-                                  icon: Icon(Icons.calendar_today), //icon of text field
-                                  labelText: "Enter Date" //label text of field
+                          controller: Date,
+                          //editing controller of this TextField
+                          decoration: InputDecoration(
+                              icon: Icon(Icons.calendar_today),
+                              //icon of text field
+                              labelText: "Enter Date" //label text of field
                               ),
-                              readOnly: true,
-                              //set it true, so that user will not able to edit text
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1950),
-                                    //DateTime.now() - not to allow to choose before today.
-                                    lastDate: DateTime(2100));
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2100));
 
-                                if (pickedDate != null) {
-                                  print(
-                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                  String formattedDate =
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  print(
-                                      formattedDate); //formatted date output using intl package =>  2021-03-16
-                                  setState(() {
-                                    Date.text =
-                                        formattedDate; //set output date to TextField value.
-                                  });
-                                } else {}
-                              },
-                            )
-                        )
-                    ),
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              setState(() {
+                                Date.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {}
+                          },
+                        ))),
 
                     // property details }
 
-
-
-
                     Container(
                       padding: EdgeInsets.fromLTRB(400, 30, 400, 0),
-                      constraints: const BoxConstraints(minWidth: double.infinity),
+                      constraints:
+                          const BoxConstraints(minWidth: double.infinity),
                       child: ElevatedButton(
                         onPressed: () {
                           // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Processing Data')),
-                              );
-                            }
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                          }
 
-                            //uploadPic(context);
+                          //uploadPic(context);
 
-
-                          Map <String,dynamic> data = {
-                              "property_about" : {
-                                "bathrooms": Bathrooms,
-                                "balcony": Balcony,
-                                "bedrooms": Bedrooms,
-                                "city": City.text,
-                                "garage": Garege,
-                                "halls": Halls,
-                                "price": Price.text,
-                                "property_id": PropertyId.text,
-                                "property_size": PropertySize.text,
-                                "property_status": PropertyStatus.text,
-                                "property_type": PropertyType.text,
-
-                              },
-                           "contact_info": {
-                             "name":Name.text,
-                             "email":Email.text,
-                             "phone":Phone.text,
-                             "message":Message.text,
-                             "pan":Pan.text,
-
-                           },
-
-                            "date":Date.text,
-                            "video":Video.text,
-                            "gallery":Gallery.text,
-                            "floor_plan":FloorPlan.text,
+                          Map<String, dynamic> data = {
+                            "property_about": {
+                              "bathrooms": Bathrooms,
+                              "balcony": Balcony,
+                              "bedrooms": Bedrooms,
+                              "city": City.text,
+                              "garage": Garege,
+                              "halls": Halls,
+                              "price": Price.text,
+                              "property_id": PropertyId.text,
+                              "property_size": PropertySize.text,
+                              "property_status": PropertyStatus.text,
+                              "property_type": PropertyType.text,
+                            },
+                            "contact_info": {
+                              "name": Name.text,
+                              "email": Email.text,
+                              "phone": Phone.text,
+                              "message": Message.text,
+                              "pan": Pan.text,
+                            },
+                            "date": Date.text,
+                            "video": Video.text,
+                            "gallery": Gallery.text,
+                            "floor_plan": FloorPlan.text,
                             "isFeatured": isFeatured,
-
-                            };
+                          };
                           print(data);
                           //FirebaseFirestore.instance.collection("PropertyDetails").add(data);
                         },
                         child: Text("Submit Request"),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.purple,),
+                          primary: Colors.purple,
+                        ),
                       ),
                     ),
-
                   ],
-                )
-            ),
+                )),
           ),
         ),
       ),
