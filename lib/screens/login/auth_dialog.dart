@@ -83,9 +83,9 @@ class _AuthDialogState extends State<AuthDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Center(
+                const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       'EXPLORE',
                       style: TextStyle(

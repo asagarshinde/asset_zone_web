@@ -4,7 +4,6 @@ import 'package:the_asset_zone_web/footer_section/footer_page.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 import 'components/advance_search_vertical_panel.dart';
-import 'components/property_card_grid_view.dart';
 import 'components/property_card_grid_view_stateless.dart';
 
 class PropertyScreen extends StatelessWidget {

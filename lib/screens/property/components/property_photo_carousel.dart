@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PropertyPhotoCarousel extends StatefulWidget {
   const PropertyPhotoCarousel({Key? key, double? height, this.imageList})
@@ -37,11 +38,11 @@ class _PropertyPhotoCarouselState extends State<PropertyPhotoCarousel> {
                       margin: const EdgeInsets.all(8.0),
                       child: Container(
                         height: 316,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(url.toString()),
-                            fit: BoxFit.fill,
-                          ),
+                        child: CachedNetworkImage(
+                          imageUrl: url,
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => CircularProgressIndicator(), // Optional: Show a loading indicator
+                          errorWidget: (context, url, error) => Icon(Icons.error), // Optional: Show an error icon
                         ),
                       ),
                     );

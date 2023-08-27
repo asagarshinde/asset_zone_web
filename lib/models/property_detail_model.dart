@@ -3,93 +3,126 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PropertyDetails {
   late String id;
   late List<String> gallery;
-  late final PropertyAbout property_about;
+  late final PropertyAbout propertyAbout;
+  late ContactDetails contactDetails;
   late String video;
-  late String floor_plan;
+  late String floorPlan;
   late Map<String, double> location;
-  late Timestamp upload_date;
+  late Timestamp uploadDate;
 
-  PropertyDetails(this.id, this.gallery, this.property_about, this.video,
-      this.floor_plan, this.location, this.upload_date);
+  PropertyDetails(this.id, this.gallery, this.propertyAbout, this.video,
+      this.floorPlan, this.location, this.uploadDate, this.contactDetails);
 
   PropertyDetails.fromDocumentSnapshot(DocumentSnapshot<Map> doc)
       : id = doc.id,
         gallery = doc.data()!["gallery"],
         video = doc.data()!["video"],
-        floor_plan = doc.data()!["floor_plan"],
+        floorPlan = doc.data()!["floor_plan"],
         location = doc.data()!["location"],
-        upload_date = doc.data()!["upload_date"],
-        property_about = PropertyAbout.fromMap(doc.data()!["property_about"]);
+        uploadDate = doc.data()!["upload_date"],
+        propertyAbout = PropertyAbout.fromMap(doc.data()!["property_about"]),
+        contactDetails = ContactDetails.fromMap(doc.data()!["contact_details"]);
 
 
-  PropertyDetails.fromMap(Map property_map)
-      : id = property_map["id"],
-        gallery = List<String>.from(property_map["gallery"]), // to avoid expected a value of type List<String>? but got one of the type
-        property_about = PropertyAbout.fromMap(property_map["property_about"]),
-        video = property_map["video"],
-        floor_plan = property_map["floor_plan"],
-        location = {"lat": property_map["location"]["lat"], "long": property_map["location"]["lat"]}, //{"lat": 23993.00, "long": 34994.4},
-        upload_date = property_map["upload_date"];
+  PropertyDetails.fromMap(Map propertyMap)
+      : gallery = List<String>.from(propertyMap["gallery"]),
+  // to avoid expected a value of type List<String>? but got one of the type
+        propertyAbout = PropertyAbout.fromMap(propertyMap["property_about"]),
+        contactDetails = ContactDetails.fromMap(
+            propertyMap["contact_details"]),
+        video = propertyMap["video"],
+        floorPlan = propertyMap["floor_plan"],
+        location = {
+          "lat": propertyMap["location"]["lat"],
+          "long": propertyMap["location"]["lat"]
+        },
+  //{"lat": 23993.00, "long": 34994.4},
+        uploadDate = propertyMap["upload_date"];
 
   Map<String, dynamic> toMap() {
     return {
       'gallery': gallery,
-      'property_about': property_about.toMap(),
+      'property_about': propertyAbout.toMap(),
       'video': video,
-      'floor_plan': floor_plan,
+      'floor_plan': floorPlan,
       'location': location,
-      'upload_date': upload_date
+      'upload_date': uploadDate
     };
   }
 }
 
 class PropertyAbout {
-  late String property_type;
+  late String propertyType;
   late int bathroom;
-  late String property_id;
-  late String property_status;
+  late String propertyId;
+  late String propertyStatus;
   late String city;
 
   late int bedrooms;
   late int price;
 
-  late int property_size;
+  late int propertySize;
   late int balcony;
 
   PropertyAbout({
-    required this.property_type,
+    required this.propertyType,
     required this.bathroom,
-    required this.property_id,
-    required this.property_status,
+    required this.propertyId,
+    required this.propertyStatus,
     required this.city,
     required this.bedrooms,
     required this.price,
-    required this.property_size,
+    required this.propertySize,
     required this.balcony,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'property_type': property_type,
+      'property_type': propertyType,
       'bathroom': bathroom,
-      'property_id': property_id,
-      'property_status': property_status,
+      'property_id': propertyId,
+      'property_status': propertyStatus,
       'city': city,
       'bedrooms': bedrooms,
       'price': price,
-      'property_size': property_size,
+      'property_size': propertySize,
       'balcony': balcony,
     };
   }
 
   PropertyAbout.fromMap(Map<String, dynamic> propertyAboutMap)
-      : property_type = propertyAboutMap["property_type"],
+      : propertyType = propertyAboutMap["property_type"],
         bathroom = propertyAboutMap["bathroom"],
-        property_id = propertyAboutMap["property_id"],
-        property_status = propertyAboutMap["property_status"],
+        propertyId = propertyAboutMap["property_id"],
+        propertyStatus = propertyAboutMap["property_status"],
         city = propertyAboutMap["city"],
         bedrooms = propertyAboutMap["bedrooms"],
         price = propertyAboutMap["price"],
-        property_size = propertyAboutMap["property_size"],
+        propertySize = propertyAboutMap["property_size"],
         balcony = propertyAboutMap["balcony"];
+}
+
+class ContactDetails {
+  late String name;
+  late String email;
+  late int phone;
+  late String pan;
+
+  ContactDetails(this.name, this.email, this.phone,
+     this.pan);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'pan': pan
+    };
+  }
+
+  ContactDetails.fromMap(Map<String, dynamic> contactDetails)
+      : name = contactDetails["name"],
+        email = contactDetails["email"],
+        phone = contactDetails["phone"],
+        pan = contactDetails["pan"];
 }

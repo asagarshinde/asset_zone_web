@@ -22,9 +22,9 @@ class PropertyCardGridViewStateless extends StatelessWidget {
     List<Widget> row = [];
     PropertyDetails property = propertyController.propertiesList[index];
     List<String> values = [
-      property.property_about.bedrooms.toString(),
-      property.property_about.bathroom.toString(),
-      property.property_about.property_size.toString()
+      property.propertyAbout.bedrooms.toString(),
+      property.propertyAbout.bathroom.toString(),
+      property.propertyAbout.propertySize.toString()
     ];
 
     for (int i = 0; i < icons.length; i++) {
@@ -46,7 +46,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
     propertyController.setPropertyList();
     return Obx(
           () => MediaQuery.removePadding(
-        context: context,
+            context: context,
         removeTop: true,
         removeLeft: true,
         removeRight: true,
@@ -74,7 +74,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                   PropertyDetails property =
                   propertyController.propertiesList[index];
                   return LayoutBuilder(
-                    builder: (context, constraits) {
+                    builder: (context, constraints) {
                       return SizedBox(
                         width: 250,
                         child: Card(
@@ -103,7 +103,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                           AutoSizeText(
                                               (propertyController
                                                   .propertiesList[index]
-                                                  .property_about
+                                                  .propertyAbout
                                                   .city
                                                   .toUpperCase()),
                                               style: kTextDefaultStyle.copyWith(
@@ -118,7 +118,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                             child: AutoSizeText(
                                                 (propertyController
                                                     .propertiesList[index]
-                                                    .property_about
+                                                    .propertyAbout
                                                     .price
                                                     .toString()),
                                                 style:
@@ -142,7 +142,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                               Text(kDateformat.format(
                                                   propertyController
                                                       .propertiesList[index]
-                                                      .upload_date
+                                                      .uploadDate
                                                       .toDate())),
                                               const SizedBox(width: 40),
                                               MyButton(

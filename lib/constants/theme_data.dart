@@ -6,6 +6,7 @@ import 'constants.dart';
 ThemeData themeData = ThemeData(
   brightness: Brightness.light,
   primaryColor: kPrimaryColor,
+  primarySwatch: Colors.deepOrange,
   // accentColor: Colors.white,
   scaffoldBackgroundColor: Colors.white,
   toggleableActiveColor: Colors.black,

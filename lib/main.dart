@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:the_asset_zone_web/constants/theme_data.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 import 'package:the_asset_zone_web/controllers/search_controller.dart';
+import 'package:the_asset_zone_web/controllers/upload_form_controller.dart';
 import 'constants/firebase.dart';
 import 'controllers/nav_bar_controller.dart';
 import 'controllers/single_page_property_controller.dart';
@@ -17,6 +17,7 @@ void main() async {
     Get.put(PropertyController());
     Get.put(MySearchController());
     Get.put(SinglePagePropertyController());
+    Get.put(UploadFormController());
   }
   );
   runApp(const MyApp());

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
+import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
+import 'package:the_asset_zone_web/screens/upload_property/upload_property_screen.dart';
 
 class NavBarController extends GetxController {
   static NavBarController instance = Get.find();
@@ -73,7 +75,8 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/city',
       builder: (BuildContext context, GoRouterState state) {
-        return const CityScreen();
+        // return const CityScreen();
+        return FormAddFirebase();
       },
     ),
     GoRoute(

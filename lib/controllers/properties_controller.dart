@@ -4,11 +4,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_asset_zone_web/controllers/search_controller.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/home/components/home_screen_widgets.dart';
 
 class PropertyController extends GetxController {
+
   static PropertyController instance = Get.find();
   var firestoreDB = FirebaseFirestore.instance;
   var dummy_var = "".obs;
@@ -20,6 +22,14 @@ class PropertyController extends GetxController {
         .add(propertyDetails.toMap());
   }
 
+  setInSharedPreferences(String key, String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+  getFromSharedPreferences(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    debugPrint(prefs.getString('auth'));
+  }
   String getRandString(int len) {
     var random = Random.secure();
     var values = List<int>.generate(len, (i) => random.nextInt(255));
@@ -78,6 +88,7 @@ class PropertyController extends GetxController {
   }
 
   setPropertyList() async {
+    propertiesList.clear();
     List<PropertyDetails> properties = await retrieveAllPropertyDetails();
     for (var property in properties) {
       propertiesList.add(property);
