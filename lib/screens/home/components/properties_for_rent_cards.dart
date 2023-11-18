@@ -12,7 +12,7 @@ class PropertiesForCardsView extends StatefulWidget {
   final bool showDescription;
   final int limit;
   const PropertiesForCardsView(
-      {Key? key, required this.width, required this.propertiesFor, this.showDescription = true, int this.limit = 3})
+      {Key? key, required this.width, required this.propertiesFor, this.showDescription = true, this.limit = 3})
       : super(key: key);
 
   @override

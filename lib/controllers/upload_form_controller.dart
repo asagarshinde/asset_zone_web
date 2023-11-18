@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/add_property/validators.dart';
+import 'package:the_asset_zone_web/screens/upload_property/upload_property_screen.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadFormController extends GetxController {
@@ -13,23 +14,28 @@ class UploadFormController extends GetxController {
   // https://stackoverflow.com/questions/65912295/how-to-retrieve-a-texteditingcontroller-inside-a-controller-layer-with-getx
   static UploadFormController get i => Get.find();
   final uploadFormKey = GlobalKey<FormState>();
+  RxBool isLoading = false.obs;
   RxString bathrooms = "1".obs;
+  RxString terrace = "0".obs;
   RxString balcony = "0".obs;
   RxString bedrooms = "0".obs;
-  RxString garage = "0".obs;
+  RxString parking = "0".obs;
   RxString halls = "0".obs;
   RxBool isFeatured = false.obs;
   RxString selectedCity = "Nashik".obs;
-  RxString selectedPropertyStatus = "Completed".obs;
+  RxString selectedPropertyStatus = "Ready to Move".obs;
   RxString selectedPropertyType = "Residential".obs;
   RxString selectedPropertySubType = "Apartment".obs;
+  RxString selectedPropertyFor = "For Sale".obs;
   RxString locality = "".obs;
-  List<String> propertiesStatusList = ["Completed", "Under Construction"];
+  List<String> propertiesStatusList = ["Ready to Move", "Under Construction"];
   List<String> selectNumbers = ['0', '1', '2', '3', '4', '5'];
   List<String> citiesList = ["Nashik", "Pune", "Igatapuri"];
   List<String> propertiesTypeList = ["Residential", "Commercial"];
+  List<String> propertyForList = ["For Rent", "For Sale"];
   List<String> propertiesSubTypeList = [
     "Apartment",
+    "Row House",
     "Building",
     "Pent House",
     "Bungalow",
@@ -55,8 +61,44 @@ class UploadFormController extends GetxController {
   TextEditingController floorPlanController = TextEditingController();
   TextEditingController galleryController = TextEditingController();
   TextEditingController videoController = TextEditingController();
+  TextEditingController carpetAreaController = TextEditingController();
+  TextEditingController builtUpAreaController = TextEditingController();
+  TextEditingController salableAreaController = TextEditingController();
+  TextEditingController propertyForController = TextEditingController();
+  TextEditingController buildingNameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController floorNumberController = TextEditingController();
+  TextEditingController securityDepositController = TextEditingController();
+  TextEditingController maintenanceController = TextEditingController();
 
   static UploadFormController instance = Get.find();
+
+  Map getAreaFormFields() {
+    final Map areaFormFields = {
+      "carpet_area": {
+        "controller": carpetAreaController, //formController.nameController,
+        "hintText": "Enter carpet area in Sq. Ft.",
+        "label": "Carpet Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "built_up_area": {
+        "controller": builtUpAreaController, //formController.nameController,
+        "hintText": "Enter built up area in Sq. Ft.",
+        "label": "Built Up Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "salable_up_area": {
+        "controller": salableAreaController, //formController.nameController,
+        "hintText": "Enter salable area in Sq. Ft. ",
+        "label": "Salable Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+    };
+    return areaFormFields;
+  }
 
   Map getFormFields() {
     final Map formFields = {
@@ -81,13 +123,6 @@ class UploadFormController extends GetxController {
         "validator": mobileNumberValidator,
         "icon": const Icon(Icons.phone)
       },
-      "pan": {
-        "controller": panController,
-        "hintText": "Enter your Pan card No",
-        "label": "PAN",
-        "validator": panValidator,
-        "icon": const Icon(Icons.credit_card)
-      },
       "message": {
         "controller": messageController,
         "hintText": "Message",
@@ -95,18 +130,42 @@ class UploadFormController extends GetxController {
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.message)
       },
+      "Building Name": {
+        "controller": buildingNameController,
+        "hintText": "Enter Building Name",
+        "label": "Building Name",
+        "icon": const Icon(Icons.home)
+      },
+      "Address": {
+        "controller": addressController,
+        "hintText": "Enter address of property",
+        "label": "Address",
+        "icon": const Icon(Icons.location_on)
+      },
+      "Floor number": {
+        "controller": floorNumberController,
+        "hintText": "Enter floor number",
+        "label": "Floor number",
+        "icon": const Icon(Icons.elevator)
+      },
+      "Security Deposit": {
+        "controller": securityDepositController,
+        "hintText": "Enter security deposit amount",
+        "label": "Security Deposit",
+        "icon": const Icon(Icons.currency_rupee)
+      },
+      "Maintenance": {
+        "controller": maintenanceController,
+        "hintText": "Enter maintenance amount",
+        "label": "Maintenance",
+        "icon": const Icon(Icons.currency_rupee)
+      },
       "price": {
         "controller": priceController,
         "hintText": "Price",
         "label": "Price",
-        "icon": const Icon(Icons.price_change)
-      },
-      "property_size": {
-        "controller": propertySizeController,
-        "hintText": "PropertySize",
-        "label": "Property Size",
-        "icon": const Icon(Icons.format_size)
-      },
+        "icon": const Icon(Icons.currency_rupee)
+      }
     };
     return formFields;
   }
@@ -146,6 +205,7 @@ class UploadFormController extends GetxController {
 
   void submitForm() async {
     {
+      isLoading.value = true;
       // Validate returns true if the form is valid, or false otherwise.
       if (uploadFormKey.currentState!.validate()) {
         // If the form is valid, display a snackbar. In the real world,
@@ -154,6 +214,9 @@ class UploadFormController extends GetxController {
         // ScaffoldMessenger.of(context).showSnackBar(
         //   const SnackBar(content: Text('Processing Data')),
         // );
+        print("****** Form is not valid. **********");
+        print(uploadFormKey.currentState!.validate());
+        print("above is form current state");
       }
       DocumentReference docRef =
           FirebaseFirestore.instance.collection('PropertyDetails').doc();
@@ -166,37 +229,88 @@ class UploadFormController extends GetxController {
         }
       }
 
+    // parse date to timestamp
+
+      DateTime uploadDate = DateTime.parse(dateController.text);
+      Timestamp uploadTimestamp = Timestamp.fromDate(uploadDate);
+
+      // TODO: use lat lon from location.
       Map<String, dynamic> data = {
         "property_about": {
           "balcony": int.parse(balcony.value),
-          "bathroom": int.parse(bathrooms.value),
+          "bathrooms": int.parse(bathrooms.value),
           "bedrooms": int.parse(bedrooms.value),
-          "city": cityController.text,
-          "garage": garage.value,
-          "halls": halls.value,
-          "locality": locality.value,
-          "price": int.parse(priceController.text),
-          "property_size": int.parse(propertySizeController.text),
-          "property_status": propertyStatusController.text,
+          "city": selectedCity.value,
+          "price": double.parse(priceController.text),
+          "property_status": selectedPropertyStatus.value,
           "property_type": selectedPropertyType.value,
-          "property_sub_type": selectedPropertySubType.value
+          "property_id": documentId,
+          "salable_area": double.parse(salableAreaController.text),
+          "terrace": int.parse(terrace.value),
+          "security_deposit": int.parse(securityDepositController.text),
+          "floor_number": int.parse(floorNumberController.text),
+          "maintenance": int.parse(maintenanceController.text),
+          "parking": int.parse(parking.value),
+          "address": addressController.text,
+          "halls": int.parse(halls.value),
+
+          "locality": locality.value,
+          "carpet_area": double.parse(carpetAreaController.text),
+          "built_up_area": double.parse(builtUpAreaController.text),
+          "property_sub_type": selectedPropertySubType.value,
+          "property_for": selectedPropertyFor.value,
+
+
+
+        },
+        "location": {
+          "lat": 76.43698832653855,
+          "lon": 22.444
         },
         "contact_details": {
           "name": nameController.text,
           "email": emailController.text,
-          "phone": phoneController.text,
+          "phone": int.parse(phoneController.text),
           "message": messageController.text,
           "pan": panController.text,
         },
-        "upload_date": dateController.text,
+        "upload_date": uploadTimestamp,
         "gallery": imagesUrlList,
         "floor_plan": floorPlanController.text,
         "isFeatured": isFeatured.value,
+        "message": messageController.text
       };
-      PropertyAbout.fromMap(data["property_about"]);
       print(data);
+      PropertyAbout.fromMap(data["property_about"]);
+      // print(data.toString());
       await docRef.set(data);
+      isLoading.value = false;
+      uploadFormKey.currentState?.reset();
+      _clearFormState();
     }
+  }
+
+  void _clearFormState(){
+    nameController.clear();
+    cityController.clear();
+    emailController.clear();
+    phoneController.clear();
+    panController.clear();
+    messageController.clear();
+    priceController.clear();
+    propertyIdController.clear();
+    propertySizeController.clear();
+    propertyStatusController.clear();
+    dateController.clear();
+    floorPlanController.clear();
+    galleryController.clear();
+    videoController.clear();
+    carpetAreaController.clear();
+    builtUpAreaController.clear();
+    salableAreaController.clear();
+    imageFiles.clear();
+    imageAvailable.value = false;
+    imagesUrlList.value = [];
   }
 
   void addImagesToList(Uint8List image) {

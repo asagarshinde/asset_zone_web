@@ -17,12 +17,12 @@ class SinglePagePropertyMiddleAboutContainer extends StatelessWidget {
     String propertyType = propertyAbout["property_type"].toString();
     String price = propertyAbout["price"].toString();
     String propertyId = propertyAbout["property_id"].toString();
-    String propertySize = propertyAbout["property_size"].toString();
+    String propertySize = propertyAbout["carpet_area"].toString();
     String propertyStatus = propertyAbout["property_status"].toString();
     String balcony = propertyAbout["balcony"].toString();
     String city = propertyAbout["city"].toString();
     String bedrooms = propertyAbout["bedrooms"].toString();
-    String bathrooms = propertyAbout["bathroom"].toString();
+    String bathrooms = propertyAbout["bathrooms"].toString();
 
     return Padding(
       padding: const EdgeInsets.all(16.0),

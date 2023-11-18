@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
+import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'authentication.dart';
-
 
 class AuthDialog extends StatefulWidget {
   const AuthDialog({Key? key}) : super(key: key);
@@ -68,6 +70,7 @@ class _AuthDialogState extends State<AuthDialog> {
 
   @override
   Widget build(BuildContext context) {
+    var authController = AuthController();
     return Dialog(
       backgroundColor: kSecondaryColor.withOpacity(0.1),
       shape: RoundedRectangleBorder(
@@ -250,36 +253,40 @@ class _AuthDialogState extends State<AuthDialog> {
                                 textFocusNodePassword.unfocus();
                               });
                               if (_validateEmail(textControllerEmail.text) ==
-                                  null &&
+                                      null &&
                                   _validatePassword(
-                                      textControllerPassword.text) ==
+                                          textControllerPassword.text) ==
                                       null) {
                                 await signInWithEmailPassword(
-                                    textControllerEmail.text,
-                                    textControllerPassword.text)
+                                        textControllerEmail.text,
+                                        textControllerPassword.text)
                                     .then((result) {
                                   if (result != null) {
-                                    print(result);
+                                    // debugPrint(result as String?);
                                     setState(() {
+                                      authController.setIsAuthenticated(true);
                                       loginStatus =
-                                      'You have successfully logged in';
+                                          'You have successfully logged in';
                                       loginStringColor = Colors.green;
+                                      debugPrint(
+                                          "isAuthenticated: ${authController.getIsAuthenticated()}");
                                     });
-                                    Future.delayed(const Duration(milliseconds: 500),
-                                            () {
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context)
-                                              .pushReplacement(MaterialPageRoute(
-                                            fullscreenDialog: true,
-                                            builder: (context) => const HomeScreen(title: "After Auth"),
-                                          ));
-                                        });
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      context.go('/home');
+                                      // Navigator.of(context).pop();
+                                      // Navigator.of(context)
+                                      //     .push(MaterialPageRoute(
+                                      //   fullscreenDialog: true,
+                                      //   builder: (context) => const HomeScreen(title: "After Auth"),
+                                      // ));
+                                    });
                                   }
                                 }).catchError((error) {
                                   print('Login Error: $error');
                                   setState(() {
                                     loginStatus =
-                                    'Error occured while logging in';
+                                        'Error occured while logging in';
                                     loginStringColor = Colors.red;
                                   });
                                 });
@@ -304,23 +311,23 @@ class _AuthDialogState extends State<AuthDialog> {
                               ),
                               child: _isLoggingIn
                                   ? const SizedBox(
-                                height: 16,
-                                width: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
+                                      height: 16,
+                                      width: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
+                                      ),
+                                    )
                                   : const Text(
-                                'Log in',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
+                                      'Log in',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                             ),
                           ),
                         ),
@@ -342,13 +349,13 @@ class _AuthDialogState extends State<AuthDialog> {
                                 _isRegistering = true;
                               });
                               await registerWithEmailPassword(
-                                  textControllerEmail.text,
-                                  textControllerPassword.text)
+                                      textControllerEmail.text,
+                                      textControllerPassword.text)
                                   .then((result) {
                                 if (result != null) {
                                   setState(() {
                                     loginStatus =
-                                    'You have registered successfully';
+                                        'You have registered successfully';
                                     loginStringColor = Colors.green;
                                   });
                                   print(result);
@@ -357,7 +364,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                 print('Registration Error: $error');
                                 setState(() {
                                   loginStatus =
-                                  'Error occured while registering';
+                                      'Error occured while registering';
                                   loginStringColor = Colors.red;
                                 });
                               });
@@ -373,23 +380,23 @@ class _AuthDialogState extends State<AuthDialog> {
                               ),
                               child: _isRegistering
                                   ? const SizedBox(
-                                height: 16,
-                                width: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
+                                      height: 16,
+                                      width: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          Colors.white,
+                                        ),
+                                      ),
+                                    )
                                   : const Text(
-                                'Sign up',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
+                                      'Sign up',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                             ),
                           ),
                         ),
@@ -399,20 +406,20 @@ class _AuthDialogState extends State<AuthDialog> {
                 ),
                 loginStatus != null
                     ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 20.0,
-                    ),
-                    child: Text(
-                      loginStatus!,
-                      style: TextStyle(
-                        color: loginStringColor,
-                        fontSize: 14,
-                        // letterSpacing: 3,
-                      ),
-                    ),
-                  ),
-                )
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 20.0,
+                          ),
+                          child: Text(
+                            loginStatus!,
+                            style: TextStyle(
+                              color: loginStringColor,
+                              fontSize: 14,
+                              // letterSpacing: 3,
+                            ),
+                          ),
+                        ),
+                      )
                     : Container(),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -449,7 +456,6 @@ class _AuthDialogState extends State<AuthDialog> {
     );
   }
 }
-
 
 class GoogleButton extends StatefulWidget {
   @override
@@ -488,13 +494,12 @@ class _GoogleButtonState extends State<GoogleButton> {
             // if user is admin then pass some flag to HomeScreen widget
             // where appbar will use the flag and enable or disable + button
             if (result != null) {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) => const HomeScreen(title: "After Auth"),
-                ),
-              );
+              print("is user authenticated signInWithGoogle ${authController.isAuthenticated}");
+              setState(() {
+                authController.setIsAuthenticated(true);
+              });
+              print("is user authenticated signInWithGoogle ${authController.isAuthenticated}");
+              context.go('/home');
             }
           }).catchError((error) {
             print('Registration Error: $error');
@@ -507,30 +512,30 @@ class _GoogleButtonState extends State<GoogleButton> {
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: _isProcessing
               ? const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Colors.blueGrey,
-            ),
-          )
-              : Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Image(
-                image: AssetImage("assets/google_logo.png"),
-                height: 30.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: Text(
-                  'Continue with Google',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.blueGrey,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.blueGrey,
                   ),
+                )
+              : const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image(
+                      image: AssetImage("assets/google_logo.png"),
+                      height: 30.0,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        'Continue with Google',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
         ),
       ),
     );

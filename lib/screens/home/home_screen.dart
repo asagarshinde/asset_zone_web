@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
+import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/footer_section/footer_page.dart';
 import 'package:the_asset_zone_web/review/developer_work_with_us.dart';
 import 'package:the_asset_zone_web/review/looking_to_buy_new_property.dart';
@@ -32,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: remove after work done
+    print("is user authenticated ${authController.isAuthenticated}");
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: Responsive.isDesktop(context)
@@ -72,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               PropertiesForCardsView(
                                   width: width, propertiesFor: "For Rent"),
                               PropertiesForCardsView(
-                                  width: width, propertiesFor: "For sale"),
+                                  width: width, propertiesFor: "For Sale"),
                               PropertiesForCardsView(
                                   width: width, propertiesFor: "For Buy"),
                               featuredProject(context: context, width: width),

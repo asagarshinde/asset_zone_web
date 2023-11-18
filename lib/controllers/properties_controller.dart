@@ -89,6 +89,7 @@ class PropertyController extends GetxController {
 
   setPropertyList() async {
     propertiesList.clear();
+    debugPrint(" ********* \n ${propertiesList.length.toString()} \n *******");
     List<PropertyDetails> properties = await retrieveAllPropertyDetails();
     for (var property in properties) {
       propertiesList.add(property);
@@ -109,7 +110,7 @@ class PropertyController extends GetxController {
     } else {
       QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
           .collection("PropertyDetails")
-          .where("property_about.property_status", isEqualTo: status)
+          .where("property_about.property_for", isEqualTo: status)
           .limit(limit)
           .get();
       return snapshot.docs.map(
@@ -125,17 +126,17 @@ class PropertyController extends GetxController {
 }
 
 class PropertiesList {
-  Future<List<Widget>?> propertyList(propety_for, {limit = 3}) async {
+  Future<List<Widget>?> propertyList(propertyFor, {limit = 3}) async {
     PropertyController dbservice = PropertyController();
-    List<Widget> property_list = [];
+    List<Widget> propertyList = [];
     var properties =
-    await dbservice.retrievePropertyDetails(propety_for, limit: limit);
+    await dbservice.retrievePropertyDetails(propertyFor, limit: limit);
     for (var property in properties) {
       // Widget dummy = Text(property.toString());
       List<String> values = [
         property["property_about"]["bedrooms"].toString(),
-        property["property_about"]["bathroom"].toString(),
-        property["property_about"]["property_size"].toString(),
+        property["property_about"]["bathrooms"].toString(),
+        property["property_about"]["carpet_area"].toString(),
       ];
       Widget tile = PropertyTile(
           propertyStatus: property["property_about"]["property_status"],
@@ -144,9 +145,9 @@ class PropertiesList {
           price: property["property_about"]["price"].toString(),
           values: values,
           propertyDetails: property);
-      property_list.add(tile);
+      propertyList.add(tile);
     }
-    return property_list;
+    return propertyList;
   }
 
   Future<List<Widget>?> propertyListSale() async {
@@ -159,8 +160,8 @@ class PropertiesList {
       Widget dummy = Text(property.toString());
       List<String> values = [
         property["property_about"]["bedrooms"].toString(),
-        property["property_about"]["bathroom"].toString(),
-        property["property_about"]["property_size"].toString(),
+        property["property_about"]["bathrooms"].toString(),
+        property["property_about"]["carpet_area"].toString(),
       ];
       Widget tile = PropertyTile(
           propertyStatus: property["property_about"]["property_status"],

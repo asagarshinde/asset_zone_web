@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:the_asset_zone_web/constants/theme_data.dart';
+import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 import 'package:the_asset_zone_web/controllers/search_controller.dart';
 import 'package:the_asset_zone_web/controllers/upload_form_controller.dart';
@@ -18,6 +19,7 @@ void main() async {
     Get.put(MySearchController());
     Get.put(SinglePagePropertyController());
     Get.put(UploadFormController());
+    Get.put(AuthController());
   }
   );
   runApp(const MyApp());

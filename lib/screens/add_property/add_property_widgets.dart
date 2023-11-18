@@ -66,6 +66,7 @@ class CustomDropDown extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
         child: DropdownButtonFormField(
           decoration: InputDecoration(
+            labelStyle: const TextStyle(color: kPrimaryColor),
             label: Text(
               label,
             ),
@@ -75,7 +76,7 @@ class CustomDropDown extends StatelessWidget {
           items: options.map((String e) {
             return DropdownMenuItem<Object>(
               value: e,
-              child: Text(e),
+              child: Text(e, style: const TextStyle(color: kSecondaryColor)),
             );
           }).toList(),
           onChanged: (val) {

@@ -129,7 +129,7 @@ class _PropertyTileState extends State<PropertyTile> {
           width: 380,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(widget.inputImagePath),
+              image:  NetworkImage(widget.inputImagePath),//AssetImage(widget.inputImagePath),
               fit: BoxFit.cover,
             ),
           ),

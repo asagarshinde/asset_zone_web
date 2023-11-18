@@ -45,7 +45,7 @@ class PropertySearchPanel extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 "Budget ",
                                 style: kTextDefaultStyle,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/footer_section/footer_page.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
@@ -9,9 +10,11 @@ import 'components/property_card_grid_view_stateless.dart';
 class PropertyScreen extends StatelessWidget {
   PropertyScreen({Key? key}) : super(key: key);
   final ScrollController scrollController = ScrollController();
+  final AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("PropertyScreen ${authController.getIsAuthenticated()} --> ${authController.isAuthenticated}");
     return Material(
       child: Scaffold(
         appBar: Responsive.isDesktop(context)

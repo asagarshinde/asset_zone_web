@@ -23,8 +23,8 @@ class PropertyCardGridViewStateless extends StatelessWidget {
     PropertyDetails property = propertyController.propertiesList[index];
     List<String> values = [
       property.propertyAbout.bedrooms.toString(),
-      property.propertyAbout.bathroom.toString(),
-      property.propertyAbout.propertySize.toString()
+      property.propertyAbout.bathrooms.toString(),
+      property.propertyAbout.salableArea.toString()
     ];
 
     for (int i = 0; i < icons.length; i++) {
@@ -45,8 +45,8 @@ class PropertyCardGridViewStateless extends StatelessWidget {
   Widget build(BuildContext context) {
     propertyController.setPropertyList();
     return Obx(
-          () => MediaQuery.removePadding(
-            context: context,
+      () => MediaQuery.removePadding(
+        context: context,
         removeTop: true,
         removeLeft: true,
         removeRight: true,
@@ -55,7 +55,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
             AutoSizeText(
               "Properties Listing",
               style:
-              GoogleFonts.rubik(fontSize: 24, fontWeight: FontWeight.w700),
+                  GoogleFonts.rubik(fontSize: 24, fontWeight: FontWeight.w700),
             ),
             const Divider(),
             Container(
@@ -72,7 +72,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                 itemCount: propertyController.propertiesList.length,
                 itemBuilder: (BuildContext context, int index) {
                   PropertyDetails property =
-                  propertyController.propertiesList[index];
+                      propertyController.propertiesList[index];
                   return LayoutBuilder(
                     builder: (context, constraints) {
                       return SizedBox(
@@ -98,7 +98,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                           30, 10, 0, 0),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           AutoSizeText(
                                               (propertyController
@@ -114,7 +114,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical:
-                                                kDefaultSizedBoxWidth / 2),
+                                                    kDefaultSizedBoxWidth / 2),
                                             child: AutoSizeText(
                                                 (propertyController
                                                     .propertiesList[index]
@@ -122,14 +122,14 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                                     .price
                                                     .toString()),
                                                 style:
-                                                kTextHeader2Style.copyWith(
-                                                    color:
-                                                    kSecondaryColor)),
+                                                    kTextHeader2Style.copyWith(
+                                                        color:
+                                                            kSecondaryColor)),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical:
-                                                kDefaultSizedBoxWidth / 2),
+                                                    kDefaultSizedBoxWidth / 2),
                                             child: IntrinsicHeight(
                                               child: Wrap(
                                                 children: getIconDescriptionRow(
@@ -148,10 +148,13 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                               MyButton(
                                                 title: "Details",
                                                 height: 30,
-                                                onTap: (){
-                                              print("i dont know how come ontap tapped. ");
-                                              GoRouter.of(context).go('/singleproperty', extra: property.toMap());
-                                              },
+                                                onTap: () {
+                                                  print(
+                                                      "i dont know how come ontap tapped. ");
+                                                  GoRouter.of(context).go(
+                                                      '/singleproperty',
+                                                      extra: property.toMap());
+                                                },
                                               ),
                                             ],
                                           ),
@@ -176,7 +179,6 @@ class PropertyCardGridViewStateless extends StatelessWidget {
     );
   }
 }
-
 
 class DescriptionRowElement extends StatelessWidget {
   final IconData icon;
