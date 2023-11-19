@@ -1,13 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'authentication.dart';
 
+class SignInOutDialog extends StatelessWidget {
+  const SignInOutDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    authController
+        .getAuthStatus()
+        .then((value) => authController.isAuthenticatedShared.value = value!);
+    return Obx(
+      () {
+        Widget dialog = Container(
+          height: 100,
+          width: 100,
+          child: const Text("Signed Out"),
+        );
+        print(
+            "current login status ${authController.isAuthenticatedShared.value}");
+        // GoRouter.of(context).go("/home");
+        if (authController.isAuthenticatedShared.value == true) {
+          signOutGoogle();
+          print("log out karana hai");
+          dialog = const HomeScreen(title: "The Assets Zone");
+        } else if (authController.isAuthenticatedShared.value == false) {
+          print("Log in karana hai.");
+          dialog = const AuthDialog();
+        }
+        return dialog;
+      },
+    );
+  }
+}
+
 class AuthDialog extends StatefulWidget {
-  const AuthDialog({Key? key}) : super(key: key);
+  const AuthDialog({super.key});
 
   @override
   _AuthDialogState createState() => _AuthDialogState();
@@ -41,6 +75,7 @@ class _AuthDialogState extends State<AuthDialog> {
     }
 
     return null;
+    authController = AuthController();
   }
 
   String? _validatePassword(String value) {
@@ -55,6 +90,12 @@ class _AuthDialogState extends State<AuthDialog> {
     }
 
     return null;
+  }
+
+  Future<bool?> getAuthStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? authenticated = prefs.getBool("auth");
+    return authenticated;
   }
 
   @override
@@ -272,15 +313,19 @@ class _AuthDialogState extends State<AuthDialog> {
                                           "isAuthenticated: ${authController.getIsAuthenticated()}");
                                     });
                                     Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      context.go('/home');
-                                      // Navigator.of(context).pop();
-                                      // Navigator.of(context)
-                                      //     .push(MaterialPageRoute(
-                                      //   fullscreenDialog: true,
-                                      //   builder: (context) => const HomeScreen(title: "After Auth"),
-                                      // ));
-                                    });
+                                      const Duration(milliseconds: 500),
+                                      () {
+                                        GoRouter.of(context).pop();
+                                        GoRouter.of(context).go("/home");
+                                        // context.go('/home');
+                                        // Navigator.of(context).pop();
+                                        // Navigator.of(context)
+                                        //     .push(MaterialPageRoute(
+                                        //   fullscreenDialog: true,
+                                        //   builder: (context) => const HomeScreen(title: "After Auth"),
+                                        // ));
+                                      },
+                                    );
                                   }
                                 }).catchError((error) {
                                   print('Login Error: $error');
@@ -458,6 +503,8 @@ class _AuthDialogState extends State<AuthDialog> {
 }
 
 class GoogleButton extends StatefulWidget {
+  const GoogleButton({super.key});
+
   @override
   _GoogleButtonState createState() => _GoogleButtonState();
 }
@@ -494,12 +541,18 @@ class _GoogleButtonState extends State<GoogleButton> {
             // if user is admin then pass some flag to HomeScreen widget
             // where appbar will use the flag and enable or disable + button
             if (result != null) {
-              print("is user authenticated signInWithGoogle ${authController.isAuthenticated}");
+              print(
+                  "is user authenticated signInWithGoogle ${authController.isAuthenticated}");
               setState(() {
                 authController.setIsAuthenticated(true);
+                navBarController.showPropertyAdd.value = true;
+                navBarController.authIcon.value = Icons.logout;
               });
-              print("is user authenticated signInWithGoogle ${authController.isAuthenticated}");
-              context.go('/home');
+              print(
+                  "is user authenticated signInWithGoogle ${authController.isAuthenticated}");
+              GoRouter.of(context).pop();
+              GoRouter.of(context).go("/home");
+              // context.go('/home');
             }
           }).catchError((error) {
             print('Registration Error: $error');

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 
-import '../home_screen.dart';
 
 class PropertiesForCardsView extends StatefulWidget {
   final double width;
@@ -12,8 +11,7 @@ class PropertiesForCardsView extends StatefulWidget {
   final bool showDescription;
   final int limit;
   const PropertiesForCardsView(
-      {Key? key, required this.width, required this.propertiesFor, this.showDescription = true, this.limit = 3})
-      : super(key: key);
+      {super.key, required this.width, required this.propertiesFor, this.showDescription = true, this.limit = 3});
 
   @override
   State<PropertiesForCardsView> createState() => _PropertiesForCardsViewState();
@@ -23,7 +21,6 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
   Future<List<Widget>?> getData() async {
     PropertiesList propertiesList = PropertiesList();
     List<Widget>? pl = await propertiesList.propertyList(widget.propertiesFor, limit: widget.limit);
-    // await Future.delayed(Duration(seconds: 5));
     return pl;
   }
 
