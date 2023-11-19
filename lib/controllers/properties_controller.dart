@@ -29,6 +29,7 @@ class PropertyController extends GetxController {
   getFromSharedPreferences(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     debugPrint(prefs.getString('auth'));
+    return prefs.getString(key);
   }
   String getRandString(int len) {
     var random = Random.secure();

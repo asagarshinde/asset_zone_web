@@ -72,14 +72,13 @@ class PropertyTile extends StatefulWidget {
   final propertyDetails;
 
   const PropertyTile(
-      {Key? key,
+      {super.key,
       required this.inputImagePath,
       required this.propertyType,
       required this.propertyStatus,
       required this.price,
       required this.values,
-      required this.propertyDetails})
-      : super(key: key);
+      required this.propertyDetails});
 
   @override
   State<PropertyTile> createState() => _PropertyTileState();
@@ -129,7 +128,8 @@ class _PropertyTileState extends State<PropertyTile> {
           width: 380,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image:  NetworkImage(widget.inputImagePath),//AssetImage(widget.inputImagePath),
+              image: NetworkImage(widget.inputImagePath),
+              //AssetImage(widget.inputImagePath),
               fit: BoxFit.cover,
             ),
           ),
@@ -155,7 +155,7 @@ class _PropertyTileState extends State<PropertyTile> {
                       Radius.circular(5),
                     ),
                   ),
-                  width: 80,
+                  width: 100,
                   padding: const EdgeInsets.symmetric(
                     vertical: 4,
                   ),
@@ -163,49 +163,59 @@ class _PropertyTileState extends State<PropertyTile> {
                     child: Text(
                       widget.propertyType,
                       style:
-                          GoogleFonts.rubik(color: Colors.white, fontSize: 20),
+                          GoogleFonts.rubik(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            widget.propertyStatus,
-                            style: GoogleFonts.rubik(
-                                fontSize: 25, color: Colors.white70),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                          child: Text(
-                            widget.price,
-                            style: GoogleFonts.rubik(
-                                fontSize: 15, color: Colors.white70),
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                      child: MyButton(
-                        title: "Details",
-                      ),
-                    ),
-                  ],
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.all(8.0),
+                //           child: Text(
+                //             widget.propertyStatus,
+                //             style: GoogleFonts.rubik(
+                //                 fontSize: 25, color: Colors.white70),
+                //           ),
+                //         ),
+                //         Padding(
+                //           padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+                //           child: Text(
+                //             widget.price,
+                //             style: GoogleFonts.rubik(
+                //                 fontSize: 15, color: Colors.white70),
+                //           ),
+                //         )
+                //       ],
+                //     ),
+                //   ],
+                // ),
+                // Positioned(
+                //   bottom: _isHover ? 0 : -100,
+                //   child: AnimatedOpacity(
+                //     opacity: _isHover ? 1 : 0,
+                //     // duration: Duration(milliseconds: _isHover ? 10000 : 5000),
+                //     duration: Duration(milliseconds: 300),
+                //     child: onHoverStrip(
+                //       values: widget.values,
+                //     ),
+                //   ),
+                // )
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  transform: Matrix4.translationValues(
+                      0.0,
+                      _isHover ? 0.0 : 110.0,
+                      0.0),
+                  child: onHoverStrip(
+                    values: widget.values,
+                    price: widget.price,
+                    propertyStatus: widget.propertyStatus
+                  ), // Adjust the 50.0 for distance
                 ),
-                if (_isHover)
-                  AnimatedOpacity(
-                      opacity: _isHover ? 1 : 0,
-                      duration: Duration(milliseconds: _isHover ? 10000 : 5000),
-                      child: onHoverStrip(
-                        values: widget.values,
-                      ))
               ],
             ),
           ),
@@ -218,7 +228,12 @@ class _PropertyTileState extends State<PropertyTile> {
 class onHoverStrip extends StatelessWidget {
   // static List<String> values = [];
 
-  onHoverStrip({Key? key, required this.values}) : super(key: key);
+  onHoverStrip(
+      {Key? key,
+      required this.values,
+      required this.price,
+      required this.propertyStatus})
+      : super(key: key);
   List<Widget> items = [];
   List<Color> colors = [
     Colors.white12,
@@ -228,6 +243,8 @@ class onHoverStrip extends StatelessWidget {
   ];
   List<String> text1 = ["Beds", "Baths", "Carpet Area"];
   final List<String> values;
+  final String price;
+  final String propertyStatus;
 
   // List<String> text2 = values;
 
@@ -242,8 +259,27 @@ class onHoverStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 75,
-      child: Row(children: getTiles()),
+      height: 150,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              propertyStatus,
+              style: GoogleFonts.rubik(fontSize: 20, color: Colors.white70),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Price: $price",
+              style: GoogleFonts.rubik(fontSize: 20, color: Colors.white70),
+            ),
+          ),
+          Row(children: getTiles()),
+        ],
+      ),
     );
   }
 }

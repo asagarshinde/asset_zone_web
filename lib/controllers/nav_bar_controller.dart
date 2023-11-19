@@ -8,7 +8,6 @@ import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
-import 'package:the_asset_zone_web/screens/upload_property/upload_property_screen.dart';
 
 class NavBarController extends GetxController {
   static NavBarController instance = Get.find();
@@ -23,6 +22,9 @@ class NavBarController extends GetxController {
   }.obs;
 
   bool homeSelected = true;
+
+  RxBool showPropertyAdd = false.obs;
+  Rx<IconData> authIcon = Icons.person_outline_rounded.obs;
 
   setSelectedMenu(menu) {
     menuSelectedMap.forEach(
@@ -76,7 +78,7 @@ GoRouter router = GoRouter(
       path: '/city',
       builder: (BuildContext context, GoRouterState state) {
         // return const CityScreen();
-        return FormAddFirebase();
+        return CityScreen();
       },
     ),
     GoRoute(
@@ -84,6 +86,13 @@ GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         print(state.extra);
         return SinglePagePropertyView(state.extra);
+      },
+    ),
+    GoRoute(
+      path: '/propertyadd',
+      builder: (BuildContext context, GoRouterState state) {
+        print(state.extra);
+        return FormAddFirebase();
       },
     ),
   ],

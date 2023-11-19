@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -51,7 +53,7 @@ Future<User?> signInWithEmailPassword(String email, String password) async {
       userEmail = user.email;
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('auth', true);
+      await prefs.setBool('auth', false);
     }
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
@@ -113,12 +115,14 @@ Future<User?> signInWithGoogle() async {
 }
 
 void signOutGoogle() async {
-  await googleSignIn.signOut();
+  // await FirebaseAuth.instance.signOut();
+  // await googleSignIn.signOut();
   await _auth.signOut();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('auth', false);
-
+  navBarController.showPropertyAdd.value = false;
+  navBarController.authIcon.value = Icons.person_outline_rounded;
   uid = null;
   name = null;
   userEmail = null;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_asset_zone_web/constants/theme_data.dart';
 import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
@@ -13,15 +14,18 @@ import 'controllers/single_page_property_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initialization.then((value) {
+  await initialization.then((value) async {
     Get.put(NavBarController());
     Get.put(PropertyController());
     Get.put(MySearchController());
     Get.put(SinglePagePropertyController());
     Get.put(UploadFormController());
     Get.put(AuthController());
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('auth', false);
   }
   );
+
   runApp(const MyApp());
 }
 

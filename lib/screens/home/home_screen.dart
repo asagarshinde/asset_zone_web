@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/constants/controllers.dart';
-import 'package:the_asset_zone_web/controllers/auth_controller.dart';
 import 'package:the_asset_zone_web/footer_section/footer_page.dart';
 import 'package:the_asset_zone_web/review/developer_work_with_us.dart';
 import 'package:the_asset_zone_web/review/looking_to_buy_new_property.dart';
@@ -17,14 +17,14 @@ import '../../responsive.dart';
 import '../../widgets/helper_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required String title}) : super(key: key);
+  const HomeScreen({super.key, required String title});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String title = 'The Assets Tone';
+  final String title = 'The Assets Zone';
   List<PropertyDetails> lstPropDetails = <PropertyDetails>[];
 
   @override
@@ -32,88 +32,77 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  Future<bool?> isAuthenticate() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool("auth");
+}
   @override
   Widget build(BuildContext context) {
     // TODO: remove after work done
     print("is user authenticated ${authController.isAuthenticated}");
+    isAuthenticate().then((value) => print("from shared preferences $value"));
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: Responsive.isDesktop(context)
-          ? PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 70),
-              child: SimpleMenuBar(),
-            )
-          : AppBar(
-              backgroundColor: kPrimaryColor,
-            ),
-      drawer: const MySimpleDrawer(),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      // when row not starting with start of axis then use expanded.
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 1000,
-                            child: Image.asset(
-                              'assets/building.jpg',
-                              fit: BoxFit.cover,
+    return SelectionArea(
+      child: Scaffold(
+        appBar: Responsive.isDesktop(context)
+            ? PreferredSize(
+                preferredSize: Size(MediaQuery.of(context).size.width, 70),
+                child: SimpleMenuBar(),
+              )
+            : AppBar(
+                backgroundColor: kPrimaryColor,
+              ),
+        drawer: const MySimpleDrawer(),
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        // when row not starting with start of axis then use expanded.
+                        child: Stack(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              height: 1000,
+                              child: Image.asset(
+                                'assets/building.jpg',
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const HomePageText(),
-                              HomePageSecondSection(
-                                  width: width, constraints: constraints),
-                              PropertiesForCardsView(
-                                  width: width, propertiesFor: "For Rent"),
-                              PropertiesForCardsView(
-                                  width: width, propertiesFor: "For Sale"),
-                              PropertiesForCardsView(
-                                  width: width, propertiesFor: "For Buy"),
-                              featuredProject(context: context, width: width),
-                              const SizedBox(height: 50),
-                              const DeveloperWorkWithUs(),
-                              const SizedBox(height: 50),
-                              // SizedBox(
-                              //     height: width * 0.8,
-                              //     child: const testinominal()),
-                              // const SizedBox(
-                              //   height: 50,
-                              // ),
-                              // SizedBox(
-                              //     height: width * 0.8,
-                              //     child: WhatAreYouLookingFor(
-                              //         propertyDetails: lstPropDetails)),
-                              // const SizedBox(
-                              //   height: 50,
-                              // ),
-                              // SizedBox(
-                              //     height: width * 0.8,
-                              //     child: const FindProperty()),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: const LookingToBuyNewProperty())
-                            ],
-                          ),
-                        ],
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const HomePageText(),
+                                HomePageSecondSection(
+                                    width: width, constraints: constraints),
+                                PropertiesForCardsView(
+                                    width: width, propertiesFor: "For Rent"),
+                                PropertiesForCardsView(
+                                    width: width, propertiesFor: "For Sale"),
+                                featuredProject(context: context, width: width),
+                                const SizedBox(height: 50),
+                                const DeveloperWorkWithUs(),
+                                const SizedBox(height: 50),
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: const LookingToBuyNewProperty())
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: width, child: const FooterPage()),
-              ],
-            ),
-          );
-        },
+                    ],
+                  ),
+                  SizedBox(width: width, child: const FooterPage()),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -138,7 +127,7 @@ class HomePageSecondSection extends StatelessWidget {
             height: 50,
           ),
           Row(
-            children:  [
+            children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
                 child: MyButton(title: "For Rent"),

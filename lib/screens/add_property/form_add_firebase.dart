@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:intl/intl.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/upload_form_controller.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
+import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'add_property_widgets.dart';
 
 /*
@@ -48,6 +50,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
             validator: formFields[key]["validator"]),
     ];
 
+    if (navBarController.showPropertyAdd.value)
     return Obx(
       () => Scaffold(
         appBar: Responsive.isDesktop(context)
@@ -246,6 +249,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
         ),
       ),
     );
+    return HomeScreen(title: "The Asset Zone");
   }
 }
 
