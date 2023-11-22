@@ -44,21 +44,31 @@ class PropertyController extends GetxController {
         searchPanelController.selectedPropertySubType.value;
     String propertyType = searchPanelController.selectedPropertyType.value;
     String searchLocation = searchPanelController.searchLocation;
+    debugPrint("Searching properties $propertyType and $propertySubType");
+    // var querySnapshot = firestoreDB
+    //     .collection("PropertyDetails")
+    //     .where("property_about.locality", isEqualTo: searchLocation)
+    //     .where("property_about.property_type",
+    //     isEqualTo: propertyType.toLowerCase())
+    //     .where("property_about.property_sub_type",
+    //     isEqualTo: propertySubType.toLowerCase())
+    //     .get();
 
     var querySnapshot = firestoreDB
         .collection("PropertyDetails")
-        .where("property_about.locality", isEqualTo: searchLocation)
         .where("property_about.property_type",
-        isEqualTo: propertyType.toLowerCase())
+        isEqualTo: propertyType)
         .where("property_about.property_sub_type",
-        isEqualTo: propertySubType.toLowerCase())
+        isEqualTo: propertySubType)
         .get();
 
     querySnapshot.then(
           (value) {
         for (var doc in value.docs) {
+          debugPrint(doc.data().toString());
           tempPropertyList.add(PropertyDetails.fromMap(doc.data()));
           propertiesList.value = tempPropertyList;
+          debugPrint("Searched properties are ${doc}");
         }
       },
     );

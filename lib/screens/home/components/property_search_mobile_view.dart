@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
-// import 'package:the_asset_zone_web/search/propety_screen.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'PropertySearchWidgets.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 
 class PropertySearchMobileView extends StatelessWidget {
-  PropertySearchMobileView({Key? key}) : super(key: key);
+  const PropertySearchMobileView({super.key});
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -52,6 +52,7 @@ class PropertySearchMobileView extends StatelessWidget {
                   child: MyButton(
                     title: "Search",
                     height: 40,
+                    onTap: propertyController.searchProperty,
                   ),
                 ),
                 const SizedBox(

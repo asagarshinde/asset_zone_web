@@ -87,22 +87,22 @@ class PropertyAbout {
 
   Map<String, dynamic> toMap() {
     return {
-      'property_type': propertyType,
-      'bathroom': bathrooms,
-      'property_id': propertyId,
-      'property_status': propertyStatus,
-      'city': city,
-      'bedrooms': bedrooms,
-      'price': price,
-      'salable_area': salableArea,
       'balcony': balcony,
+      'bathroom': bathrooms,
+      'bedrooms': bedrooms,
+      'city': city,
+      'price': price,
+      'property_status': propertyStatus,
+      'property_type': propertyType,
+      'property_id': propertyId,
+      'salable_area': salableArea,
       'terrace': terrace,
       'security_deposit': securityDeposit,
+      'floor_number': floorNumber,
       'maintenance': maintenance,
       'parking': parking,
       'address': address,
       'halls': halls,
-      'floor_number': floorNumber,
     };
   }
 
@@ -118,9 +118,9 @@ class PropertyAbout {
       salableArea = propertyAboutMap["salable_area"];
       balcony = propertyAboutMap["balcony"];
       terrace = propertyAboutMap["terrace"];
-      securityDeposit = propertyAboutMap['security_deposit'];
-      maintenance = propertyAboutMap['maintenance'];
-      parking = propertyAboutMap['parking'];
+      securityDeposit = (propertyAboutMap['security_deposit'] != null) ? propertyAboutMap['security_deposit']: 0;
+      maintenance = (propertyAboutMap['maintenance'] != null ) ? propertyAboutMap['maintenance']: 0;
+      parking = (propertyAboutMap['parking'] != null ) ? propertyAboutMap['maintenance'] : 0;
       address = propertyAboutMap['address'];
       halls = propertyAboutMap['halls'];
       floorNumber = propertyAboutMap['floor_number'];

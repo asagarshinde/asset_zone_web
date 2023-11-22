@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/add_property/validators.dart';
-import 'package:the_asset_zone_web/screens/upload_property/upload_property_screen.dart';
 import 'package:uuid/uuid.dart';
 
 class UploadFormController extends GetxController {

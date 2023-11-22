@@ -185,7 +185,7 @@ class dummyTextWidget extends StatelessWidget {
 }
 
 class PropertyTypeDropDown extends StatefulWidget {
-  const PropertyTypeDropDown({Key? key}) : super(key: key);
+  const PropertyTypeDropDown({super.key});
 
   @override
   State<PropertyTypeDropDown> createState() => _PropertyTypeDropDownState();

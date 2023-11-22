@@ -3,8 +3,7 @@ import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PropertyPhotoCarousel extends StatefulWidget {
-  const PropertyPhotoCarousel({Key? key, double? height, this.imageList})
-      : super(key: key);
+  const PropertyPhotoCarousel({super.key, double? height, this.imageList});
   final List<String>? imageList;
 
   @override
@@ -35,14 +34,14 @@ class _PropertyPhotoCarouselState extends State<PropertyPhotoCarousel> {
                 items: imageList.map<Widget>(
                   (url) {
                     return Container(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Container(
+                      margin: const EdgeInsets.all(8),
+                      child: SizedBox(
                         height: 316,
                         child: CachedNetworkImage(
                           imageUrl: url,
                           fit: BoxFit.fill,
-                          placeholder: (context, url) => CircularProgressIndicator(), // Optional: Show a loading indicator
-                          errorWidget: (context, url, error) => Icon(Icons.error), // Optional: Show an error icon
+                          placeholder: (context, url) => const CircularProgressIndicator(), // Optional: Show a loading indicator
+                          errorWidget: (context, url, error) => const Icon(Icons.error), // Optional: Show an error icon
                         ),
                       ),
                     );

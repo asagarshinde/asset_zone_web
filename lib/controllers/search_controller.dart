@@ -5,7 +5,8 @@ import '../constants/constants.dart';
 class MySearchController extends GetxController {
   static MySearchController instance = Get.find();
   Key dropDownKey = const ValueKey("propertySearchPanel");
-
+  GlobalKey forRentScroll =  GlobalKey();
+  GlobalKey forBuyScroll = GlobalKey();
   String searchString = "Search Location".obs();
   var selectedPropertyType = "Property Type".obs;
   var selectedPropertySubType = "Property Sub Type".obs;

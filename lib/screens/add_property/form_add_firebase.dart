@@ -27,19 +27,27 @@ import 'add_property_widgets.dart';
     6. property subtype add row house in drop down menu.
 */
 class FormAddFirebase extends StatefulWidget {
-  const FormAddFirebase({Key? key}) : super(key: key);
+  const FormAddFirebase({super.key});
 
   @override
   State<FormAddFirebase> createState() => _FormAddFirebaseState();
 }
 
 class _FormAddFirebaseState extends State<FormAddFirebase> {
-  // final _selectNumbers = ['0', '1', '2', '3', '4', '5'];
+  Map<String, Widget> fields = {};
 
   @override
   Widget build(BuildContext context) {
     var formController = Get.put(UploadFormController());
     var formFields = formController.getFormFields();
+    for (String key in formFields.keys) {
+      fields[key] = SimpleTextField(
+          controller: formFields[key]["controller"],
+          hintTextValue: formFields[key]["hintText"],
+          label: formFields[key]["label"],
+          icon: formFields[key]["icon"],
+          validator: formFields[key]["validator"]);
+    }
     var widgets = [
       for (String key in formFields.keys)
         CustomTextField(
@@ -50,205 +58,246 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
             validator: formFields[key]["validator"]),
     ];
 
-    if (navBarController.showPropertyAdd.value)
-    return Obx(
-      () => Scaffold(
-        appBar: Responsive.isDesktop(context)
-            ? PreferredSize(
-                preferredSize: Size(MediaQuery.of(context).size.width, 70),
-                child: SimpleMenuBar(),
-              )
-            : AppBar(
-                backgroundColor: kPrimaryColor,
-              ),
-        drawer: const MySimpleDrawer(),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: 3000,
-            child: Center(
-              child: Form(
-                key: formController.uploadFormKey, //formController.key,
-                child: Column(
-                  children: [
-                    const Center(
-                      child: Text(
-                        "Admin Form",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    ...widgets,
-                    const CarpetAreaTextInput(),
-                    CustomDropDown(
-                        label: 'Property For',
-                        icon: const Icon(Icons.location_city),
-                        options: formController.propertyForList,
-                        selectedValue: formController.selectedPropertyFor),
-                    CustomDropDown(
-                        label: 'Bathrooms',
-                        icon: const Icon(Icons.bathtub_outlined),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.bathrooms),
-                    CustomDropDown(
-                        label: 'Terrace',
-                        icon: const Icon(Icons.balcony),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.terrace),
-                    CustomDropDown(
-                        label: 'Balcony',
-                        icon: const Icon(Icons.balcony),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.balcony),
-                    CustomDropDown(
-                        label: 'Bedrooms',
-                        icon: const Icon(Icons.bedroom_parent),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.bedrooms),
-                    CustomDropDown(
-                        label: 'Garage',
-                        icon: const Icon(Icons.garage),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.parking),
-                    CustomDropDown(
-                        label: 'Halls',
-                        icon: const Icon(Icons.room_preferences_outlined),
-                        options: formController.selectNumbers,
-                        selectedValue: formController.halls),
-                    CustomDropDown(
-                        label: 'City',
-                        icon: const Icon(Icons.location_city),
-                        options: formController.citiesList,
-                        selectedValue: formController.selectedCity),
-                    CustomDropDown(
-                        label: 'Property Status',
-                        icon: const Icon(Icons.location_city),
-                        options: formController.propertiesStatusList,
-                        selectedValue: formController.selectedPropertyStatus),
-                    CustomDropDown(
-                        label: 'Property Types',
-                        icon: const Icon(Icons.location_city),
-                        options: formController.propertiesTypeList,
-                        selectedValue: formController.selectedPropertyType),
-                    CustomDropDown(
-                        label: 'Property Sub Type',
-                        icon: const Icon(Icons.location_city),
-                        options: formController.propertiesSubTypeList,
-                        selectedValue: formController.selectedPropertySubType),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => kPrimaryColor)),
-                      // onPressed: pickImages,
-                      onPressed: () async {
-                        final image = await ImagePickerWeb.getImageAsBytes();
-                        formController.addImagesToList(image!);
-                      },
-                      child: const Text("Pick images"),
-                    ),
-                    formController.imageAvailable.value
-                        ? Expanded(
-                            flex: 1,
-                            child: GridView.count(
-                              crossAxisCount: 3,
-                              children: List.generate(
-                                formController.imageFiles.length,
-                                (index) {
-                                  // Asset asset = imageFiles[index] as Asset;
-                                  return SizedBox(
-                                    width: 300,
-                                    height: 100,
-                                    child: Image.memory(
-                                        formController.imageFiles[index],
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.scaleDown),
-                                  );
+    // if user is logged in then navBarController.showPropertyAdd.value=true
+    // if user is not logged in then show home page.
+    navBarController.showPropertyAdd.value = true;
+    if (navBarController.showPropertyAdd.value) {
+      if (Responsive.isDesktop(context)) {
+        return Obx(
+          () => Scaffold(
+            appBar: Responsive.isDesktop(context)
+                ? PreferredSize(
+                    preferredSize: Size(MediaQuery.of(context).size.width, 70),
+                    child: const SimpleMenuBar(),
+                  )
+                : AppBar(
+                    backgroundColor: kPrimaryColor,
+                  ),
+            drawer: const MySimpleDrawer(),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
+                child: SizedBox(
+                  height: 3000,
+                  child: Center(
+                    child: Form(
+                      key: formController.uploadFormKey,
+                      //formController.key,
+                      child: Column(
+                        children: [
+                          const Center(
+                            child: Text(
+                              "Admin Form",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          // ...widgets,
+                          Row(children: [
+                            // Whenever input decorator in text form field is used
+                            // in row we should define width or use expanded.
+                            Expanded(flex: 1, child: fields["name"]!),
+                            Expanded(flex: 1, child: fields["email"]!),
+                            Expanded(flex: 1, child: fields["phone"]!)
+                          ]),
+                          Row(
+                            children: [
+                              Expanded(child: fields["message"]!),
+                              Expanded(child: fields["Building Name"]!),
+                              Expanded(child: fields["Address"]!),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: fields["Floor number"]!),
+                              Expanded(child: fields["Security Deposit"]!),
+                              Expanded(child: fields["Maintenance"]!),
+                              Expanded(child: fields["price"]!),
+                            ],
+                          ),
+                          const CarpetAreaTextInput(),
+                          CustomDropDown(
+                              label: 'Property For',
+                              icon: const Icon(Icons.location_city),
+                              options: formController.propertyForList,
+                              selectedValue:
+                                  formController.selectedPropertyFor),
+                          CustomDropDown(
+                              label: 'Bathrooms',
+                              icon: const Icon(Icons.bathtub_outlined),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.bathrooms),
+                          CustomDropDown(
+                              label: 'Terrace',
+                              icon: const Icon(Icons.balcony),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.terrace),
+                          CustomDropDown(
+                              label: 'Balcony',
+                              icon: const Icon(Icons.balcony),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.balcony),
+                          CustomDropDown(
+                              label: 'Bedrooms',
+                              icon: const Icon(Icons.bedroom_parent),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.bedrooms),
+                          CustomDropDown(
+                              label: 'Garage',
+                              icon: const Icon(Icons.garage),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.parking),
+                          CustomDropDown(
+                              label: 'Halls',
+                              icon: const Icon(Icons.room_preferences_outlined),
+                              options: formController.selectNumbers,
+                              selectedValue: formController.halls),
+                          CustomDropDown(
+                              label: 'City',
+                              icon: const Icon(Icons.location_city),
+                              options: formController.citiesList,
+                              selectedValue: formController.selectedCity),
+                          CustomDropDown(
+                              label: 'Property Status',
+                              icon: const Icon(Icons.location_city),
+                              options: formController.propertiesStatusList,
+                              selectedValue:
+                                  formController.selectedPropertyStatus),
+                          CustomDropDown(
+                              label: 'Property Types',
+                              icon: const Icon(Icons.location_city),
+                              options: formController.propertiesTypeList,
+                              selectedValue:
+                                  formController.selectedPropertyType),
+                          CustomDropDown(
+                              label: 'Property Sub Type',
+                              icon: const Icon(Icons.location_city),
+                              options: formController.propertiesSubTypeList,
+                              selectedValue:
+                                  formController.selectedPropertySubType),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) => kPrimaryColor)),
+                            // onPressed: pickImages,
+                            onPressed: () async {
+                              final image =
+                                  await ImagePickerWeb.getImageAsBytes();
+                              formController.addImagesToList(image!);
+                            },
+                            child: const Text("Pick images"),
+                          ),
+                          formController.imageAvailable.value
+                              ? Expanded(
+                                  flex: 1,
+                                  child: GridView.count(
+                                    crossAxisCount: 3,
+                                    children: List.generate(
+                                      formController.imageFiles.length,
+                                      (index) {
+                                        // Asset asset = imageFiles[index] as Asset;
+                                        return SizedBox(
+                                          width: 300,
+                                          height: 100,
+                                          child: Image.memory(
+                                              formController.imageFiles[index],
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.scaleDown),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(350, 30, 300, 0),
+                            child: const Text("Featured"),
+                          ),
+                          Switch(
+                            value: formController.isFeatured.value,
+                            activeColor: Colors.blue,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  formController.isFeatured.value = value;
+                                },
+                              );
+                            },
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
+                            child: Center(
+                              child: TextField(
+                                controller: formController.dateController,
+                                //editing controller of this TextField
+                                decoration: const InputDecoration(
+                                    icon: Icon(Icons.calendar_today),
+                                    //icon of text field
+                                    labelText:
+                                        "Enter Date" //label text of field
+                                    ),
+                                readOnly: true,
+                                //set it true, so that user will not able to edit text
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1950),
+                                      //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2100));
+
+                                  if (pickedDate != null) {
+                                    print(
+                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate =
+                                        DateFormat('yyyy-MM-dd')
+                                            .format(pickedDate);
+                                    print(
+                                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                                    setState(
+                                      () {
+                                        formController.dateController.text =
+                                            formattedDate; //set output date to TextField value.
+                                      },
+                                    );
+                                  } else {}
                                 },
                               ),
                             ),
-                          )
-                        : const SizedBox(),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(350, 30, 300, 0),
-                      child: const Text("Featured"),
-                    ),
-                    Switch(
-                      value: formController.isFeatured.value,
-                      activeColor: Colors.blue,
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            formController.isFeatured.value = value;
-                          },
-                        );
-                      },
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
-                      child: Center(
-                        child: TextField(
-                          controller: formController.dateController,
-                          //editing controller of this TextField
-                          decoration: const InputDecoration(
-                              icon: Icon(Icons.calendar_today),
-                              //icon of text field
-                              labelText: "Enter Date" //label text of field
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(400, 30, 400, 0),
+                            constraints:
+                                const BoxConstraints(minWidth: double.infinity),
+                            child: ElevatedButton(
+                              onPressed: formController.submitForm,
+                              style: ElevatedButton.styleFrom(
+                                primary: kPrimaryColor,
                               ),
-                          readOnly: true,
-                          //set it true, so that user will not able to edit text
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2100));
-
-                            if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              setState(
-                                () {
-                                  formController.dateController.text =
-                                      formattedDate; //set output date to TextField value.
-                                },
-                              );
-                            } else {}
-                          },
-                        ),
+                              child: const Text("Submit Request"),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          if (formController.isLoading.value)
+                            CircularProgressIndicator()
+                        ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(400, 30, 400, 0),
-                      constraints:
-                          const BoxConstraints(minWidth: double.infinity),
-                      child: ElevatedButton(
-                        onPressed: formController.submitForm,
-                        style: ElevatedButton.styleFrom(
-                          primary: kPrimaryColor,
-                        ),
-                        child: const Text("Submit Request"),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    if (formController.isLoading.value)
-                      CircularProgressIndicator()
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        );
+      } else {
+        const Text("Not implemented yet !");
+      }
+    }
     return HomeScreen(title: "The Asset Zone");
   }
 }
@@ -281,7 +330,7 @@ class _CarpetAreaTextInputState extends State<CarpetAreaTextInput> {
         ),
     ];
     return Container(
-      padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
+      // padding: const EdgeInsets.fromLTRB(300, 30, 300, 0),
       child: Row(children: widgets),
     );
   }

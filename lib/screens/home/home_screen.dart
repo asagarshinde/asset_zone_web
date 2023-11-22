@@ -15,6 +15,7 @@ import 'package:the_asset_zone_web/screens/home/components/property_search_table
 import '../../models/property_detail_model.dart';
 import '../../responsive.dart';
 import '../../widgets/helper_widgets.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required String title});
@@ -34,10 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<bool?> isAuthenticate() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
+
   return prefs.getBool("auth");
 }
   @override
   Widget build(BuildContext context) {
+
     // TODO: remove after work done
     print("is user authenticated ${authController.isAuthenticated}");
     isAuthenticate().then((value) => print("from shared preferences $value"));
@@ -79,9 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const HomePageText(),
                                 HomePageSecondSection(
                                     width: width, constraints: constraints),
-                                PropertiesForCardsView(
+                                PropertiesForCardsView(key: searchPanelController.forRentScroll,
                                     width: width, propertiesFor: "For Rent"),
-                                PropertiesForCardsView(
+                                PropertiesForCardsView(key: searchPanelController.forBuyScroll,
                                     width: width, propertiesFor: "For Sale"),
                                 featuredProject(context: context, width: width),
                                 const SizedBox(height: 50),
@@ -130,11 +133,11 @@ class HomePageSecondSection extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
-                child: MyButton(title: "For Rent"),
+                child: MyButton(title: "For Rent", onTap: () { Scrollable.ensureVisible(searchPanelController.forRentScroll.currentContext!);},),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
-                child: MyButton(title: "For Buy"),
+                child: MyButton(title: "For Buy", onTap: () { Scrollable.ensureVisible(searchPanelController.forBuyScroll.currentContext!);}),
               ),
             ],
           ),

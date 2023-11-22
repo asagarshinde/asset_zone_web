@@ -10,3 +10,4 @@ MySearchController searchController = MySearchController.instance;
 SinglePagePropertyController singlePagePropertyController =
     SinglePagePropertyController();
 AuthController authController = AuthController.instance;
+MySearchController searchPanelController =  MySearchController.instance;

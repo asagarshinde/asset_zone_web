@@ -4,48 +4,52 @@ import 'package:the_asset_zone_web/screens/home/components/property_search_mobil
 
 class AdvanceSearchVerticalPanel extends StatelessWidget {
   const AdvanceSearchVerticalPanel({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 30, top: 20),
-              child: Text(
-                "Advance search",
-                style: GoogleFonts.montserrat(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(28, 45, 58, 1)),
-                textAlign: TextAlign.left,
+    return Padding(
+
+      padding: const EdgeInsets.fromLTRB(0, 70, 10, 0),
+      child: Card(
+        elevation: 10,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Container(
+                padding: const EdgeInsets.only(left: 30, top: 20),
+                child: Text(
+                  "Advance search",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(28, 45, 58, 1)),
+                  textAlign: TextAlign.left,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "Filter",
-                style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: const Color.fromRGBO(88, 97, 103, 1)),
-                textAlign: TextAlign.left,
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Container(
+                padding: const EdgeInsets.only(left: 30),
+                child: Text(
+                  "Filter",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromRGBO(88, 97, 103, 1)),
+                  textAlign: TextAlign.left,
+                ),
               ),
             ),
-          ),
-          PropertySearchMobileView(),
-        ],
+            PropertySearchMobileView(),
+          ],
+        ),
       ),
     );
   }

@@ -10,8 +10,7 @@ class MyButton extends StatefulWidget {
   final width;
   var onTap;
 
-  MyButton({Key? key, required this.title, this.height, this.width, this.onTap})
-      : super(key: key);
+  MyButton({super.key, required this.title, this.height, this.width, this.onTap});
 
   @override
   State<MyButton> createState() => _MyButtonState();

@@ -10,7 +10,7 @@ import 'package:the_asset_zone_web/screens/property/components/property_photo_ca
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class PropertyCardGridViewStateless extends StatelessWidget {
-  const PropertyCardGridViewStateless({Key? key}) : super(key: key);
+  const PropertyCardGridViewStateless({super.key});
 
   List<Widget> getIconDescriptionRow(index) {
     List<IconData> icons = [
