@@ -6,6 +6,7 @@ import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
 import 'package:the_asset_zone_web/screens/add_property/test_screen.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
+import 'package:the_asset_zone_web/screens/individual_property/individualProperty.dart';
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
@@ -88,6 +89,14 @@ GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         print(state.extra);
         return SinglePagePropertyView(state.extra);
+      },
+    ),
+    GoRoute(
+      path: '/individualproperty/:propertyId',
+      builder: (BuildContext context, GoRouterState state) {
+        print("i was here na bhai******** ${state.pathParameters}");
+        print(state.extra);
+        return IndividualProperty(state.pathParameters);
       },
     ),
     GoRoute(
