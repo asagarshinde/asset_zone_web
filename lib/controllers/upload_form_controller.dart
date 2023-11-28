@@ -14,38 +14,82 @@ class UploadFormController extends GetxController {
   static UploadFormController get i => Get.find();
   final uploadFormKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs;
+  RxBool isRent = false.obs;
+  RxBool inGatedCommunity = true.obs;
+  RxBool imageAvailable = false.obs;
   RxString bathrooms = "1".obs;
   RxString terrace = "0".obs;
   RxString balcony = "0".obs;
   RxString bedrooms = "0".obs;
-  RxString parking = "0".obs;
-  RxString halls = "0".obs;
+  RxString parking = "-".obs;
+  List<String> parkingList = ["-", "Open", "Cover", "Allotted", "Common"];
+  RxString ownership = "-".obs;
+  List<String> ownershipList = ["-", "Freehold", "Leasehold", "CHS"];
   RxBool isFeatured = false.obs;
   RxString selectedCity = "Nashik".obs;
-  RxString selectedPropertyStatus = "Ready to Move".obs;
-  RxString selectedPropertyType = "Residential".obs;
-  RxString selectedPropertySubType = "Apartment".obs;
-  RxString selectedPropertyFor = "For Sale".obs;
-  RxString locality = "".obs;
-  List<String> propertiesStatusList = ["Ready to Move", "Under Construction"];
-  List<String> selectNumbers = ['0', '1', '2', '3', '4', '5'];
   List<String> citiesList = ["Nashik", "Pune", "Igatapuri"];
-  List<String> propertiesTypeList = ["Residential", "Commercial"];
-  List<String> propertyForList = ["For Rent", "For Sale"];
+  RxString selectedConstructionStatus = "Ready to Move".obs;
+  List<String> constructionStatusList = ["Ready to Move", "Under Construction"];
+  RxString selectedPropertyType = "Residential".obs;
+  List<String> propetyTypesList = [
+    "Residential",
+    "Commercial",
+    "Land",
+    "Farm House",
+    "Industrial"
+  ];
+  RxString selectedPropertySubType = "Apartment".obs;
   List<String> propertiesSubTypeList = [
     "Apartment",
+    "Bungalow / Villa",
+    "Twin Villa",
     "Row House",
-    "Building",
+    "Duplex",
     "Pent House",
-    "Bungalow",
-    "Shop"
+    "Shop",
+    "Office",
+    "Showroom",
+    "Hotel",
+    "Agriculture",
+    "N.A. Land",
+    "Resort N.A.",
+    "Studio Apt.",
+    "Villa",
+    "Factory",
+    "Shed",
+    "Open Plot"
   ];
-  RxBool imageAvailable = false.obs;
+  RxString selectedPreferredTenants = "-".obs;
+  List<String> preferredTenantsList = [
+    "-",
+    "Family",
+    "Company",
+    "Office",
+    "Bachelor Men",
+    "Bachelor Women"
+  ];
+  RxString selectedFurniture = "-".obs;
+  List<String> furnitureList = [
+    "-",
+    "Unfurnished",
+    "Furnished",
+    "Semi-Furnished"
+  ];
+
+  List<String> selectNumbers = ['0', '1', '2', '3', '4', '5'];
+
   late RxList<Uint8List> imageFiles = <Uint8List>[].obs;
-  var firestoreStorageInstance = FirebaseStorage.instance;
+  FirebaseStorage firestoreStorageInstance = FirebaseStorage.instance;
   late final imagesUrlList = [].obs;
 
   // Controllers
+  // PropertyAbout
+  TextEditingController flatNumberController = TextEditingController();
+  TextEditingController totalFloorsController = TextEditingController();
+
+  // PropertyAddress
+
+
   TextEditingController nameController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -65,37 +109,28 @@ class UploadFormController extends GetxController {
   TextEditingController salableAreaController = TextEditingController();
   TextEditingController propertyForController = TextEditingController();
   TextEditingController buildingNameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController floorNumberController = TextEditingController();
+
   TextEditingController securityDepositController = TextEditingController();
   TextEditingController maintenanceController = TextEditingController();
+  TextEditingController locationOrAreaController = TextEditingController();
+  TextEditingController landmarkController = TextEditingController();
+  TextEditingController villageController = TextEditingController();
+  TextEditingController talukaController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+  TextEditingController builderNameController = TextEditingController();
+  TextEditingController floorController = TextEditingController();
+
+  TextEditingController wingController = TextEditingController();
+  TextEditingController surveyOrGutNumberController = TextEditingController();
+  TextEditingController plotNumberController = TextEditingController();
+  TextEditingController constructionYearController = TextEditingController();
 
   static UploadFormController instance = Get.find();
 
   Map getAreaFormFields() {
-    final Map areaFormFields = {
-      "carpet_area": {
-        "controller": carpetAreaController, //formController.nameController,
-        "hintText": "Enter carpet area in Sq. Ft.",
-        "label": "Carpet Area",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
-      "built_up_area": {
-        "controller": builtUpAreaController, //formController.nameController,
-        "hintText": "Enter built up area in Sq. Ft.",
-        "label": "Built Up Area",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
-      "salable_up_area": {
-        "controller": salableAreaController, //formController.nameController,
-        "hintText": "Enter salable area in Sq. Ft. ",
-        "label": "Salable Area",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
-    };
+    final Map areaFormFields = {};
     return areaFormFields;
   }
 
@@ -122,29 +157,23 @@ class UploadFormController extends GetxController {
         "validator": mobileNumberValidator,
         "icon": const Icon(Icons.phone)
       },
-      "message": {
+      "description": {
         "controller": messageController,
-        "hintText": "Message",
-        "label": "Message",
+        "hintText": "Enter Property Description",
+        "label": "Description",
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.message)
       },
-      "Building Name": {
+      "building_name": {
         "controller": buildingNameController,
         "hintText": "Enter Building Name",
         "label": "Building Name",
         "icon": const Icon(Icons.home)
       },
-      "Address": {
-        "controller": addressController,
-        "hintText": "Enter address of property",
-        "label": "Address",
-        "icon": const Icon(Icons.location_on)
-      },
-      "Floor number": {
-        "controller": floorNumberController,
-        "hintText": "Enter floor number",
-        "label": "Floor number",
+      "flat_number": {
+        "controller": flatNumberController,
+        "hintText": "Enter flat number",
+        "label": "Flat number",
         "icon": const Icon(Icons.elevator)
       },
       "Security Deposit": {
@@ -164,7 +193,128 @@ class UploadFormController extends GetxController {
         "hintText": "Price",
         "label": "Price",
         "icon": const Icon(Icons.currency_rupee)
-      }
+      },
+      "salable_up_area": {
+        "controller": salableAreaController, //formController.nameController,
+        "hintText": "Enter salable area in Sq. Ft. ",
+        "label": "Salable Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "built_up_area": {
+        "controller": builtUpAreaController, //formController.nameController,
+        "hintText": "Enter built up area in Sq. Ft.",
+        "label": "Built Up Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "carpet_area": {
+        "controller": carpetAreaController, //formController.nameController,
+        "hintText": "Enter carpet area in Sq. Ft.",
+        "label": "Carpet Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "location/area": {
+        "controller": locationOrAreaController, //formController.nameController,
+        "hintText": "Enter location/area ",
+        "label": "Location/Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "landmark": {
+        "controller": landmarkController, //formController.nameController,
+        "hintText": "Enter landmark ",
+        "label": "Landmark",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "village": {
+        "controller": villageController, //formController.nameController,
+        "hintText": "Enter village name ",
+        "label": "Village",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "taluka": {
+        "controller": talukaController, //formController.nameController,
+        "hintText": "Enter taluka name ",
+        "label": "Taluka",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "district": {
+        "controller": districtController, //formController.nameController,
+        "hintText": "Enter district name ",
+        "label": "District",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "state": {
+        "controller": stateController, //formController.nameController,
+        "hintText": "Enter state name ",
+        "label": "State",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "pincode": {
+        "controller": pincodeController, //formController.nameController,
+        "hintText": "Enter pincode ",
+        "label": "Pincode",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "builder_name": {
+        "controller": builderNameController, //formController.nameController,
+        "hintText": "Enter builder name ",
+        "label": "Builder Name",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "wing": {
+        "controller": wingController, //formController.nameController,
+        "hintText": "Enter wing",
+        "label": "Wing",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "floor": {
+        "controller": floorController, //formController.nameController,
+        "hintText": "Enter floor ",
+        "label": "Floor",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "total_floors": {
+        "controller": totalFloorsController, //formController.nameController,
+        "hintText": "Enter total number of floors",
+        "label": "Total Floors",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "survey_gut_no": {
+        "controller": surveyOrGutNumberController,
+        //formController.nameController,
+        "hintText": "Enter survey or gut number ",
+        "label": "Survey/Gut",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "plot_no": {
+        "controller": plotNumberController, //formController.nameController,
+        "hintText": "Enter plot number ",
+        "label": "Plot No",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "construction_year": {
+        "controller": constructionYearController,
+        //formController.nameController,
+        "hintText": "Enter Construction year",
+        "label": "Construction Year",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.person)
+      },
     };
     return formFields;
   }
@@ -174,11 +324,6 @@ class UploadFormController extends GetxController {
     // Simulating obtaining the user name from some local storage
     dateController.text = "";
     super.onInit();
-  }
-
-  void onBathroomsChanged(String value) {
-    bathrooms.value = value;
-    update();
   }
 
   void resetForm() {
@@ -228,59 +373,59 @@ class UploadFormController extends GetxController {
         }
       }
 
-    // parse date to timestamp
+      // parse date to timestamp
 
       DateTime uploadDate = DateTime.parse(dateController.text);
       Timestamp uploadTimestamp = Timestamp.fromDate(uploadDate);
 
-      // TODO: use lat lon from location.
       Map<String, dynamic> data = {
         "property_about": {
-          "balcony": int.parse(balcony.value),
-          "bathrooms": int.parse(bathrooms.value),
-          "bedrooms": int.parse(bedrooms.value),
+          "balcony": balcony.value,
+          "bathrooms": bathrooms.value,
+          "bedrooms": bedrooms.value,
+          "propertyStatus": selectedConstructionStatus.value,
+          "propertyType": selectedPropertyType.value,
+          "propertyId": documentId,
+          "terrace": terrace.value,
+          "floorNumber": flatNumberController.text,
+          "parking": parking.value,
+          "propertySubType": selectedPropertySubType.value,
+          "totalFloors": totalFloorsController.text
+        },
+        "propertyAddress": {
           "city": selectedCity.value,
-          "price": double.parse(priceController.text),
-          "property_status": selectedPropertyStatus.value,
-          "property_type": selectedPropertyType.value,
-          "property_id": documentId,
-          "salable_area": double.parse(salableAreaController.text),
-          "terrace": int.parse(terrace.value),
-          "security_deposit": int.parse(securityDepositController.text),
-          "floor_number": int.parse(floorNumberController.text),
-          "maintenance": int.parse(maintenanceController.text),
-          "parking": int.parse(parking.value),
-          "address": addressController.text,
-          "halls": int.parse(halls.value),
-
-          "locality": locality.value,
-          "carpet_area": double.parse(carpetAreaController.text),
-          "built_up_area": double.parse(builtUpAreaController.text),
-          "property_sub_type": selectedPropertySubType.value,
-          "property_for": selectedPropertyFor.value,
-
-
-
+          "village": villageController.text,
+          "landmark": landmarkController.text,
+          "surveyOrGutNumber": surveyOrGutNumberController.text,
+          "plotNumber": plotNumberController.text,
+          "taluka": talukaController.text,
+          "locationOrArea": locationOrAreaController.text,
+          "buildingName": buildingNameController.text
         },
-        "location": {
-          "lat": 76.43698832653855,
-          "lon": 22.444
+        "propertyAreaDetails": {
+          "salableArea": salableAreaController.text,
+          "carpetArea": carpetAreaController.text,
+          "builtUpArea": builtUpAreaController.text,
         },
-        "contact_details": {
+        "location": {"lat": 76.43698832653855, "lon": 22.444},
+        "contactDetails": {
           "name": nameController.text,
           "email": emailController.text,
-          "phone": int.parse(phoneController.text),
+          "phone": phoneController.text,
           "message": messageController.text,
           "pan": panController.text,
         },
-        "upload_date": uploadTimestamp,
+        "uploadDate": uploadTimestamp,
         "gallery": imagesUrlList,
-        "floor_plan": floorPlanController.text,
+        "floorPlan": floorPlanController.text,
         "isFeatured": isFeatured.value,
         "message": messageController.text
       };
+
+      // TODO: use lat lon from location.
+
       print(data);
-      PropertyAbout.fromMap(data["property_about"]);
+      // PropertyAbout.fromMap(data["property_about"]);
       // print(data.toString());
       await docRef.set(data);
       isLoading.value = false;
@@ -289,7 +434,7 @@ class UploadFormController extends GetxController {
     }
   }
 
-  void _clearFormState(){
+  void _clearFormState() {
     nameController.clear();
     cityController.clear();
     emailController.clear();

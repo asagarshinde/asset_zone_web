@@ -12,6 +12,8 @@ const kDefaultSizedBoxHeight = 10.0;
 const kDefaultSizedBoxWidth = 10.0;
 const kElevation = 10.0;
 const kdropDownTitleStyle = 14.0;
+const kformMaxWidth = 900.0;
+const kformVerticalDivider = SizedBox(height: 70, child: VerticalDivider(thickness: 2, color: kPrimaryColor,width: 40),);
 
 DateFormat kDateformat = DateFormat('MMMM dd, yyyy');
 

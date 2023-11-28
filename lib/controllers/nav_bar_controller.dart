@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
 import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
-import 'package:the_asset_zone_web/screens/add_property/test_screen.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'package:the_asset_zone_web/screens/individual_property/individualProperty.dart';
