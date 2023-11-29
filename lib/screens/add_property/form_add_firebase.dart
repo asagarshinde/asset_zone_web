@@ -157,15 +157,27 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                               children: <Widget>[
                                 Row(
                                   children: [
-                                    Expanded(child: fields["landmark"]!),
+                                    Expanded(child: fields["flat_number"]!),
                                     kformVerticalDivider,
-                                    Expanded(child: fields["survey_gut_no"]!),
+                                    Expanded(child: fields["floor"]!),
                                     kformVerticalDivider,
                                     Expanded(child: fields["plot_no"]!),
                                   ],
                                 ),
                                 Row(
                                   children: [
+                                    Expanded(child: fields["survey_gut_no"]!),
+                                    kformVerticalDivider,
+                                    Expanded(child: fields["building_name"]!),
+                                    kformVerticalDivider,
+                                    Expanded(child: fields["landmark"]!),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(child: fields["location/area"]!),
+                                    kformVerticalDivider,
+                                    // Expanded(child: fields["description"]!),
                                     Expanded(child: fields["village"]!),
                                     kformVerticalDivider,
                                     Expanded(
@@ -175,22 +187,23 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           icon: const Icon(Icons.location_city),
                                           options: formController.citiesList,
                                           selectedValue:
-                                              formController.selectedCity),
-                                    ),
-                                    kformVerticalDivider,
+                                          formController.selectedCity),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
                                     Expanded(child: fields["taluka"]!),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    // Expanded(child: fields["description"]!),
-                                    Expanded(child: fields["location/area"]!),
                                     kformVerticalDivider,
-                                    Expanded(child: fields["building_name"]!),
+                                    Expanded(child: fields["district"]!),
+                                    kformVerticalDivider,
+                                    Expanded(child: fields["state"]!),
                                   ],
                                 ),
                                 Row(
                                   children: [
+                                    Expanded(flex:2, child: fields["pincode"]!),
+                                    kformVerticalDivider,
                                     Expanded(
                                       flex: 1,
                                       child: Center(
@@ -217,7 +230,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                         ]),
                                       ),
                                     ),
-                                    kformVerticalDivider,
                                     Expanded(
                                       flex: 1,
                                       child: Center(
@@ -249,7 +261,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                     ),
                                     kformVerticalDivider,
                                     Expanded(
-                                      flex: 4,
+                                      flex: 2,
                                       child: Center(
                                         child: TextField(
                                           controller:
@@ -313,7 +325,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                       Expanded(child: fields["Maintenance"]!),
                                       kformVerticalDivider,
                                       Expanded(child: fields["price"]!),
-                                      kformVerticalDivider,
                                     ],
                                   ),
                                   Row(
@@ -328,6 +339,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                             selectedValue: formController
                                                 .selectedPreferredTenants),
                                       ),
+                                      kformVerticalDivider,
                                       Expanded(
                                         child: CustomDropDown(
                                             label: 'Furnished',
@@ -403,6 +415,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           selectedValue:
                                               formController.bathrooms),
                                     ),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Terrace',
@@ -411,6 +424,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           selectedValue:
                                               formController.terrace),
                                     ),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Balcony',
@@ -419,6 +433,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           selectedValue:
                                               formController.balcony),
                                     ),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Bedrooms',
@@ -428,6 +443,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           selectedValue:
                                               formController.bedrooms),
                                     ),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Parking',
@@ -443,11 +459,8 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(child: fields["floor"]!),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
                                     Expanded(child: fields["total_floors"]!),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Property Types',
@@ -457,6 +470,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           selectedValue: formController
                                               .selectedPropertyType),
                                     ),
+                                    kformVerticalDivider,
                                     Expanded(
                                       child: CustomDropDown(
                                           label: 'Property Sub Type',

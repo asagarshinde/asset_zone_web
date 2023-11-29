@@ -63,7 +63,7 @@ class CustomDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(0),
         child: DropdownButtonFormField(
           decoration: InputDecoration(
             border: const OutlineInputBorder(),

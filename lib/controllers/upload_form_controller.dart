@@ -84,48 +84,49 @@ class UploadFormController extends GetxController {
 
   // Controllers
   // PropertyAbout
-  TextEditingController flatNumberController = TextEditingController();
   TextEditingController totalFloorsController = TextEditingController();
-
-  // PropertyAddress
-
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController panController = TextEditingController();
-  TextEditingController messageController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController propertyIdController = TextEditingController();
   TextEditingController propertySizeController = TextEditingController();
-  TextEditingController propertyStatusController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController floorPlanController = TextEditingController();
   TextEditingController galleryController = TextEditingController();
   TextEditingController videoController = TextEditingController();
-  TextEditingController carpetAreaController = TextEditingController();
-  TextEditingController builtUpAreaController = TextEditingController();
-  TextEditingController salableAreaController = TextEditingController();
-  TextEditingController propertyForController = TextEditingController();
-  TextEditingController buildingNameController = TextEditingController();
-
-  TextEditingController securityDepositController = TextEditingController();
-  TextEditingController maintenanceController = TextEditingController();
-  TextEditingController locationOrAreaController = TextEditingController();
-  TextEditingController landmarkController = TextEditingController();
-  TextEditingController villageController = TextEditingController();
-  TextEditingController talukaController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
-  TextEditingController stateController = TextEditingController();
-  TextEditingController pincodeController = TextEditingController();
+  TextEditingController propertyIdController = TextEditingController();
   TextEditingController builderNameController = TextEditingController();
-  TextEditingController floorController = TextEditingController();
 
-  TextEditingController wingController = TextEditingController();
+  // PropertyAddress
+  TextEditingController landmarkController = TextEditingController();
   TextEditingController surveyOrGutNumberController = TextEditingController();
   TextEditingController plotNumberController = TextEditingController();
+  TextEditingController villageController = TextEditingController();
+  TextEditingController talukaController = TextEditingController();
+  TextEditingController locationOrAreaController = TextEditingController();
+  TextEditingController buildingNameController = TextEditingController();
+  TextEditingController flatNumberController = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController floorController = TextEditingController();
+
+  // Rent
+  TextEditingController securityDepositController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController maintenanceController = TextEditingController();
+
+  // PropertyAreaDetails
+  TextEditingController salableAreaController = TextEditingController();
+  TextEditingController carpetAreaController = TextEditingController();
+  TextEditingController builtUpAreaController = TextEditingController();
+
+  // ContactDetails
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+
+  // PropertyDetails
+  TextEditingController dateController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  // Sale
   TextEditingController constructionYearController = TextEditingController();
+
 
   static UploadFormController instance = Get.find();
 
@@ -151,14 +152,14 @@ class UploadFormController extends GetxController {
         "icon": const Icon(Icons.email)
       },
       "phone": {
-        "controller": phoneController,
+        "controller": mobileController,
         "hintText": "Enter your mobile number",
         "label": "Mobile No",
         "validator": mobileNumberValidator,
         "icon": const Icon(Icons.phone)
       },
       "description": {
-        "controller": messageController,
+        "controller": descriptionController,
         "hintText": "Enter Property Description",
         "label": "Description",
         "validator": defaultTextValidators,
@@ -271,13 +272,6 @@ class UploadFormController extends GetxController {
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
-      "wing": {
-        "controller": wingController, //formController.nameController,
-        "hintText": "Enter wing",
-        "label": "Wing",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
       "floor": {
         "controller": floorController, //formController.nameController,
         "hintText": "Enter floor ",
@@ -383,24 +377,32 @@ class UploadFormController extends GetxController {
           "balcony": balcony.value,
           "bathrooms": bathrooms.value,
           "bedrooms": bedrooms.value,
-          "propertyStatus": selectedConstructionStatus.value,
+          "constructionStatus": selectedConstructionStatus.value,
           "propertyType": selectedPropertyType.value,
           "propertyId": documentId,
           "terrace": terrace.value,
-          "floorNumber": flatNumberController.text,
           "parking": parking.value,
           "propertySubType": selectedPropertySubType.value,
-          "totalFloors": totalFloorsController.text
+          "totalFloors": totalFloorsController.text,
+          "isFeatured": isFeatured.value,
+          "inGatedCommunity": inGatedCommunity.value,
+          "gallery": imagesUrlList,
+          "description": descriptionController.text
         },
         "propertyAddress": {
-          "city": selectedCity.value,
-          "village": villageController.text,
-          "landmark": landmarkController.text,
-          "surveyOrGutNumber": surveyOrGutNumberController.text,
+          "flatNumber": flatNumberController.text,
+          "floorNumber": floorController.text,
           "plotNumber": plotNumberController.text,
-          "taluka": talukaController.text,
+          "surveyOrGutNumber": surveyOrGutNumberController.text,
+          "buildingName": buildingNameController.text,
+          "landmark": landmarkController.text,
           "locationOrArea": locationOrAreaController.text,
-          "buildingName": buildingNameController.text
+          "village": villageController.text,
+          "city": selectedCity.value,
+          "taluka": talukaController.text,
+          "district": districtController.text,
+          "state": stateController.text,
+          "pincode": pincodeController.text,
         },
         "propertyAreaDetails": {
           "salableArea": salableAreaController.text,
@@ -411,15 +413,9 @@ class UploadFormController extends GetxController {
         "contactDetails": {
           "name": nameController.text,
           "email": emailController.text,
-          "phone": phoneController.text,
-          "message": messageController.text,
-          "pan": panController.text,
+          "mobile": mobileController.text,
         },
         "uploadDate": uploadTimestamp,
-        "gallery": imagesUrlList,
-        "floorPlan": floorPlanController.text,
-        "isFeatured": isFeatured.value,
-        "message": messageController.text
       };
 
       // TODO: use lat lon from location.
@@ -436,17 +432,13 @@ class UploadFormController extends GetxController {
 
   void _clearFormState() {
     nameController.clear();
-    cityController.clear();
     emailController.clear();
-    phoneController.clear();
-    panController.clear();
-    messageController.clear();
+    mobileController.clear();
+    descriptionController.clear();
     priceController.clear();
     propertyIdController.clear();
     propertySizeController.clear();
-    propertyStatusController.clear();
     dateController.clear();
-    floorPlanController.clear();
     galleryController.clear();
     videoController.clear();
     carpetAreaController.clear();
