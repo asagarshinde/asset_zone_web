@@ -23,7 +23,7 @@ class UploadFormController extends GetxController {
   RxString bedrooms = "0".obs;
   RxString parking = "-".obs;
   List<String> parkingList = ["-", "Open", "Cover", "Allotted", "Common"];
-  RxString ownership = "-".obs;
+  RxString selectedOwnership = "-".obs;
   List<String> ownershipList = ["-", "Freehold", "Leasehold", "CHS"];
   RxBool isFeatured = false.obs;
   RxString selectedCity = "Nashik".obs;
@@ -109,6 +109,8 @@ class UploadFormController extends GetxController {
   TextEditingController securityDepositController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController maintenanceController = TextEditingController();
+  TextEditingController rentController = TextEditingController();
+
 
   // PropertyAreaDetails
   TextEditingController salableAreaController = TextEditingController();
@@ -151,77 +153,47 @@ class UploadFormController extends GetxController {
         "validator": emailValidator,
         "icon": const Icon(Icons.email)
       },
-      "phone": {
+      "mobileNumber": {
         "controller": mobileController,
         "hintText": "Enter your mobile number",
         "label": "Mobile No",
         "validator": mobileNumberValidator,
         "icon": const Icon(Icons.phone)
       },
-      "description": {
-        "controller": descriptionController,
-        "hintText": "Enter Property Description",
-        "label": "Description",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.message)
-      },
-      "building_name": {
-        "controller": buildingNameController,
-        "hintText": "Enter Building Name",
-        "label": "Building Name",
-        "icon": const Icon(Icons.home)
-      },
-      "flat_number": {
+      // property address
+      "flatNumber": {
         "controller": flatNumberController,
         "hintText": "Enter flat number",
         "label": "Flat number",
-        "icon": const Icon(Icons.elevator)
+        "icon": const Icon(Icons.elevator),
+        "validator": defaultTextValidators
       },
-      "Security Deposit": {
-        "controller": securityDepositController,
-        "hintText": "Enter security deposit amount",
-        "label": "Security Deposit",
-        "icon": const Icon(Icons.currency_rupee)
-      },
-      "Maintenance": {
-        "controller": maintenanceController,
-        "hintText": "Enter maintenance amount",
-        "label": "Maintenance",
-        "icon": const Icon(Icons.currency_rupee)
-      },
-      "price": {
-        "controller": priceController,
-        "hintText": "Price",
-        "label": "Price",
-        "icon": const Icon(Icons.currency_rupee)
-      },
-      "salable_up_area": {
-        "controller": salableAreaController, //formController.nameController,
-        "hintText": "Enter salable area in Sq. Ft. ",
-        "label": "Salable Area",
+      "floor": {
+        "controller": floorController, //formController.nameController,
+        "hintText": "Enter floor ",
+        "label": "Floor",
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
-      "built_up_area": {
-        "controller": builtUpAreaController, //formController.nameController,
-        "hintText": "Enter built up area in Sq. Ft.",
-        "label": "Built Up Area",
-        "validator": defaultTextValidators,
+      "plotNo": {
+        "controller": plotNumberController, //formController.nameController,
+        "hintText": "Enter plot number ",
+        "label": "Plot No",
         "icon": const Icon(Icons.area_chart)
       },
-      "carpet_area": {
-        "controller": carpetAreaController, //formController.nameController,
-        "hintText": "Enter carpet area in Sq. Ft.",
-        "label": "Carpet Area",
-        "validator": defaultTextValidators,
+      "surveyOrGutNumber": {
+        "controller": surveyOrGutNumberController,
+        //formController.nameController,
+        "hintText": "Enter survey or gut number ",
+        "label": "Survey/Gut",
         "icon": const Icon(Icons.area_chart)
       },
-      "location/area": {
-        "controller": locationOrAreaController, //formController.nameController,
-        "hintText": "Enter location/area ",
-        "label": "Location/Area",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
+      "buildingName": {
+        "controller": buildingNameController,
+        "hintText": "Enter Building Name",
+        "label": "Building Name",
+        "icon": const Icon(Icons.home),
+        "validator": defaultTextValidators
       },
       "landmark": {
         "controller": landmarkController, //formController.nameController,
@@ -230,11 +202,17 @@ class UploadFormController extends GetxController {
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
+      "locationOrArea": {
+        "controller": locationOrAreaController, //formController.nameController,
+        "hintText": "Enter location/area ",
+        "label": "Location/Area",
+        "validator": defaultTextValidators,
+        "icon": const Icon(Icons.area_chart)
+      },
       "village": {
         "controller": villageController, //formController.nameController,
         "hintText": "Enter village name ",
         "label": "Village",
-        "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
       "taluka": {
@@ -262,23 +240,89 @@ class UploadFormController extends GetxController {
         "controller": pincodeController, //formController.nameController,
         "hintText": "Enter pincode ",
         "label": "Pincode",
-        "validator": defaultTextValidators,
+        // "validator": isValidPincode,
         "icon": const Icon(Icons.area_chart)
       },
-      "builder_name": {
+
+      // Rent
+
+      "securityDeposit": {
+        "controller": securityDepositController,
+        "hintText": "Enter security deposit amount in thousand",
+        "label": "Security Deposit",
+        "icon": const Icon(Icons.currency_rupee),
+        // "validator": isValidDouble
+      },
+      "maintenance": {
+        "controller": maintenanceController,
+        "hintText": "Enter maintenance amount in thousand",
+        "label": "Maintenance",
+        "icon": const Icon(Icons.currency_rupee),
+        // "validator": isValidDouble
+      },
+      "rent": {
+        "controller": rentController,
+        "hintText": "Enter monthly rent in thousand",
+        "label": "Rent",
+        "icon": const Icon(Icons.currency_rupee),
+        // "validator": isValidDouble
+      },
+      "availableFrom": {
+        "controller": rentController,
+        "hintText": "Select Date available from",
+        "label": "Rent",
+        "icon": const Icon(Icons.currency_rupee),
+        // "validator": isValidDouble
+      },
+
+      // property area details
+      "salableArea": {
+        "controller": salableAreaController, //formController.nameController,
+        "hintText": "Enter salable area in Sq. Ft. ",
+        "label": "Salable Area",
+        "icon": const Icon(Icons.area_chart),
+        // "validator": isValidDouble
+      },
+      "builtUpArea": {
+        "controller": builtUpAreaController, //formController.nameController,
+        "hintText": "Enter built up area in Sq. Ft.",
+        "label": "Built Up Area",
+        // "validator": isValidDouble,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "carpetArea": {
+        "controller": carpetAreaController, //formController.nameController,
+        "hintText": "Enter carpet area in Sq. Ft.",
+        "label": "Carpet Area",
+        // "validator": isValidDouble,
+        "icon": const Icon(Icons.area_chart)
+      },
+      "price": {
+        "controller": priceController,
+        "hintText": "Enter Price in thousands ...",
+        "label": "Price",
+        // "validator": isValidDouble,
+        "icon": const Icon(Icons.currency_rupee)
+      },
+
+
+      "description": {
+        "controller": descriptionController,
+        "hintText": "Enter Property Description",
+        "label": "Description",
+        "icon": const Icon(Icons.message)
+      },
+
+
+    // property details
+      "builderName": {
         "controller": builderNameController, //formController.nameController,
         "hintText": "Enter builder name ",
         "label": "Builder Name",
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
-      "floor": {
-        "controller": floorController, //formController.nameController,
-        "hintText": "Enter floor ",
-        "label": "Floor",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
+
       "total_floors": {
         "controller": totalFloorsController, //formController.nameController,
         "hintText": "Enter total number of floors",
@@ -286,21 +330,8 @@ class UploadFormController extends GetxController {
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
-      "survey_gut_no": {
-        "controller": surveyOrGutNumberController,
-        //formController.nameController,
-        "hintText": "Enter survey or gut number ",
-        "label": "Survey/Gut",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
-      "plot_no": {
-        "controller": plotNumberController, //formController.nameController,
-        "hintText": "Enter plot number ",
-        "label": "Plot No",
-        "validator": defaultTextValidators,
-        "icon": const Icon(Icons.area_chart)
-      },
+
+
       "construction_year": {
         "controller": constructionYearController,
         //formController.nameController,
@@ -418,15 +449,37 @@ class UploadFormController extends GetxController {
         "uploadDate": uploadTimestamp,
       };
 
-      // TODO: use lat lon from location.
 
+      if (isRent.value){
+        Map<String, dynamic> rentDetails = {
+          "securityDeposit": securityDepositController.text,
+          "maintenance": maintenanceController.text,
+          "rent": rentController.text,
+          "preferredTenant": selectedPreferredTenants.value,
+          "furnished": selectedFurniture.value,
+          "carpetArea": carpetAreaController.text
+        };
+        data["rentDetails"] = rentDetails;
+      } else {
+        Map<String, dynamic> saleDetails = {
+          "ownership": selectedOwnership.value,
+          "constructionStatus": selectedConstructionStatus.value,
+          "constructionYear": constructionYearController.text,
+          "salableArea": salableAreaController.text,
+          "builtUpArea": builtUpAreaController.text,
+          "carpetArea": carpetAreaController.text
+        };
+        data["saleDetails"] = saleDetails;
+      }
+
+      // TODO: use lat lon from location.
       print(data);
       // PropertyAbout.fromMap(data["property_about"]);
       // print(data.toString());
       await docRef.set(data);
       isLoading.value = false;
       uploadFormKey.currentState?.reset();
-      _clearFormState();
+      // _clearFormState();
     }
   }
 

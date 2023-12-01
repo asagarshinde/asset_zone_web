@@ -10,22 +10,6 @@ import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
 import 'add_property_widgets.dart';
 
-/*
-{property_about: {balcony: 0, bathrooms: 1, bedrooms: 0, terrace: 0, city: , garage: 0, hall: 0, locality: , price: 12345, carpet_area: 6377, built_up_area: 1326, salable_area: 6798, property_status: , property_type: Residential, property_sub_type: Apartment}, location: {lat: 76.43698832653855, lon: 22.444}, contact_details: {name: dsfd, email: dsfsdaf@gmailc.om, phone: 1111111111, message: sdjaf, pan: }, upload_date: 2023-10-10, gallery: [], floor_plan: , isFeatured: false}
- */
-/* TODO:
-    1. remove pan,
-    2. change property size to area
-    3. sub category in area
-        a. carped area
-        b. built up area
-        c. salable area
-    4. add terrace for input.
-    5. property status
-        a. ready to move
-        b. under construction
-    6. property subtype add row house in drop down menu.
-*/
 class FormAddFirebase extends StatefulWidget {
   const FormAddFirebase({super.key});
 
@@ -76,11 +60,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   Future.delayed(Duration.zero, () => _selectRent());
-  //   return Scaffold();
-  // }
   @override
   Widget build(BuildContext context) {
     var formController = Get.put(UploadFormController());
@@ -144,7 +123,8 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                 kformVerticalDivider,
                                 Expanded(flex: 1, child: fields["email"]!),
                                 kformVerticalDivider,
-                                Expanded(flex: 1, child: fields["phone"]!)
+                                Expanded(
+                                    flex: 1, child: fields["mobileNumber"]!)
                               ]),
                             ),
                           ),
@@ -157,25 +137,26 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                               children: <Widget>[
                                 Row(
                                   children: [
-                                    Expanded(child: fields["flat_number"]!),
+                                    Expanded(child: fields["flatNumber"]!),
                                     kformVerticalDivider,
                                     Expanded(child: fields["floor"]!),
                                     kformVerticalDivider,
-                                    Expanded(child: fields["plot_no"]!),
+                                    Expanded(child: fields["plotNo"]!),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(child: fields["survey_gut_no"]!),
+                                    Expanded(
+                                        child: fields["surveyOrGutNumber"]!),
                                     kformVerticalDivider,
-                                    Expanded(child: fields["building_name"]!),
+                                    Expanded(child: fields["buildingName"]!),
                                     kformVerticalDivider,
                                     Expanded(child: fields["landmark"]!),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(child: fields["location/area"]!),
+                                    Expanded(child: fields["locationOrArea"]!),
                                     kformVerticalDivider,
                                     // Expanded(child: fields["description"]!),
                                     Expanded(child: fields["village"]!),
@@ -187,7 +168,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                           icon: const Icon(Icons.location_city),
                                           options: formController.citiesList,
                                           selectedValue:
-                                          formController.selectedCity),
+                                              formController.selectedCity),
                                     )
                                   ],
                                 ),
@@ -202,108 +183,12 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(flex:2, child: fields["pincode"]!),
+                                    Expanded(child: SizedBox()),
                                     kformVerticalDivider,
                                     Expanded(
-                                      flex: 1,
-                                      child: Center(
-                                        child: Stack(children: [
-                                          const Text("Featured"),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 18),
-                                            child: Switch(
-                                              value: formController
-                                                  .isFeatured.value,
-                                              activeColor: kSecondaryColor,
-                                              hoverColor: kSecondaryColor,
-                                              onChanged: (value) {
-                                                setState(
-                                                  () {
-                                                    formController.isFeatured
-                                                        .value = value;
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ]),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Center(
-                                        child: Stack(
-                                          children: [
-                                            const Text("Gated Community"),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 18),
-                                              child: Switch(
-                                                value: formController
-                                                    .inGatedCommunity.value,
-                                                hoverColor: kSecondaryColor,
-                                                activeColor: kSecondaryColor,
-                                                onChanged: (value) {
-                                                  setState(
-                                                    () {
-                                                      formController
-                                                          .inGatedCommunity
-                                                          .value = value;
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                        flex: 1, child: fields["pincode"]!),
                                     kformVerticalDivider,
-                                    Expanded(
-                                      flex: 2,
-                                      child: Center(
-                                        child: TextField(
-                                          controller:
-                                              formController.dateController,
-                                          //editing controller of this TextField
-                                          decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              prefixIcon:
-                                                  Icon(Icons.calendar_today),
-                                              //icon of text field
-                                              labelText:
-                                                  "Enter Date" //label text of field
-                                              ),
-                                          readOnly: true,
-                                          //set it true, so that user will not able to edit text
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1950),
-                                                    //DateTime.now() - not to allow to choose before today.
-                                                    lastDate: DateTime(2100));
-
-                                            if (pickedDate != null) {
-                                              //pickedDate output format => 2021-03-10 00:00:00.000
-                                              String formattedDate =
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(pickedDate);
-                                              //formatted date output using intl package =>  2021-03-16
-                                              setState(
-                                                () {
-                                                  formController
-                                                          .dateController.text =
-                                                      formattedDate; //set output date to TextField value.
-                                                },
-                                              );
-                                            } else {}
-                                          },
-                                        ),
-                                      ),
-                                    ),
+                                    Expanded(child: SizedBox()),
                                   ],
                                 ),
                               ],
@@ -320,11 +205,11 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                   Row(
                                     children: [
                                       Expanded(
-                                          child: fields["Security Deposit"]!),
+                                          child: fields["securityDeposit"]!),
                                       kformVerticalDivider,
-                                      Expanded(child: fields["Maintenance"]!),
+                                      Expanded(child: fields["maintenance"]!),
                                       kformVerticalDivider,
-                                      Expanded(child: fields["price"]!),
+                                      Expanded(child: fields["rent"]!),
                                     ],
                                   ),
                                   Row(
@@ -349,7 +234,68 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                                 formController.furnitureList,
                                             selectedValue: formController
                                                 .selectedFurniture),
-                                      )
+                                      ),
+                                      kformVerticalDivider,
+                                      Expanded(child: fields["carpetArea"]!),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Expanded(child: SizedBox()),
+                                      kformVerticalDivider,
+                                      Expanded(
+                                        child: Center(
+                                          child: TextField(
+                                            controller:
+                                                formController.dateController,
+                                            //editing controller of this TextField
+                                            decoration: const InputDecoration(
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior
+                                                        .always,
+                                                border: OutlineInputBorder(),
+                                                prefixIcon:
+                                                    Icon(Icons.calendar_today),
+                                                hintStyle: TextStyle(
+                                                    color: kSecondaryColor),
+                                                labelStyle: TextStyle(
+                                                    color: kPrimaryColor),
+                                                labelText:
+                                                    "From when property available" //label text of field
+                                                ),
+                                            readOnly: true,
+                                            //set it true, so that user will not able to edit text
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime(1950),
+                                                      //DateTime.now() - not to allow to choose before today.
+                                                      lastDate: DateTime(2100));
+
+                                              if (pickedDate != null) {
+                                                //pickedDate output format => 2021-03-10 00:00:00.000
+                                                String formattedDate =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(pickedDate);
+                                                //formatted date output using intl package =>  2021-03-16
+                                                setState(
+                                                  () {
+                                                    formController
+                                                            .dateController
+                                                            .text =
+                                                        formattedDate; //set output date to TextField value.
+                                                  },
+                                                );
+                                              } else {}
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      kformVerticalDivider,
+                                      const Expanded(child: SizedBox())
                                     ],
                                   )
                                 ],
@@ -357,46 +303,49 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                             ),
                           if (!formController.isRent.value)
                             TitledContainer(
-                                titleText: "Sale Details",
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomDropDown(
-                                          label: 'Ownership',
-                                          icon: const Icon(Icons.man),
-                                          options: formController.ownershipList,
-                                          selectedValue:
-                                              formController.ownership),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: CustomDropDown(
-                                          label: 'Construction Status',
-                                          icon: const Icon(Icons.location_city),
-                                          options: formController
-                                              .constructionStatusList,
-                                          selectedValue: formController
-                                              .selectedConstructionStatus),
-                                    ),
-                                    Expanded(
-                                        child: fields["construction_year"]!)
-                                  ],
-                                )),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          TitledContainer(
-                            titleText: "Property Area details",
-                            child: Row(
-                              children: [
-                                Expanded(child: fields["salable_up_area"]!),
-                                kformVerticalDivider,
-                                Expanded(child: fields["built_up_area"]!),
-                                kformVerticalDivider,
-                                Expanded(child: fields["carpet_area"]!),
-                              ],
+                              titleText: "Sale Details",
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: CustomDropDown(
+                                            label: 'Ownership',
+                                            icon: const Icon(Icons.man),
+                                            options:
+                                                formController.ownershipList,
+                                            selectedValue: formController
+                                                .selectedOwnership),
+                                      ),
+                                      kformVerticalDivider,
+                                      Expanded(
+                                        flex: 1,
+                                        child: CustomDropDown(
+                                            label: 'Construction Status',
+                                            icon:
+                                                const Icon(Icons.location_city),
+                                            options: formController
+                                                .constructionStatusList,
+                                            selectedValue: formController
+                                                .selectedConstructionStatus),
+                                      ),
+                                      kformVerticalDivider,
+                                      Expanded(
+                                          child: fields["construction_year"]!)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(child: fields["salableArea"]!),
+                                      kformVerticalDivider,
+                                      Expanded(child: fields["builtUpArea"]!),
+                                      kformVerticalDivider,
+                                      Expanded(child: fields["carpetArea"]!),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
                           const SizedBox(
                             height: 50,
                           ),
@@ -479,16 +428,122 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                               .propertiesSubTypeList,
                                           selectedValue: formController
                                               .selectedPropertySubType),
-                                    )
+                                    ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
+                                const SizedBox(height: 8),
                                 Row(
-                                  children: [Expanded(child: fields["description"]!),],
+                                  children: [
+                                    Expanded(child: fields["builderName"]!),
+                                    kformVerticalDivider,
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: Stack(
+                                          children: [
+                                            const Text("Gated Community"),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 18),
+                                              child: Switch(
+                                                value: formController
+                                                    .inGatedCommunity.value,
+                                                hoverColor: kSecondaryColor,
+                                                activeColor: kSecondaryColor,
+                                                onChanged: (value) {
+                                                  setState(
+                                                    () {
+                                                      formController
+                                                          .inGatedCommunity
+                                                          .value = value;
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    kformVerticalDivider,
+                                    Expanded(
+                                      flex: 1,
+                                      child: Center(
+                                        child: Stack(children: [
+                                          const Text("Featured"),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 18),
+                                            child: Switch(
+                                              value: formController
+                                                  .isFeatured.value,
+                                              activeColor: kSecondaryColor,
+                                              hoverColor: kSecondaryColor,
+                                              onChanged: (value) {
+                                                setState(
+                                                  () {
+                                                    formController.isFeatured
+                                                        .value = value;
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                    // Expanded(
+                                    //   flex: 2,
+                                    //   child: Center(
+                                    //     child: TextField(
+                                    //       controller:
+                                    //       formController.dateController,
+                                    //       //editing controller of this TextField
+                                    //       decoration: const InputDecoration(
+                                    //           border: OutlineInputBorder(),
+                                    //           prefixIcon:
+                                    //           Icon(Icons.calendar_today),
+                                    //           //icon of text field
+                                    //           labelText:
+                                    //           "Enter Date" //label text of field
+                                    //       ),
+                                    //       readOnly: true,
+                                    //       //set it true, so that user will not able to edit text
+                                    //       onTap: () async {
+                                    //         DateTime? pickedDate =
+                                    //         await showDatePicker(
+                                    //             context: context,
+                                    //             initialDate: DateTime.now(),
+                                    //             firstDate: DateTime(1950),
+                                    //             //DateTime.now() - not to allow to choose before today.
+                                    //             lastDate: DateTime(2100));
+                                    //
+                                    //         if (pickedDate != null) {
+                                    //           //pickedDate output format => 2021-03-10 00:00:00.000
+                                    //           String formattedDate =
+                                    //           DateFormat('yyyy-MM-dd')
+                                    //               .format(pickedDate);
+                                    //           //formatted date output using intl package =>  2021-03-16
+                                    //           setState(
+                                    //                 () {
+                                    //               formController
+                                    //                   .dateController.text =
+                                    //                   formattedDate; //set output date to TextField value.
+                                    //             },
+                                    //           );
+                                    //         } else {}
+                                    //       },
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Expanded(child: fields["description"]!),
+                                  ],
                                 )
-
                               ],
                             ),
                           ),
