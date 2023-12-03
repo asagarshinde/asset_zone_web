@@ -62,7 +62,7 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
     );
   }
 }
-
+// 9819714503
 class PaddedTextHeading extends StatelessWidget {
   const PaddedTextHeading(
       {Key? key,

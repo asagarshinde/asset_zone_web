@@ -108,7 +108,7 @@ class PropertyController extends GetxController {
   }
 
   Future<List<Map>> retrievePropertyDetails(String status,
-      {int limit: 3}) async {
+      {int limit = 3}) async {
     if (status == "all") {
       QuerySnapshot<Map<String, dynamic>> snapshot =
       await firestoreDB.collection("PropertyDetails").limit(limit).get();
@@ -121,7 +121,7 @@ class PropertyController extends GetxController {
     } else {
       QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
           .collection("PropertyDetails")
-          .where("property_about.property_for", isEqualTo: status)
+          .where("isRent", isEqualTo: true)
           .limit(limit)
           .get();
       return snapshot.docs.map(
@@ -140,73 +140,86 @@ class PropertiesList {
   Future<List<Widget>?> propertyList(propertyFor, {limit = 3}) async {
     PropertyController dbservice = PropertyController();
     List<Widget> propertyList = [];
+    String carpetArea = "";
+    String propertyFor = "Rent";
     var properties =
     await dbservice.retrievePropertyDetails(propertyFor, limit: limit);
     for (var property in properties) {
       // Widget dummy = Text(property.toString());
+      // if (property["isRent"]){
+      //   carpetArea = property["rentDetails"]["carpetArea"];
+      //   propertyFor = "Rent";
+      // }
+      // else {
+      //   carpetArea = property["saleDetails"]["carpetArea"];
+      //   propertyFor = "Sale";
+      // }
+      propertyFor = "rent";
       List<String> values = [
         property["property_about"]["bedrooms"].toString(),
         property["property_about"]["bathrooms"].toString(),
-        property["property_about"]["carpet_area"].toString(),
+        carpetArea
       ];
+      print(property);
       Widget tile = PropertyTile(
-          propertyStatus: property["property_about"]["property_status"],
-          propertyType: property["property_about"]["property_type"],
+          propertyStatus: propertyFor,//property["property_about"]["property_status"],
+          propertyType: propertyFor,//property["property_about"]["property_type"],
           inputImagePath: property["gallery"][0],
-          price: property["property_about"]["price"].toString(),
+          price: property["rentDetails"]["rent"].toString(),
           values: values,
           propertyDetails: property);
+
       propertyList.add(tile);
     }
     return propertyList;
   }
 
-  Future<List<Widget>?> propertyListSale() async {
-    PropertyController dbservice = PropertyController();
-    List<Widget> property_list = [];
-    var properties = await dbservice.retrievePropertyDetails("For sale");
-    // print(properties);
-    for (var property in properties) {
-      //print(property);
-      List<String> values = [
-        property["property_about"]["bedrooms"].toString(),
-        property["property_about"]["bathrooms"].toString(),
-        property["property_about"]["carpet_area"].toString(),
-      ];
-      Widget tile = PropertyTile(
-          propertyStatus: property["property_about"]["property_status"],
-          propertyType: property["property_about"]["property_type"],
-          inputImagePath: property["gallery"][0],
-          price: property["property_about"]["price"].toString(),
-          values: values,
-          propertyDetails: property);
-      property_list.add(tile);
-    }
-    return property_list;
-  }
+  // Future<List<Widget>?> propertyListSale() async {
+  //   PropertyController dbservice = PropertyController();
+  //   List<Widget> property_list = [];
+  //   var properties = await dbservice.retrievePropertyDetails("For sale");
+  //   // print(properties);
+  //   for (var property in properties) {
+  //     //print(property);
+  //     List<String> values = [
+  //       property["property_about"]["bedrooms"].toString(),
+  //       property["property_about"]["bathrooms"].toString(),
+  //       property["property_about"]["carpet_area"].toString(),
+  //     ];
+  //     Widget tile = PropertyTile(
+  //         propertyStatus: property["property_about"]["property_status"],
+  //         propertyType: property["property_about"]["property_type"],
+  //         inputImagePath: property["gallery"][0],
+  //         price: property["property_about"]["price"].toString(),
+  //         values: values,
+  //         propertyDetails: property);
+  //     property_list.add(tile);
+  //   }
+  //   return property_list;
+  // }
 
-  Future<List<Widget>?> propertyListBuy() async {
-    PropertyController dbservice = PropertyController();
-    List<Widget> property_list = [];
-    var properties = await dbservice.retrievePropertyDetails("For Buy");
-    // print(properties);
-    for (var property in properties) {
-      //print(property);
-      Widget dummy = Text(property.toString());
-      List<String> values = [
-        property["property_about"]["bedrooms"].toString(),
-        property["property_about"]["bathroom"].toString(),
-        property["property_about"]["property_size"].toString(),
-      ];
-      Widget tile = PropertyTile(
-          propertyStatus: property["property_about"]["property_status"],
-          propertyType: property["property_about"]["property_type"],
-          inputImagePath: property["gallery"][0],
-          price: property["property_about"]["price"].toString(),
-          values: values,
-          propertyDetails: property);
-      property_list.add(tile);
-    }
-    return property_list;
-  }
+  // Future<List<Widget>?> propertyListBuy() async {
+  //   PropertyController dbservice = PropertyController();
+  //   List<Widget> property_list = [];
+  //   var properties = await dbservice.retrievePropertyDetails("For Buy");
+  //   // print(properties);
+  //   for (var property in properties) {
+  //     //print(property);
+  //     Widget dummy = Text(property.toString());
+  //     List<String> values = [
+  //       property["property_about"]["bedrooms"].toString(),
+  //       property["property_about"]["bathroom"].toString(),
+  //       property["property_about"]["property_size"].toString(),
+  //     ];
+  //     Widget tile = PropertyTile(
+  //         propertyStatus: property["property_about"]["property_status"],
+  //         propertyType: property["property_about"]["property_type"],
+  //         inputImagePath: property["gallery"][0],
+  //         price: property["property_about"]["price"].toString(),
+  //         values: values,
+  //         propertyDetails: property);
+  //     property_list.add(tile);
+  //   }
+  //   return property_list;
+  // }
 }

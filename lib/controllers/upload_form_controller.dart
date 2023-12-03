@@ -376,7 +376,7 @@ class UploadFormController extends GetxController {
     {
       isLoading.value = true;
       // Validate returns true if the form is valid, or false otherwise.
-      if (uploadFormKey.currentState!.validate()) {
+      if (!uploadFormKey.currentState!.validate()) {
         // If the form is valid, display a snackbar. In the real world,
         // you'd often call a server or save the information in a database.
         //TODO: find how can pass context
@@ -447,6 +447,7 @@ class UploadFormController extends GetxController {
           "mobile": mobileController.text,
         },
         "uploadDate": uploadTimestamp,
+        "isRent": isRent.value,
       };
 
 

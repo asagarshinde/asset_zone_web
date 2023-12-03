@@ -167,43 +167,6 @@ class _PropertyTileState extends State<PropertyTile> {
                     ),
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Padding(
-                //           padding: const EdgeInsets.all(8.0),
-                //           child: Text(
-                //             widget.propertyStatus,
-                //             style: GoogleFonts.rubik(
-                //                 fontSize: 25, color: Colors.white70),
-                //           ),
-                //         ),
-                //         Padding(
-                //           padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                //           child: Text(
-                //             widget.price,
-                //             style: GoogleFonts.rubik(
-                //                 fontSize: 15, color: Colors.white70),
-                //           ),
-                //         )
-                //       ],
-                //     ),
-                //   ],
-                // ),
-                // Positioned(
-                //   bottom: _isHover ? 0 : -100,
-                //   child: AnimatedOpacity(
-                //     opacity: _isHover ? 1 : 0,
-                //     // duration: Duration(milliseconds: _isHover ? 10000 : 5000),
-                //     duration: Duration(milliseconds: 300),
-                //     child: onHoverStrip(
-                //       values: widget.values,
-                //     ),
-                //   ),
-                // )
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
                   transform: Matrix4.translationValues(
