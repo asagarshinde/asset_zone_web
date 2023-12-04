@@ -107,29 +107,37 @@ class PropertyController extends GetxController {
     }
   }
 
-  Future<List<Map>> retrievePropertyDetails(String status,
+  Future<List<PropertyDetails>> retrievePropertyDetails(String propertiesFor,
       {int limit = 3}) async {
-    if (status == "all") {
+    bool isRent = (propertiesFor == "rent" ) ? true : false;
+    if (propertiesFor == "all") {
       QuerySnapshot<Map<String, dynamic>> snapshot =
       await firestoreDB.collection("PropertyDetails").limit(limit).get();
       return snapshot.docs.map((docSnapshot) {
-        Map out = {};
-        out.addAll(docSnapshot.data());
-        out["id"] = docSnapshot.id;
-        return out;
+        PropertyDetails propertyDetails = PropertyDetails.fromMap(docSnapshot.data());
+        // Map out = {};
+        // out.addAll(docSnapshot.data());
+        // out["id"] = docSnapshot.id;
+        // return out;
+        return propertyDetails;
       }).toList();
     } else {
       QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
           .collection("PropertyDetails")
-          .where("isRent", isEqualTo: true)
+          .where("isRent", isEqualTo: isRent)
           .limit(limit)
           .get();
       return snapshot.docs.map(
             (docSnapshot) {
-          Map out = {};
-          out.addAll(docSnapshot.data());
-          out["id"] = docSnapshot.id;
-          return out;
+              PropertyDetails propertyDetails = PropertyDetails.fromMap(docSnapshot.data());
+              propertyDetails.setRentDetails(docSnapshot.data()["rentDetails"]);
+          // Map out = {};
+          // out.addAll(docSnapshot.data());
+          // out["id"] = docSnapshot.id;
+          // print("before");
+              return propertyDetails;
+          // var d = PropertyDetails.fromMap(docSnapshot.data());
+          // return out;
         },
       ).toList();
     }
@@ -137,39 +145,48 @@ class PropertyController extends GetxController {
 }
 
 class PropertiesList {
-  Future<List<Widget>?> propertyList(propertyFor, {limit = 3}) async {
+  Future<List<Widget>?> propertyList(propertiesFor, {limit = 3}) async {
     PropertyController dbservice = PropertyController();
     List<Widget> propertyList = [];
-    String carpetArea = "";
-    String propertyFor = "Rent";
+    String? carpetArea = "";
     var properties =
-    await dbservice.retrievePropertyDetails(propertyFor, limit: limit);
+    await dbservice.retrievePropertyDetails(propertiesFor, limit: limit);
+    // print("retrieved properties ${properties}");
     for (var property in properties) {
-      // Widget dummy = Text(property.toString());
-      // if (property["isRent"]){
-      //   carpetArea = property["rentDetails"]["carpetArea"];
-      //   propertyFor = "Rent";
-      // }
-      // else {
-      //   carpetArea = property["saleDetails"]["carpetArea"];
-      //   propertyFor = "Sale";
-      // }
-      propertyFor = "rent";
+      print(property.propertyAbout);
+      if (property.isRent){
+        carpetArea = property.rentDetails?.carpetArea;
+        propertiesFor = "Rent";
+      }
+      else {
+        carpetArea = property.saleDetails.carpetArea;
+        propertiesFor = "Sale";
+      }
+      carpetArea ??= "0";
+
       List<String> values = [
-        property["property_about"]["bedrooms"].toString(),
-        property["property_about"]["bathrooms"].toString(),
+        property.propertyAbout.bedrooms.toString(),
+        property.propertyAbout.bathrooms.toString(),
         carpetArea
       ];
-      print(property);
-      Widget tile = PropertyTile(
-          propertyStatus: propertyFor,//property["property_about"]["property_status"],
-          propertyType: propertyFor,//property["property_about"]["property_type"],
-          inputImagePath: property["gallery"][0],
-          price: property["rentDetails"]["rent"].toString(),
-          values: values,
-          propertyDetails: property);
 
-      propertyList.add(tile);
+      try {
+        Widget tile = PropertyTile(
+            propertyStatus: propertiesFor,
+            propertyType: propertiesFor,
+            inputImagePath: property.propertyAbout.gallery[0],//"https://firebasestorage.googleapis.com/v0/b/assets-zone.appspot.com/o/L11XqsUXddt2PmXX2kUe%2F4dd0af63-54fa-4328-a87a-cfbc54c870c8?alt=media&token=4a037eec-ce1a-4ce4-9649-89df80f191db",
+            price: property.rentDetails!.rent,
+            values: values,
+            propertyDetails: property);
+        propertyList.add(tile);
+      } catch (e) {
+        print("Error while creating tile ${e}");
+        Widget tile = Text("abra");
+        propertyList.add(tile);
+      }
+
+
+
     }
     return propertyList;
   }

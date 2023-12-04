@@ -83,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 HomePageSecondSection(
                                     width: width, constraints: constraints),
                                 PropertiesForCardsView(key: searchPanelController.forRentScroll,
-                                    width: width, propertiesFor: "For Rent"),
+                                    width: width, propertiesFor: "rent"),
                                 PropertiesForCardsView(key: searchPanelController.forBuyScroll,
-                                    width: width, propertiesFor: "For Sale"),
+                                    width: width, propertiesFor: "sale"),
                                 featuredProject(context: context, width: width),
                                 const SizedBox(height: 50),
                                 const DeveloperWorkWithUs(),
