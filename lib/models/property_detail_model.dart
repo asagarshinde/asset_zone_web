@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class PropertyDetails {
   late String id;
@@ -8,8 +9,9 @@ class PropertyDetails {
   late bool isRent;
   late Address address;
   RentDetails? rentDetails;
-  late SaleDetails saleDetails;
-  late List<String> gallery = [];
+  SaleDetails? saleDetails;
+  late List<dynamic> gallery;
+  late PropertyAreaDetails propertyAreaDetails;
 
   PropertyDetails.fromDocumentSnapshot(DocumentSnapshot<Map> doc)
       : id = doc.id,
@@ -17,14 +19,16 @@ class PropertyDetails {
         uploadDate = doc.data()!["upload_date"],
         propertyAbout = PropertyAbout.fromMap(doc.data()!["property_about"]),
         contactDetails = OwnerDetails.fromMap(doc.data()!["contactDetails"]),
-        address = Address.fromMap(doc.data()!["propertyAddress"]);
+        address = Address.fromMap(doc.data()!["propertyAddress"]),
+        propertyAreaDetails =
+            PropertyAreaDetails.fromMap(doc.data()!['PropertyAreaDetails']);
 
 //<editor-fold desc="Data Methods">
   setRentDetails(rentDetails) {
     this.rentDetails = RentDetails.fromMap(rentDetails);
   }
 
-  setSaleDetails(saleDetails){
+  setSaleDetails(saleDetails) {
     this.saleDetails = SaleDetails.fromMap(saleDetails);
   }
 
@@ -33,20 +37,35 @@ class PropertyDetails {
       required this.propertyAbout,
       required this.contactDetails,
       required this.uploadDate,
-      required this.isRent});
+      required this.address,
+      required this.isRent,
+      required this.gallery,
+      required this.propertyAreaDetails});
 
   @override
   String toString() {
-    return 'PropertyDetails{ id: $id, propertyAbout: $propertyAbout, contactDetails: $contactDetails, uploadDate: $uploadDate,}';
+    return 'PropertyDetails{ '
+        'id: $id, '
+        'propertyAbout: ${propertyAbout.toString()}, '
+        'contactDetails: ${contactDetails.toString()}, '
+        'uploadDate: $uploadDate,'
+        'address: ${address.toString()},'
+        'gallery: $gallery,'
+        'propertyAreaDetails: ${propertyAreaDetails.toString()}';
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'propertyAbout': propertyAbout,
-      'contactDetails': contactDetails,
-      'uploadDate': uploadDate,
-      'isRent': isRent
+      'propertyAbout': propertyAbout.toMap(),
+      'contactDetails': contactDetails.toMap(),
+      'uploadDate': Timestamp.now(),
+      'isRent': isRent,
+      'gallery': gallery,
+      'address': address.toMap(),
+      'propertyAreaDetails': propertyAreaDetails.toMap(),
+      'saleDetails' : saleDetails?.toMap(),
+      'rentDetails' : rentDetails?.toMap()
     };
   }
 
@@ -55,16 +74,19 @@ class PropertyDetails {
     PropertyAbout propertyAbout;
     OwnerDetails contactDetails;
     Timestamp uploadDate;
-    // print(map);
+    Address address;
+
     try {
-      id = map['property_about']['propertyId'] as String;
+      id = map['id'] as String;
     } catch (e) {
       print('Exception occurred in id field: $e');
       id = ''; // Assign a default value or handle the error as needed
     }
-    print("sending gallery to property about frommap ${map['property_about']['gallery']}");
-    propertyAbout = PropertyAbout.fromMap(map['property_about']);
+
+    propertyAbout = PropertyAbout.fromMap(map['propertyAbout']);
+    debugPrint("property details from map ${propertyAbout.parking}");
     contactDetails = OwnerDetails.fromMap(map['contactDetails']);
+    debugPrint("property details from map ${contactDetails.name}");
     try {
       uploadDate = map['uploadDate'] as Timestamp;
     } catch (e) {
@@ -73,12 +95,37 @@ class PropertyDetails {
           0, 0); // Assign a default value or handle the error as needed
     }
 
+    try {
+      address = Address.fromMap(map['address']);
+    } catch (e) {
+      address = Address(
+          landmark: "landmark",
+          surveyOrGutNo: "surveyOrGutNo",
+          plotNo: "plotNo",
+          village: 'village',
+          city: 'city',
+          taluka: 'taluka',
+          localityOrArea: 'localityOrArea',
+          buildingName: 'buildingName',
+          flatNumber: 'flatNumber',
+          floorNumber: 'floorNumber',
+          district: 'district',
+          state: 'state',
+          pincode: 425555);
+      print('Exception occurred in address field: $e');
+    }
+
+    PropertyAreaDetails propertyAreaDetails = PropertyAreaDetails.fromMap(map["propertyAreaDetails"]);
+    debugPrint("property details from map ${propertyAreaDetails.carpetArea}");
     return PropertyDetails(
         id: id,
         propertyAbout: propertyAbout,
         contactDetails: contactDetails,
         uploadDate: uploadDate,
-        isRent: map['isRent']);
+        isRent: map['isRent'],
+        address: address,
+        gallery: map['gallery'],
+        propertyAreaDetails: propertyAreaDetails);
   }
 
 //</editor-fold>
@@ -96,29 +143,36 @@ class PropertyAbout {
   late String propertySubType;
   late String propertyId;
   late String description;
-  late String propertyStatus;
-  late List<dynamic> gallery;
+  late String constructionStatus;
+  late bool isFeatured;
+  late bool inGatedCommunity;
 
 //<editor-fold desc="Data Methods">
-  PropertyAbout({
-    required this.terrace,
-    required this.balcony,
-    required this.bathrooms,
-    required this.bedrooms,
-    required this.parking,
-    required this.floorNumber,
-    required this.totalFloors,
-    required this.propertyType,
-    required this.propertySubType,
-    required this.propertyId,
-    required this.description,
-    required this.propertyStatus,
-    required this.gallery,
-  });
+  PropertyAbout(
+      {required this.terrace,
+      required this.balcony,
+      required this.bathrooms,
+      required this.bedrooms,
+      required this.parking,
+      required this.floorNumber,
+      required this.totalFloors,
+      required this.propertyType,
+      required this.propertySubType,
+      required this.propertyId,
+      required this.description,
+      required this.isFeatured,
+      required this.constructionStatus,
+      required this.inGatedCommunity});
 
   @override
   String toString() {
-    return 'PropertyAbout{ gallery: $gallery, terrace: $terrace, balcony: $balcony, bathrooms: $bathrooms, bedrooms: $bedrooms, parking: $parking, floorNumber: $floorNumber, totalFloors: $totalFloors, propertyType: $propertyType, propertySubType: $propertySubType, propertyId: $propertyId, description: $description, propertyStatus: $propertyStatus,}';
+    return 'PropertyAbout{ isFeatured: $isFeatured constructionStatus: $constructionStatus, '
+        'terrace: $terrace, balcony: $balcony, bathrooms: $bathrooms, '
+        'bedrooms: $bedrooms, parking: $parking, floorNumber: $floorNumber, '
+        'totalFloors: $totalFloors, propertyType: $propertyType, '
+        'propertySubType: $propertySubType, propertyId: $propertyId, '
+        'description: $description'
+        'inGatedCommunity: $inGatedCommunity}';
   }
 
   Map<String, dynamic> toMap() {
@@ -134,8 +188,8 @@ class PropertyAbout {
       'propertySubType': propertySubType,
       'propertyId': propertyId,
       'description': description,
-      'propertyStatus': propertyStatus,
-      'gallery': gallery
+      'isFeatured': isFeatured,
+      'inGatedCommunity': inGatedCommunity
     };
   }
 
@@ -149,38 +203,49 @@ class PropertyAbout {
     String propertySubType;
     String propertyId;
     String description;
+    String constructionStatus;
+    bool isFeatured;
+    bool inGatedCommunity;
+    String parking;
+    String floorNumber;
 
-  print("recieved gallery from property details ${map['gallery']}");
     try {
-      terrace = int.parse(map['terrace']);
+      parking = map['parking'];
+    } catch (e) {
+      print('Exception occurred in terrace field: $e');
+      parking = '-'; // Assign a default value or handle the error as needed
+    }
+
+    try {
+      terrace = map['terrace'];
     } catch (e) {
       print('Exception occurred in terrace field: $e');
       terrace = 0; // Assign a default value or handle the error as needed
     }
 
     try {
-      balcony = int.parse(map['balcony']);
+      balcony = map['balcony'];
     } catch (e) {
       print('Exception occurred in balcony field: $e');
       balcony = 0; // Assign a default value or handle the error as needed
     }
 
     try {
-      bathrooms = int.parse(map['bathrooms']);
+      bathrooms = map['bathrooms'];
     } catch (e) {
       print('Exception occurred in bathrooms field: $e');
       bathrooms = 0; // Assign a default value or handle the error as needed
     }
 
     try {
-      bedrooms = int.parse(map['bedrooms']);
+      bedrooms = map['bedrooms'];
     } catch (e) {
       print('Exception occurred in bedrooms field: $e');
       bedrooms = 0; // Assign a default value or handle the error as needed
     }
 
     try {
-      totalFloors = int.parse(map['totalFloors']);
+      totalFloors = map['totalFloors'];
     } catch (e) {
       print('Exception occurred in totalFloors field: $e');
       totalFloors = 0; // Assign a default value or handle the error as needed
@@ -215,21 +280,52 @@ class PropertyAbout {
       description = ''; // Assign a default value or handle the error as needed
     }
 
+    try {
+      constructionStatus = map.containsKey("constructionStatus") ? map["constructionStatus"] : "";
+    } catch (e) {
+      print('Exception occurred in constructionStatus field: $e');
+      constructionStatus =
+          ''; // Assign a default value or handle the error as needed
+    }
+
+    try {
+      floorNumber = map['floorNumber'] as String;
+    } catch (e) {
+      print('Exception occurred in floorNumber field: $e');
+      floorNumber = ''; // Assign a default value or handle the error as needed
+    }
+
+    try {
+      isFeatured = map['isFeatured'] as bool;
+    } catch (e) {
+      print('Exception occurred in isFeatured field: $e');
+      isFeatured =
+          false; // Assign a default value or handle the error as needed
+    }
+
+    try {
+      inGatedCommunity = map['inGatedCommunity'] as bool;
+    } catch (e) {
+      print('Exception occurred in inGatedCommunity field: $e');
+      inGatedCommunity =
+          false; // Assign a default value or handle the error as needed
+    }
+
     return PropertyAbout(
-      terrace: terrace,
-      balcony: balcony,
-      bathrooms: bathrooms,
-      bedrooms: bedrooms,
-      parking: "alloted",
-      floorNumber: "6",
-      totalFloors: totalFloors,
-      propertyType: propertyType,
-      propertySubType: propertySubType,
-      propertyId: propertyId,
-      description: description,
-      propertyStatus: "", // map['propertyStatus'] as String,
-      gallery: map['gallery']
-    );
+        terrace: terrace,
+        balcony: balcony,
+        bathrooms: bathrooms,
+        bedrooms: bedrooms,
+        parking: parking,
+        floorNumber: floorNumber,
+        totalFloors: totalFloors,
+        propertyType: propertyType,
+        propertySubType: propertySubType,
+        propertyId: propertyId,
+        description: description,
+        constructionStatus: constructionStatus,
+        isFeatured: isFeatured,
+        inGatedCommunity: inGatedCommunity);
   }
 
 //</editor-fold>
@@ -258,7 +354,7 @@ class OwnerDetails {
     return OwnerDetails(
       name: map['name'] as String,
       email: map['email'] as String,
-      phone: map['mobile'] as String,
+      phone: map['phone'] as String,
     );
   }
 }
@@ -266,10 +362,10 @@ class OwnerDetails {
 class RentDetails {
   String carpetArea = "";
   late String furnished;
-  late String maintenance;
+  late int maintenance;
   late String preferredTenant;
-  late String rent;
-  late String securityDeposit;
+  late int rent;
+  late int securityDeposit;
 
   Map<String, dynamic> toMap() {
     return {
@@ -284,12 +380,11 @@ class RentDetails {
 
   factory RentDetails.fromMap(Map<String, dynamic> map) {
     return RentDetails(
-      carpetArea: map['carpetArea'] as String,
       furnished: map['furnished'] as String,
-      maintenance: map['maintenance'] as String,
+      maintenance: map['maintenance'] as int,
       preferredTenant: map['preferredTenant'] as String,
-      rent: map['rent'] as String,
-      securityDeposit: map['securityDeposit'] as String,
+      rent: map['rent'] as int,
+      securityDeposit: map['securityDeposit'] as int,
     );
   }
 
@@ -297,8 +392,7 @@ class RentDetails {
       this.preferredTenant, this.rent, this.securityDeposit);
 
   RentDetails(
-      {required String carpetArea,
-      required this.furnished,
+      {required this.furnished,
       required this.maintenance,
       required this.preferredTenant,
       required this.rent,
@@ -314,7 +408,13 @@ class Address {
   late String taluka;
   late String localityOrArea;
   late String buildingName;
+  late String flatNumber;
+  late String floorNumber;
+  late String district;
+  late String state;
+  late int pincode;
 
+//<editor-fold desc="Data Methods">
   Address({
     required this.landmark,
     required this.surveyOrGutNo,
@@ -324,7 +424,17 @@ class Address {
     required this.taluka,
     required this.localityOrArea,
     required this.buildingName,
+    required this.flatNumber,
+    required this.floorNumber,
+    required this.district,
+    required this.state,
+    required this.pincode,
   });
+
+  @override
+  String toString() {
+    return 'Address{ landmark: $landmark, surveyOrGutNo: $surveyOrGutNo, plotNo: $plotNo, village: $village, city: $city, taluka: $taluka, localityOrArea: $localityOrArea, buildingName: $buildingName, flatNumber: $flatNumber, floorNumber: $floorNumber, district: $district, state: $state, pincode: $pincode,}';
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -336,44 +446,117 @@ class Address {
       'taluka': taluka,
       'localityOrArea': localityOrArea,
       'buildingName': buildingName,
+      'flatNumber': flatNumber,
+      'floorNumber': floorNumber,
+      'district': district,
+      'state': state,
+      'pincode': pincode,
     };
   }
 
   factory Address.fromMap(Map<String, dynamic> map) {
     return Address(
-      landmark: (map['landmark'] != null) ? map['landmark'] as String : "",
-      surveyOrGutNo:
-          (map['surveyOrGutNo'] != null) ? map['surveyOrGutNo'] as String : "",
-      plotNo: (map['plotNo'] != null) ? map['plotNo'] as String : "",
-      village: (map['village'] != null) ? map['village'] as String : "",
+      landmark: map['landmark'] as String,
+      surveyOrGutNo: map['surveyOrGutNo'] as String,
+      plotNo: map['plotNo'] as String,
+      village: map['village'] as String,
       city: map['city'] as String,
-      taluka: (map['taluka'] != null) ? map['taluka'] as String : "",
+      taluka: map['taluka'] as String,
       localityOrArea: map['localityOrArea'] as String,
       buildingName: map['buildingName'] as String,
+      flatNumber: map['flatNumber'] as String,
+      floorNumber: map['floorNumber'] as String,
+      district: map['district'] as String,
+      state: map['state'] as String,
+      pincode: map['pincode'] as int,
     );
   }
+
+//</editor-fold>
 }
 
 class SaleDetails {
 
-  late String carpetArea;
+  late String ownership;
+  late String constructionStatus;
+  late int constructionYear;
+  late int salableArea;
+  late int builtUpArea;
+  late int price;
 
-  SaleDetails.name(this.carpetArea);
-
+//<editor-fold desc="Data Methods">
   SaleDetails({
-    required this.carpetArea,
+    required this.ownership,
+    required this.constructionStatus,
+    required this.constructionYear,
+    required this.salableArea,
+    required this.builtUpArea,
+    required this.price
   });
 
 
+  @override
+  String toString() {
+    return 'SaleDetails{price: $price, ownership: $ownership, constructionStatus: $constructionStatus, constructionYear: $constructionYear, salableArea: $salableArea, builtUpArea: $builtUpArea,}';
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'carpetArea': this.carpetArea,
+      'ownership': ownership,
+      'constructionStatus': constructionStatus,
+      'constructionYear': constructionYear,
+      'salableArea': salableArea,
+      'builtUpArea': builtUpArea,
+      'price': price
     };
   }
 
   factory SaleDetails.fromMap(Map<String, dynamic> map) {
     return SaleDetails(
-      carpetArea: map['carpetArea'] as String,
+      ownership: map['ownership'] as String,
+      constructionStatus: map['constructionStatus'] as String,
+      constructionYear: map['constructionYear'] as int,
+      salableArea: map['salableArea'] as int,
+      builtUpArea: map['builtUpArea'] as int,
+      price: map['price'] as int
     );
   }
+
+//</editor-fold>
+}
+
+class PropertyAreaDetails {
+  final int salableArea;
+  final int carpetArea;
+  final int builtUpArea;
+
+//<editor-fold desc="Data Methods">
+  const PropertyAreaDetails({
+    required this.salableArea,
+    required this.carpetArea,
+    required this.builtUpArea,
+  });
+
+  @override
+  String toString() {
+    return 'PropertyAreaDetails{ salableArea: $salableArea, carpetArea: $carpetArea, builtUpArea: $builtUpArea,}';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'salableArea': salableArea,
+      'carpetArea': carpetArea,
+      'builtUpArea': builtUpArea,
+    };
+  }
+
+  factory PropertyAreaDetails.fromMap(Map<String, dynamic> map) {
+    return PropertyAreaDetails(
+      salableArea: map['salableArea'],
+      carpetArea: map['carpetArea'],
+      builtUpArea: map['builtUpArea'],
+    );
+  }
+
+//</editor-fold>
 }

@@ -62,44 +62,6 @@ class HomePageText extends StatelessWidget {
   }
 }
 
-class PropertyTile3 extends StatelessWidget {
-  const PropertyTile3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-
-class PropertyTile2 extends StatefulWidget {
-  final String inputImagePath;
-  final String propertyType;
-  final String propertyStatus;
-  final String price;
-  final List<String> values;
-  final propertyDetails;
-
-   const PropertyTile2({super.key,
-     required this.inputImagePath,
-     required this.propertyType,
-     required this.propertyStatus,
-     required this.price,
-     required this.values,
-     required this.propertyDetails});
-
-  @override
-  State<PropertyTile2> createState() => _PropertyTile2State();
-}
-
-class _PropertyTile2State extends State<PropertyTile2> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(widget.inputImagePath),
-    );
-  }
-}
 
 class PropertyTile extends StatefulWidget {
   final String inputImagePath;

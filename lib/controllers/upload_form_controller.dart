@@ -111,7 +111,6 @@ class UploadFormController extends GetxController {
   TextEditingController maintenanceController = TextEditingController();
   TextEditingController rentController = TextEditingController();
 
-
   // PropertyAreaDetails
   TextEditingController salableAreaController = TextEditingController();
   TextEditingController carpetAreaController = TextEditingController();
@@ -128,7 +127,6 @@ class UploadFormController extends GetxController {
 
   // Sale
   TextEditingController constructionYearController = TextEditingController();
-
 
   static UploadFormController instance = Get.find();
 
@@ -305,7 +303,6 @@ class UploadFormController extends GetxController {
         "icon": const Icon(Icons.currency_rupee)
       },
 
-
       "description": {
         "controller": descriptionController,
         "hintText": "Enter Property Description",
@@ -313,8 +310,7 @@ class UploadFormController extends GetxController {
         "icon": const Icon(Icons.message)
       },
 
-
-    // property details
+      // property details
       "builderName": {
         "controller": builderNameController, //formController.nameController,
         "hintText": "Enter builder name ",
@@ -330,7 +326,6 @@ class UploadFormController extends GetxController {
         "validator": defaultTextValidators,
         "icon": const Icon(Icons.area_chart)
       },
-
 
       "construction_year": {
         "controller": constructionYearController,
@@ -368,7 +363,6 @@ class UploadFormController extends GetxController {
     );
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
-    print(downloadUrl);
     return downloadUrl;
   }
 
@@ -399,85 +393,86 @@ class UploadFormController extends GetxController {
       }
 
       // parse date to timestamp
+//ToDo: check upload formate date issue
+      // DateTime uploadDate = DateTime.parse(dateController.text);
+      // Timestamp uploadTimestamp = Timestamp.fromDate(uploadDate);
+      Timestamp uploadTimestamp = Timestamp.now();
+      PropertyAbout propertyAbout = PropertyAbout(
+          balcony: int.parse(balcony.value),
+          bathrooms: int.parse(bathrooms.value),
+          bedrooms: int.parse(bedrooms.value),
+          constructionStatus: selectedConstructionStatus.value,
+          propertyType: selectedPropertyType.value,
+          propertyId: documentId,
+          terrace: int.parse(terrace.value),
+          parking: parking.value,
+          propertySubType: selectedPropertySubType.value,
+          totalFloors: int.parse(totalFloorsController.text),
+          floorNumber: totalFloorsController.text,
+          isFeatured: isFeatured.value,
+          inGatedCommunity: inGatedCommunity.value,
+          description: descriptionController.text);
 
-      DateTime uploadDate = DateTime.parse(dateController.text);
-      Timestamp uploadTimestamp = Timestamp.fromDate(uploadDate);
+      print(
+          "property about in upload form controller ${propertyAbout.toString()}");
+      Address address = Address(
+          landmark: landmarkController.text,
+          surveyOrGutNo: surveyOrGutNumberController.text,
+          plotNo: plotNumberController.text,
+          village: villageController.text,
+          city: selectedCity.value,
+          taluka: talukaController.text,
+          localityOrArea: locationOrAreaController.text,
+          buildingName: buildingNameController.text,
+          district: districtController.text,
+          flatNumber: flatNumberController.text,
+          floorNumber: floorController.text,
+          pincode: int.parse(pincodeController.text),
+          state: stateController.text);
 
-      Map<String, dynamic> data = {
-        "property_about": {
-          "balcony": balcony.value,
-          "bathrooms": bathrooms.value,
-          "bedrooms": bedrooms.value,
-          "constructionStatus": selectedConstructionStatus.value,
-          "propertyType": selectedPropertyType.value,
-          "propertyId": documentId,
-          "terrace": terrace.value,
-          "parking": parking.value,
-          "propertySubType": selectedPropertySubType.value,
-          "totalFloors": totalFloorsController.text,
-          "isFeatured": isFeatured.value,
-          "inGatedCommunity": inGatedCommunity.value,
-          "gallery": imagesUrlList,
-          "description": descriptionController.text
-        },
-        "propertyAddress": {
-          "flatNumber": flatNumberController.text,
-          "floorNumber": floorController.text,
-          "plotNumber": plotNumberController.text,
-          "surveyOrGutNumber": surveyOrGutNumberController.text,
-          "buildingName": buildingNameController.text,
-          "landmark": landmarkController.text,
-          "locationOrArea": locationOrAreaController.text,
-          "village": villageController.text,
-          "city": selectedCity.value,
-          "taluka": talukaController.text,
-          "district": districtController.text,
-          "state": stateController.text,
-          "pincode": pincodeController.text,
-        },
-        "propertyAreaDetails": {
-          "salableArea": salableAreaController.text,
-          "carpetArea": carpetAreaController.text,
-          "builtUpArea": builtUpAreaController.text,
-        },
-        "location": {"lat": 76.43698832653855, "lon": 22.444},
-        "contactDetails": {
-          "name": nameController.text,
-          "email": emailController.text,
-          "mobile": mobileController.text,
-        },
-        "uploadDate": uploadTimestamp,
-        "isRent": isRent.value,
-      };
+      OwnerDetails ownerDetails = OwnerDetails(
+          name: nameController.text,
+          email: emailController.text,
+          phone: mobileController.text);
 
+      PropertyAreaDetails propertyAreaDetails = PropertyAreaDetails(
+          salableArea: int.parse(salableAreaController.text),
+          carpetArea: int.parse(carpetAreaController.text),
+          builtUpArea: int.parse(builtUpAreaController.text));
 
-      if (isRent.value){
-        Map<String, dynamic> rentDetails = {
-          "securityDeposit": securityDepositController.text,
-          "maintenance": maintenanceController.text,
-          "rent": rentController.text,
-          "preferredTenant": selectedPreferredTenants.value,
-          "furnished": selectedFurniture.value,
-          "carpetArea": carpetAreaController.text
-        };
-        data["rentDetails"] = rentDetails;
+      PropertyDetails propertyDetails = PropertyDetails(
+          id: documentId,
+          propertyAbout: propertyAbout,
+          contactDetails: ownerDetails,
+          uploadDate: uploadTimestamp,
+          address: address,
+          isRent: isRent.value,
+          gallery: imagesUrlList,
+          propertyAreaDetails: propertyAreaDetails);
+
+      if (isRent.value) {
+        RentDetails rentDetails = RentDetails(
+            furnished: selectedFurniture.value,
+            maintenance: int.parse(maintenanceController.text),
+            preferredTenant: selectedPreferredTenants.value,
+            rent: int.parse(rentController.text),
+            securityDeposit: int.parse(securityDepositController.text));
+        propertyDetails.setRentDetails(rentDetails.toMap());
       } else {
-        Map<String, dynamic> saleDetails = {
-          "ownership": selectedOwnership.value,
-          "constructionStatus": selectedConstructionStatus.value,
-          "constructionYear": constructionYearController.text,
-          "salableArea": salableAreaController.text,
-          "builtUpArea": builtUpAreaController.text,
-          "carpetArea": carpetAreaController.text
-        };
-        data["saleDetails"] = saleDetails;
+        SaleDetails saleDetails = SaleDetails(
+          price: int.parse(priceController.text),
+            ownership: selectedOwnership.value,
+            constructionStatus: selectedConstructionStatus.value,
+            constructionYear: int.parse(constructionYearController.text),
+            salableArea: int.parse(salableAreaController.text),
+            builtUpArea: int.parse(builtUpAreaController.text));
+
+        propertyDetails.setSaleDetails(saleDetails.toMap());
       }
 
-      // TODO: use lat lon from location.
-      print(data);
-      // PropertyAbout.fromMap(data["property_about"]);
-      // print(data.toString());
-      await docRef.set(data);
+      print(propertyDetails.toString());
+
+      await docRef.set(propertyDetails.toMap());
       isLoading.value = false;
       uploadFormKey.currentState?.reset();
       // _clearFormState();
