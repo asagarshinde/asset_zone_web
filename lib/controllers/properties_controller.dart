@@ -12,7 +12,7 @@ import 'package:the_asset_zone_web/screens/home/components/home_screen_widgets.d
 class PropertyController extends GetxController {
   static PropertyController instance = Get.find();
   var firestoreDB = FirebaseFirestore.instance;
-  var dummy_var = "".obs;
+  var dummyVar = "".obs;
   late final propertiesList = [].obs;
 
   addPropertyDetails(PropertyDetails propertyDetails) async {
@@ -63,7 +63,7 @@ class PropertyController extends GetxController {
         }
       },
     );
-    dummy_var.value = getRandString(5);
+    dummyVar.value = getRandString(5);
   }
 
   updatePropertyDetails(PropertyDetails propertyDetails) async {
@@ -77,8 +77,11 @@ class PropertyController extends GetxController {
     await firestoreDB.collection("PropertyDetails").doc(documentId).delete();
   }
 
-  Future<void> getPropertyFromId({required propertyId}) async {
-    await firestoreDB.collection("propertyDetails").doc(propertyId).get();
+  Future<PropertyDetails> getPropertyFromId({required propertyId}) async {
+    debugPrint("Executing now");
+    var snapshot =
+        await firestoreDB.collection("PropertyDetails").doc(propertyId).get();
+    return PropertyDetails.fromMap(snapshot.data()!);
   }
 
   Future<List<PropertyDetails>> retrieveAllPropertyDetails() async {
@@ -161,12 +164,12 @@ class PropertiesList {
         property.propertyAbout.bathrooms.toString(),
         carpetArea
       ];
+      debugPrint("arguments for property tile values: $values, propertiesFor : $propertiesFor, gallery: ${property.gallery[0]}");
       try {
         Widget tile = PropertyTile(
             propertyStatus: propertiesFor,
             propertyType: propertiesFor,
             inputImagePath: property.gallery[0],
-            //"https://firebasestorage.googleapis.com/v0/b/assets-zone.appspot.com/o/L11XqsUXddt2PmXX2kUe%2F4dd0af63-54fa-4328-a87a-cfbc54c870c8?alt=media&token=4a037eec-ce1a-4ce4-9649-89df80f191db",
             price: (property.isRent)
                 ? property.rentDetails!.rent.toString()
                 : property.saleDetails!.price.toString(),
@@ -174,8 +177,9 @@ class PropertiesList {
             propertyDetails: property);
         propertyList.add(tile);
       } catch (e) {
-        debugPrint("Error while creating tile $e");
-        Widget tile = const Text("Error while loading properties, please connect to admin.");
+        debugPrint("Error while creating tile checking $e");
+        Widget tile = const Text(
+            "Error while loading properties, please connect to admin.");
         propertyList.add(tile);
       }
     }

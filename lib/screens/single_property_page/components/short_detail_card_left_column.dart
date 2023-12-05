@@ -3,30 +3,31 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 import '../../home/components/home_screen_widgets.dart';
 
 class leftColumn extends StatelessWidget {
-  const leftColumn({Key? key, required this.propertyDetails}) : super(key: key);
-  final propertyDetails;
+  const leftColumn({super.key, required this.propertyDetails});
+  final PropertyDetails propertyDetails;
 
   List<Widget> getFlatDetailsRow(context, bedrooms, halls, area, bathrooms,
       garage) {
     List<String> flatDetails = [
       "Bedrooms",
       "Bathrooms",
-      "Halls",
+      "Balcony",
       "Sq ft",
-      "Garage"
+      "Parking"
     ];
     List<String> values = [
-      propertyDetails["property_about"]["bedrooms"].toString(),
-      propertyDetails["property_about"]["bathroom"].toString(),
-      propertyDetails["property_about"]["halls"].toString(),
-      propertyDetails["property_about"]["property_size"].toString(),
-      propertyDetails["property_about"]["garage"].toString()
+      propertyDetails.propertyAbout.bedrooms.toString(),
+      propertyDetails.propertyAbout.bathrooms.toString(),
+      propertyDetails.propertyAbout.balcony.toString(),
+      propertyDetails.propertyAreaDetails.carpetArea.toString(),
+      propertyDetails.propertyAbout.parking.toString()
     ];
     // List<String> values = [bedrooms, bathrooms, halls, area, garage];
     List<IconData> flatDetailsIcons = [
@@ -130,8 +131,8 @@ class leftColumn extends StatelessWidget {
               getFlatDetailsRow(context,
                   "2",
                   // propertyDetails["property_about"]["bedrooms"].toString(),
-                  propertyDetails["property_about"]["bathroom"].toString(),
-                  propertyDetails["property_about"]["balcony"].toString(), "2",
+                  propertyDetails.propertyAbout.bathrooms.toString(),
+                  propertyDetails.propertyAbout.balcony.toString(), "2",
                   "0"),
             ),
           )

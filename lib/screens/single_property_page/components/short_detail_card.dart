@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/short_detail_card_left_column.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/short_detail_card_right_column.dart';
 
 class ShortDetailCardDesktop extends StatelessWidget {
-  const ShortDetailCardDesktop({Key? key, @required this.propertyDetails}) : super(key: key);
-  final propertyDetails;
+  const ShortDetailCardDesktop({super.key, required this.propertyDetails});
+  final PropertyDetails propertyDetails;
   @override
   Widget build(BuildContext context) {
-    //print(propertyDetails);
     final width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -30,8 +30,8 @@ class ShortDetailCardDesktop extends StatelessWidget {
 }
 
 class ShortDetailCardMobile extends StatelessWidget {
-  ShortDetailCardMobile({Key? key, required this.propertyDetails}) : super(key: key);
-  final propertyDetails;
+  const ShortDetailCardMobile({super.key, required this.propertyDetails});
+  final PropertyDetails propertyDetails;
 
   @override
   Widget build(BuildContext context) {

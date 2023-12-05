@@ -8,7 +8,7 @@ import 'package:the_asset_zone_web/screens/login/auth_dialog.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 
 class MySimpleDrawer extends StatelessWidget {
-  const MySimpleDrawer({Key? key}) : super(key: key);
+  const MySimpleDrawer({super.key});
 
   List<Widget> getMenuList(menuSelectedMap) {
     List<Widget> menuWidgets = [];

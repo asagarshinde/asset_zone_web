@@ -47,6 +47,8 @@ class PropertyDetails {
     return 'PropertyDetails{ '
         'id: $id, '
         'propertyAbout: ${propertyAbout.toString()}, '
+        'rentDetails : ${rentDetails.toString()}, '
+        'saleDetails : ${saleDetails.toString()}, '
         'contactDetails: ${contactDetails.toString()}, '
         'uploadDate: $uploadDate,'
         'address: ${address.toString()},'
@@ -64,8 +66,8 @@ class PropertyDetails {
       'gallery': gallery,
       'address': address.toMap(),
       'propertyAreaDetails': propertyAreaDetails.toMap(),
-      'saleDetails' : saleDetails?.toMap(),
-      'rentDetails' : rentDetails?.toMap()
+      'saleDetails': saleDetails?.toMap(),
+      'rentDetails': rentDetails?.toMap()
     };
   }
 
@@ -115,9 +117,10 @@ class PropertyDetails {
       print('Exception occurred in address field: $e');
     }
 
-    PropertyAreaDetails propertyAreaDetails = PropertyAreaDetails.fromMap(map["propertyAreaDetails"]);
+    PropertyAreaDetails propertyAreaDetails =
+        PropertyAreaDetails.fromMap(map["propertyAreaDetails"]);
     debugPrint("property details from map ${propertyAreaDetails.carpetArea}");
-    return PropertyDetails(
+    PropertyDetails propertyDetails = PropertyDetails(
         id: id,
         propertyAbout: propertyAbout,
         contactDetails: contactDetails,
@@ -126,6 +129,15 @@ class PropertyDetails {
         address: address,
         gallery: map['gallery'],
         propertyAreaDetails: propertyAreaDetails);
+
+    if (map["isRent"]) {
+      debugPrint("------- setting rent -------------");
+      propertyDetails.setRentDetails(map["rentDetails"]);
+    } else {
+      propertyDetails.setSaleDetails(map["saleDetails"]);
+      debugPrint("------- setting sale -------------");
+    }
+    return propertyDetails;
   }
 
 //</editor-fold>
@@ -281,7 +293,9 @@ class PropertyAbout {
     }
 
     try {
-      constructionStatus = map.containsKey("constructionStatus") ? map["constructionStatus"] : "";
+      constructionStatus = map.containsKey("constructionStatus")
+          ? map["constructionStatus"]
+          : "";
     } catch (e) {
       print('Exception occurred in constructionStatus field: $e');
       constructionStatus =
@@ -476,7 +490,6 @@ class Address {
 }
 
 class SaleDetails {
-
   late String ownership;
   late String constructionStatus;
   late int constructionYear;
@@ -485,15 +498,13 @@ class SaleDetails {
   late int price;
 
 //<editor-fold desc="Data Methods">
-  SaleDetails({
-    required this.ownership,
-    required this.constructionStatus,
-    required this.constructionYear,
-    required this.salableArea,
-    required this.builtUpArea,
-    required this.price
-  });
-
+  SaleDetails(
+      {required this.ownership,
+      required this.constructionStatus,
+      required this.constructionYear,
+      required this.salableArea,
+      required this.builtUpArea,
+      required this.price});
 
   @override
   String toString() {
@@ -513,13 +524,12 @@ class SaleDetails {
 
   factory SaleDetails.fromMap(Map<String, dynamic> map) {
     return SaleDetails(
-      ownership: map['ownership'] as String,
-      constructionStatus: map['constructionStatus'] as String,
-      constructionYear: map['constructionYear'] as int,
-      salableArea: map['salableArea'] as int,
-      builtUpArea: map['builtUpArea'] as int,
-      price: map['price'] as int
-    );
+        ownership: map['ownership'] as String,
+        constructionStatus: map['constructionStatus'] as String,
+        constructionYear: map['constructionYear'] as int,
+        salableArea: map['salableArea'] as int,
+        builtUpArea: map['builtUpArea'] as int,
+        price: map['price'] as int);
   }
 
 //</editor-fold>

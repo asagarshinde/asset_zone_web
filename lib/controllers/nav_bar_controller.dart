@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
 import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
@@ -55,7 +56,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return const TestPage();
+        return const HomeScreen(title: "The Asset Zone");
       },
     ),
     GoRoute(
@@ -84,10 +85,12 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/singleproperty',
+      path: '/singleproperty/:propertyId',
+      name: 'singleProperty',
       builder: (BuildContext context, GoRouterState state) {
-        print(state.extra);
-        return SinglePagePropertyView(state.extra);
+        // print(state.extra);
+        String propertyId = state.pathParameters["propertyId"].toString();
+        return SinglePagePropertyView(propertyId);
       },
     ),
     GoRoute(

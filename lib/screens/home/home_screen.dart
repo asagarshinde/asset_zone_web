@@ -40,9 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
 }
   @override
   Widget build(BuildContext context) {
-
-    // TODO: remove after work done
-    print("is user authenticated ${authController.isAuthenticated}");
     isAuthenticate().then((value) => print("from shared preferences $value"));
     final width = MediaQuery.of(context).size.width;
     return SelectionArea(
@@ -50,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: Responsive.isDesktop(context)
             ? PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 70),
-                child: SimpleMenuBar(),
+                child: const SimpleMenuBar(),
               )
             : AppBar(
                 backgroundColor: kPrimaryColor,
