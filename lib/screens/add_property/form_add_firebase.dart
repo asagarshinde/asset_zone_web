@@ -342,6 +342,15 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                       kformVerticalDivider,
                                       Expanded(child: fields["carpetArea"]!),
                                     ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Expanded(child: SizedBox(),),
+                                      kformVerticalDivider,
+                                      Expanded(child: fields["price"]!),
+                                      kformVerticalDivider,
+                                      const Expanded(child: SizedBox(),),
+                                    ],
                                   )
                                 ],
                               ),
@@ -492,50 +501,6 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                                         ]),
                                       ),
                                     ),
-                                    // Expanded(
-                                    //   flex: 2,
-                                    //   child: Center(
-                                    //     child: TextField(
-                                    //       controller:
-                                    //       formController.dateController,
-                                    //       //editing controller of this TextField
-                                    //       decoration: const InputDecoration(
-                                    //           border: OutlineInputBorder(),
-                                    //           prefixIcon:
-                                    //           Icon(Icons.calendar_today),
-                                    //           //icon of text field
-                                    //           labelText:
-                                    //           "Enter Date" //label text of field
-                                    //       ),
-                                    //       readOnly: true,
-                                    //       //set it true, so that user will not able to edit text
-                                    //       onTap: () async {
-                                    //         DateTime? pickedDate =
-                                    //         await showDatePicker(
-                                    //             context: context,
-                                    //             initialDate: DateTime.now(),
-                                    //             firstDate: DateTime(1950),
-                                    //             //DateTime.now() - not to allow to choose before today.
-                                    //             lastDate: DateTime(2100));
-                                    //
-                                    //         if (pickedDate != null) {
-                                    //           //pickedDate output format => 2021-03-10 00:00:00.000
-                                    //           String formattedDate =
-                                    //           DateFormat('yyyy-MM-dd')
-                                    //               .format(pickedDate);
-                                    //           //formatted date output using intl package =>  2021-03-16
-                                    //           setState(
-                                    //                 () {
-                                    //               formController
-                                    //                   .dateController.text =
-                                    //                   formattedDate; //set output date to TextField value.
-                                    //             },
-                                    //           );
-                                    //         } else {}
-                                    //       },
-                                    //     ),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                                 const SizedBox(height: 8),

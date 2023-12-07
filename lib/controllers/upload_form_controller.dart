@@ -436,9 +436,9 @@ class UploadFormController extends GetxController {
           phone: mobileController.text);
 
       PropertyAreaDetails propertyAreaDetails = PropertyAreaDetails(
-          salableArea: int.parse(salableAreaController.text),
+          salableArea: (salableAreaController.text != "" ) ? int.parse(salableAreaController.text) : 0,
           carpetArea: int.parse(carpetAreaController.text),
-          builtUpArea: int.parse(builtUpAreaController.text));
+          builtUpArea: (builtUpAreaController.text != "") ? int.parse(builtUpAreaController.text) : 0);
 
       PropertyDetails propertyDetails = PropertyDetails(
           id: documentId,
