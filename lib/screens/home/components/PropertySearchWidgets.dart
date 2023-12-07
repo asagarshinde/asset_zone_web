@@ -4,13 +4,10 @@ import 'package:get/get.dart';
 import '../../../constants/constants.dart';
 import '../../../controllers/search_controller.dart';
 
-
 class AutoCompleteTextField extends StatefulWidget {
-  AutoCompleteTextField({Key? key}) : super(key: key);
-  static const List<String> _kOption = <String>[
-    "rajiv nagar",
-    "sapana nagar"
-  ];
+  AutoCompleteTextField({super.key});
+
+  static const List<String> _kOption = <String>["rajiv nagar", "sapana nagar"];
   final _searchPanelController = Get.put(MySearchController());
 
   @override
@@ -18,49 +15,72 @@ class AutoCompleteTextField extends StatefulWidget {
 }
 
 class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
+  TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
-      child: Autocomplete<String>(
-        optionsViewBuilder: (BuildContext context, var onSelected,
-            Iterable options) {
-          return Align(
-            alignment: Alignment.topLeft,
-            child: Material(
-              child: Container(
-                width: 300,
-                color: kSecondaryColor,
-                child: ListView.builder(
-                    itemCount: options.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final option = options.elementAt(index);
-                      return GestureDetector(
-                        onTap: () {
-                          onSelected(option);
-                        },
-                        child: ListTile(
-                            title: Text(
-                              option, style: const TextStyle(color: Colors.white),)
-                        ),
-                      );
-                    }),
+    return Autocomplete<String>(
+      // initialValue: const TextEditingValue(text: "Enter the search area"),
+      fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+        return TextField(
+          controller: controller,
+          focusNode: focusNode,
+          textAlign: TextAlign.center,
+          onChanged: (value) {
+            if (value.isNotEmpty) {
+              // Clear initial value when the user starts typing
+              setState(() {
+                widget._searchPanelController.searchLocation = "null";
+              });
+            }
+          },
+          decoration: const InputDecoration(
+            hintText: 'Start typing area...',
+          ),
+          onEditingComplete: onEditingComplete,
+        );
+      },
+      optionsViewBuilder:
+          (BuildContext context, var onSelected, Iterable options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            child: Container(
+              width: 300,
+              color: kSecondaryColor,
+              child: ListView.builder(
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final option = options.elementAt(index);
+                  return GestureDetector(
+                    onTap: () {
+                      onSelected(option);
+                    },
+                    child: ListTile(
+                      title: Text(
+                        option,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
-        optionsBuilder: (TextEditingValue textEditingValue) {
-          if (textEditingValue.text == "") {
-            return const Iterable<String>.empty();
-          }
-          return AutoCompleteTextField._kOption.where((option) {
-            return option.contains(textEditingValue.text.toLowerCase());
-          });
-        },
-        onSelected: (String selection) {
-          widget._searchPanelController.searchLocation = selection;
-          debugPrint('You just selected $selection');
-        },),
+          ),
+        );
+      },
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text == "") {
+          return const Iterable<String>.empty();
+        }
+        return AutoCompleteTextField._kOption.where((option) {
+          return option.contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (String selection) {
+        widget._searchPanelController.searchLocation = selection;
+        debugPrint('You just selected $selection');
+      },
     );
   }
 }
@@ -230,7 +250,7 @@ class _PropertyTypeDropDownState extends State<PropertyTypeDropDown> {
 }
 
 class PropertySubTypeDropDown extends StatefulWidget {
-  PropertySubTypeDropDown({Key? key}) : super(key: key);
+  const PropertySubTypeDropDown({super.key});
 
   @override
   State<PropertySubTypeDropDown> createState() =>
@@ -240,31 +260,84 @@ class PropertySubTypeDropDown extends StatefulWidget {
 class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final searchPanelController = Get.put(MySearchController());
-      return DropdownButtonHideUnderline(
-        child: Padding(
+    return Obx(
+          () {
+        final searchPanelController = Get.put(MySearchController());
+        return DropdownButtonHideUnderline(
+          child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
             child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(width: 1.0, color: Colors.black12),
-                ),
-                child: DropdownButton(
-                    isExpanded: true,
-                    alignment: AlignmentDirectional.center,
-                    value: searchPanelController.selectedPropertySubType.value,
-                    // items: searchPanelController.setItems(),
-                    // hint: Center(child: const Text("Property Sub Type")),
-                    items: searchPanelController.propertySubTypeMenu,
-                    onChanged: (value) {
-                      setState(() {
-                        searchPanelController.selectedPropertySubType.value =
-                            value.toString();
-                      });
-                    }))),
-      );
-    });
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(width: 1.0, color: Colors.black12),
+              ),
+              child: DropdownButton(
+                isExpanded: true,
+                alignment: AlignmentDirectional.center,
+                value: searchPanelController.selectedPropertySubType.value,
+                // items: searchPanelController.setItems(),
+                // hint: Center(child: const Text("Property Sub Type")),
+                items: searchPanelController.propertySubTypeMenu,
+                onChanged: (value) {
+                  setState(
+                        () {
+                      searchPanelController.selectedPropertySubType.value =
+                          value.toString();
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+class CityDropDown extends StatefulWidget {
+
+  const CityDropDown({super.key});
+
+  @override
+  State<CityDropDown> createState() =>
+      _CityDropDownState();
+}
+
+class _CityDropDownState extends State<CityDropDown> {
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+          () {
+        final searchPanelController = Get.put(MySearchController());
+        return DropdownButtonHideUnderline(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(width: 1.0, color: Colors.black12),
+              ),
+              child: DropdownButton(
+                isExpanded: true,
+                alignment: AlignmentDirectional.center,
+                value: searchPanelController.selectedCity.value,
+                items: getMenuItems(citiesList),
+                onChanged: (value) {
+                  setState(
+                        () {
+                          searchPanelController.selectedCity.value = value.toString();
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

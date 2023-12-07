@@ -45,12 +45,15 @@ class PropertyController extends GetxController {
         searchPanelController.selectedPropertySubType.value;
     String propertyType = searchPanelController.selectedPropertyType.value;
     String searchLocation = searchPanelController.searchLocation;
-    debugPrint("Searching properties $propertyType and $propertySubType");
+    String city = searchPanelController.selectedCity.value;
+    debugPrint("Searching properties $propertyType and $propertySubType from location $searchLocation in city $city");
 
     var querySnapshot = firestoreDB
         .collection("PropertyDetails")
-        .where("property_about.property_type", isEqualTo: propertyType)
-        .where("property_about.property_sub_type", isEqualTo: propertySubType)
+    .where("address.city", isEqualTo: city)
+        .where("address.localityOrArea", isEqualTo: searchLocation)
+        .where("propertyAbout.propertySubType", isEqualTo: propertySubType)
+        .where("propertyAbout.propertyType", isEqualTo: propertyType)
         .get();
 
     querySnapshot.then(

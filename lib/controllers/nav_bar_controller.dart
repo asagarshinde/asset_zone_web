@@ -96,8 +96,6 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/individualproperty/:propertyId',
       builder: (BuildContext context, GoRouterState state) {
-        print("i was here na bhai******** ${state.pathParameters}");
-        print(state.extra);
         return IndividualProperty(state.pathParameters);
       },
     ),

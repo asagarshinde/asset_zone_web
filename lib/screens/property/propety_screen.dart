@@ -59,10 +59,10 @@ class PropertyScreen extends StatelessWidget {
                     const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(flex: 1, child: SizedBox()),
+                        Expanded(flex: 2, child: SizedBox()),
                         Expanded(flex: 2, child: AdvanceSearchVerticalPanel()),
-                        Expanded(flex: 5, child: PropertyCardGridViewStateless()),
-                        Expanded(flex: 1, child: SizedBox()),
+                        Expanded(flex: 6, child: PropertyCardGridViewStateless()),
+                        Expanded(flex: 2, child: SizedBox()),
                       ],
                     ),
                   if (Responsive.isMobile(context))

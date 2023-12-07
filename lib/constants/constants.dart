@@ -49,10 +49,12 @@ const menus = {
   "property": ["New Property", "Resell Properties", "Rental Properties"],
   "project": [""],
   "services": ["Interior Design", "Vastu", "Legal Advisor"],
-  "city": ["Nashik", "Igatpuri"]
+  "city": ["Nashik", "Igatpuri", "Pune"]
 };
 
 const menuList = ["home", "property", "about us", "city"];
+
+const citiesList = { "City": ["Nashik", "Igatpuri", "Pune"]};
 
 const propertySearch = {
   "Property Type": ["Residential", "Commercial", "Plot", "Industrial"]

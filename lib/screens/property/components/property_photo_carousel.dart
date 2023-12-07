@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class PropertyPhotoCarousel extends StatefulWidget {
   const PropertyPhotoCarousel({super.key, double? height, this.imageList});
-  final List<String>? imageList;
+  final List<dynamic>? imageList;
 
   @override
   State<PropertyPhotoCarousel> createState() => _PropertyPhotoCarouselState();
@@ -36,10 +36,11 @@ class _PropertyPhotoCarouselState extends State<PropertyPhotoCarousel> {
                     return Container(
                       margin: const EdgeInsets.all(8),
                       child: SizedBox(
+                        width: constraints.maxWidth,
                         height: 316,
                         child: CachedNetworkImage(
                           imageUrl: url,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           placeholder: (context, url) => const CircularProgressIndicator(), // Optional: Show a loading indicator
                           errorWidget: (context, url, error) => const Icon(Icons.error), // Optional: Show an error icon
                         ),

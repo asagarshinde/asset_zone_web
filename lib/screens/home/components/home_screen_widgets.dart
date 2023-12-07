@@ -165,8 +165,8 @@ class _PropertyTileState extends State<PropertyTile> {
                   child: onHoverStrip(
                       values: widget.values,
                       price: widget.price,
-                      propertyStatus: widget
-                          .propertyStatus), // Adjust the 50.0 for distance
+                      locality: widget
+                          .propertyDetails.address.localityOrArea), // Adjust the 50.0 for distance
                 ),
               ],
             ),
@@ -184,7 +184,7 @@ class onHoverStrip extends StatelessWidget {
       {Key? key,
       required this.values,
       required this.price,
-      required this.propertyStatus})
+      required this.locality})
       : super(key: key);
   List<Widget> items = [];
   List<Color> colors = [
@@ -196,7 +196,7 @@ class onHoverStrip extends StatelessWidget {
   List<String> text1 = ["Beds", "Baths", "Carpet Area"];
   final List<String> values;
   final String price;
-  final String propertyStatus;
+  final String locality;
 
   // List<String> text2 = values;
 
@@ -218,7 +218,7 @@ class onHoverStrip extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
-              propertyStatus,
+              locality,
               style: GoogleFonts.rubik(fontSize: 20, color: Colors.white70),
             ),
           ),

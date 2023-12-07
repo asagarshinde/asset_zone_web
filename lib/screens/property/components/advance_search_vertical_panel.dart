@@ -47,7 +47,7 @@ class AdvanceSearchVerticalPanel extends StatelessWidget {
                 ),
               ),
             ),
-            PropertySearchMobileView(),
+            const PropertySearchMobileView(),
           ],
         ),
       ),

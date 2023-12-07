@@ -15,25 +15,31 @@ class PropertyCardGridViewStateless extends StatelessWidget {
   List<Widget> getIconDescriptionRow(index) {
     List<IconData> icons = [
       Icons.bedroom_parent,
-      Icons.bathroom,
-      Icons.area_chart
+      Icons.bathtub,
+      Icons.store_mall_directory
     ];
-    List<String> texts = ["Bed:", "Bath:", "Sq Ft:"];
+    List<String> texts = ["Bed:", "Bath:", "Area:"];
     List<Widget> row = [];
     PropertyDetails property = propertyController.propertiesList[index];
     List<String> values = [
       property.propertyAbout.bedrooms.toString(),
       property.propertyAbout.bathrooms.toString(),
+      "${property.propertyAreaDetails.carpetArea.toString()} sqft"
     ];
 
     for (int i = 0; i < icons.length; i++) {
       if (i != icons.length) {
         row.add(DescriptionRowElement(
             icon: icons[i], text: texts[i], value: values[i]));
-        row.add(const VerticalDivider(
-          color: Colors.black,
-          thickness: 2.0,
-        ));
+        row.add(
+          const SizedBox(
+            height: 30,
+            child: VerticalDivider(
+              color: kSecondaryColor,
+              thickness: 2.0,
+            ),
+          ),
+        );
       }
     }
     row.removeAt(row.length - 1);
@@ -59,12 +65,12 @@ class PropertyCardGridViewStateless extends StatelessWidget {
             const Divider(),
             Container(
               padding: const EdgeInsets.all(8),
-              height: 800,
+              height: 600,
               child: GridView.builder(
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 700,
-                    childAspectRatio: 1.3,
+                    maxCrossAxisExtent: 500,
+                    childAspectRatio: 1.0,
                     mainAxisExtent: 535),
                 // mainAxisExtent to fix vertical size
                 padding: kDefaultPadding,
@@ -74,97 +80,99 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                       propertyController.propertiesList[index];
                   return LayoutBuilder(
                     builder: (context, constraints) {
-                      return SizedBox(
-                        width: 250,
-                        child: Card(
-                          elevation: kElevation,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: PropertyPhotoCarousel(
-                                    imageList: propertyController
-                                        .propertiesList[index].gallery),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Wrap(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          30, 10, 0, 0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          AutoSizeText(
-                                              (propertyController
-                                                  .propertiesList[index]
-                                                  .propertyAbout
-                                                  .city
-                                                  .toUpperCase()),
-                                              style: kTextDefaultStyle.copyWith(
-                                                  letterSpacing: 3)),
-                                          kDefaultSizedBox,
-                                          AutoSizeText("Little Acorn Farm",
-                                              style: kTextHeader2Style),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical:
-                                                    kDefaultSizedBoxWidth / 2),
-                                            child: AutoSizeText(
-                                                (propertyController
-                                                    .propertiesList[index]
-                                                    .propertyAbout
-                                                    .price
-                                                    .toString()),
-                                                style:
-                                                    kTextHeader2Style.copyWith(
-                                                        color:
-                                                            kSecondaryColor)),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical:
-                                                    kDefaultSizedBoxWidth / 2),
-                                            child: IntrinsicHeight(
-                                              child: Wrap(
-                                                children: getIconDescriptionRow(
-                                                    index),
-                                              ),
+                      return Card(
+                        elevation: kElevation,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: PropertyPhotoCarousel(
+                                  imageList: propertyController
+                                      .propertiesList[index].gallery),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Wrap(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        30, 0, 0, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        AutoSizeText(
+                                            (property
+                                                .address
+                                                .city
+                                                .toUpperCase()),
+                                            style: kTextDefaultStyle.copyWith(
+                                                letterSpacing: 3)),
+                                        kDefaultSizedBox,
+                                        AutoSizeText(
+                                            property.address.buildingName,
+                                            style: kTextHeader2Style),
+                                        // price
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical:
+                                                  kDefaultSizedBoxWidth / 2),
+                                          child: AutoSizeText(
+                                              ((propertyController
+                                                      .propertiesList[index]
+                                                      .isRent)
+                                                  ? "${property.rentDetails!.rent.toString()} ₹"
+                                                  : "${property.saleDetails!.price.toString()} ₹"),
+                                              style:
+                                                  kTextHeader2Style.copyWith(
+                                                      color:
+                                                          kSecondaryColor)),
+                                        ),
+                                        // icon details row
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical:
+                                                  kDefaultSizedBoxWidth / 2),
+                                          child: IntrinsicHeight(
+                                            child: Wrap(
+                                              alignment: WrapAlignment.spaceEvenly,
+                                              children: getIconDescriptionRow(
+                                                  index),
                                             ),
                                           ),
-                                          Wrap(
-                                            children: [
-                                              Text(kDateformat.format(
-                                                  propertyController
-                                                      .propertiesList[index]
-                                                      .uploadDate
-                                                      .toDate())),
-                                              const SizedBox(width: 40),
-                                              MyButton(
-                                                title: "Details",
-                                                height: 30,
-                                                onTap: () {
-                                                  print(
-                                                      "i dont know how come ontap tapped. ");
-                                                  GoRouter.of(context).go(
-                                                      '/singleproperty',
-                                                      extra: property.toMap());
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                        ),
+                                        Wrap(
+                                          children: [
+                                            Text(kDateformat.format(
+                                                propertyController
+                                                    .propertiesList[index]
+                                                    .uploadDate
+                                                    .toDate())),
+                                            const SizedBox(width: 40),
+                                            MyButton(
+                                              title: "Details",
+                                              height: 30,
+                                              onTap: () {
+                                                print(
+                                                    "i dont know how come ontap tapped. ");
+                                                GoRouter.of(context).go(
+                                                    '/singleproperty',
+                                                    extra: property.toMap());
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 100,)
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
@@ -192,7 +200,7 @@ class DescriptionRowElement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: [
-        Icon(icon),
+        Icon(icon, color: kSecondaryColor,),
         const SizedBox(width: 5),
         Text(text),
         const SizedBox(width: 5),
