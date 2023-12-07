@@ -65,29 +65,34 @@ class _AuthDialogState extends State<AuthDialog> {
   String? _validateEmail(String value) {
     value = value.trim();
 
-    if (textControllerEmail.text.isNotEmpty) {
+    // if (textControllerEmail.text.isNotEmpty) {
+      print("checking empty email ${value.isEmpty}");
       if (value.isEmpty) {
         return 'Email can\'t be empty';
       } else if (!value.contains(RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))) {
         return 'Enter a correct email address';
+      } else {
+        return null;
       }
-    }
+    // }
 
-    return null;
-    authController = AuthController();
+    // return null;
+    // authController = AuthController();
   }
 
   String? _validatePassword(String value) {
     value = value.trim();
 
-    if (textControllerEmail.text.isNotEmpty) {
+
       if (value.isEmpty) {
         return 'Password can\'t be empty';
       } else if (value.length < 6) {
         return 'Length of password should be greater than 6';
+      } else {
+        return null;
       }
-    }
+
 
     return null;
   }
@@ -174,6 +179,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     onChanged: (value) {
                       setState(() {
                         _isEditingEmail = true;
+                        loginStatus = "";
                       });
                     },
                     onSubmitted: (value) {
@@ -380,7 +386,7 @@ class _AuthDialogState extends State<AuthDialog> {
                       const SizedBox(width: 20),
                       Flexible(
                         flex: 1,
-                        child: Container(
+                        child: SizedBox(
                           width: double.maxFinite,
                           child: TextButton(
                             style: TextButton.styleFrom(
@@ -393,27 +399,39 @@ class _AuthDialogState extends State<AuthDialog> {
                               setState(() {
                                 _isRegistering = true;
                               });
-                              await registerWithEmailPassword(
-                                      textControllerEmail.text,
-                                      textControllerPassword.text)
-                                  .then((result) {
-                                if (result != null) {
+                              if (_validateEmail(textControllerEmail.text) ==
+                                      null &&
+                                  _validatePassword(
+                                          textControllerPassword.text) ==
+                                      null) {
+                                await registerWithEmailPassword(
+                                        textControllerEmail.text,
+                                        textControllerPassword.text)
+                                    .then((result) {
+                                  if (result != null) {
+                                    setState(() {
+                                      loginStatus =
+                                          'You have registered successfully';
+                                      loginStringColor = Colors.green;
+                                    });
+                                    print(result);
+                                  }
+                                }).catchError((error) {
+                                  print('Registration Error: $error');
                                   setState(() {
                                     loginStatus =
-                                        'You have registered successfully';
-                                    loginStringColor = Colors.green;
+                                        'Error occured while registering';
+                                    loginStringColor = Colors.red;
                                   });
-                                  print(result);
-                                }
-                              }).catchError((error) {
-                                print('Registration Error: $error');
+                                });
+                              } else {
                                 setState(() {
                                   loginStatus =
-                                      'Error occured while registering';
-                                  loginStringColor = Colors.red;
+                                  'Invalid email or password';
+                                  loginStringColor = Colors.white;
                                 });
-                              });
-
+                                debugPrint("Invalid email and password.");
+                              }
                               setState(() {
                                 _isRegistering = false;
                               });
