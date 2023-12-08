@@ -31,6 +31,7 @@ class PropertySearchMobileView extends StatelessWidget {
                       decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
                       child: AutoCompleteTextField()),
                 ),
+                const SaleOrRent(),
                 const PropertyTypeDropDown(),
                 const PropertySubTypeDropDown(),
                 const PropertySearchCardSearchRangeSlider(),
@@ -47,9 +48,9 @@ class PropertySearchMobileView extends StatelessWidget {
                         style: kTextDefaultStyle,
                       ),
                     ),
-                    PropertySearchCardSearchRangeSliderSelectedValue(
+                    const PropertySearchCardSearchRangeSliderSelectedValue(
                         select: "start"),
-                    PropertySearchCardSearchRangeSliderSelectedValue(
+                    const PropertySearchCardSearchRangeSliderSelectedValue(
                         select: "end"),
                   ],
                 ),

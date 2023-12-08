@@ -9,6 +9,7 @@ class MySearchController extends GetxController {
   GlobalKey forBuyScroll = GlobalKey();
   String searchString = "Search Location".obs();
   RxString selectedCity = "City".obs;
+  RxBool selectedPropertyFor = true.obs;
   var selectedPropertyType = "Property Type".obs;
   var selectedPropertySubType = "Property Sub Type".obs;
   String searchLocation = "".obs();
