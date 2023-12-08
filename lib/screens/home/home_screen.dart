@@ -110,8 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class HomePageSecondSection extends StatelessWidget {
   const HomePageSecondSection(
-      {Key? key, required this.width, required this.constraints})
-      : super(key: key);
+      {super.key, required this.width, required this.constraints});
 
   final double width;
   final BoxConstraints constraints;
@@ -140,7 +139,7 @@ class HomePageSecondSection extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           width < 700
-              ? PropertySearchMobileView()
+              ? const PropertySearchMobileView()
               : width < 950
                   ? const PropertySearchTabletView()
                   : const PropertySearchPanel(),

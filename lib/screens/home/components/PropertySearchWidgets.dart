@@ -21,11 +21,11 @@ class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<String>>(
-      future: propertyController.getLocalityList(searchPanelController.selectedCity.value),
+      future: propertyController
+          .getLocalityList(searchPanelController.selectedCity.value),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           AutoCompleteTextField._kOption = {...snapshot.data!};
-          debugPrint("autocomplete snapshot ${snapshot.data.toString()}");
           return Autocomplete<String>(
             // initialValue: const TextEditingValue(text: "Enter the search area"),
             fieldViewBuilder:
@@ -99,7 +99,7 @@ class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
 }
 
 class PropertySearchCardSearchField extends StatefulWidget {
-  const PropertySearchCardSearchField({Key? key}) : super(key: key);
+  const PropertySearchCardSearchField({super.key});
 
   @override
   State<PropertySearchCardSearchField> createState() =>
@@ -132,7 +132,7 @@ class _PropertySearchCardSearchFieldState
             });
           },
           decoration: const InputDecoration(
-            // contentPadding: EdgeInsets.symmetric(horizontal: 40.0),
+              // contentPadding: EdgeInsets.symmetric(horizontal: 40.0),
               border: InputBorder.none),
           initialValue: "Search Location",
           textAlign: TextAlign.center,
@@ -143,7 +143,7 @@ class _PropertySearchCardSearchFieldState
 }
 
 class PropertySearchCardSearchRangeSlider extends StatefulWidget {
-  const PropertySearchCardSearchRangeSlider({Key? key}) : super(key: key);
+  const PropertySearchCardSearchRangeSlider({super.key});
 
   @override
   State<PropertySearchCardSearchRangeSlider> createState() =>
@@ -173,28 +173,29 @@ class _PropertySearchCardSearchRangeSliderState
             .toString(),
       ),
       onChanged: (RangeValues values) {
-        setState(() {
-          _searchPanelController.currentRangeValuesPrice.value = values;
-          print(_searchPanelController.currentRangeValuesPrice);
-        });
+        setState(
+          () {
+            _searchPanelController.currentRangeValuesPrice.value = values;
+          },
+        );
       },
     );
   }
 }
 
 class PropertySearchCardSearchRangeSliderSelectedValue extends StatelessWidget {
-  PropertySearchCardSearchRangeSliderSelectedValue(
-      {Key? key, required this.select})
-      : super(key: key);
-  final select;
+  const PropertySearchCardSearchRangeSliderSelectedValue(
+      {super.key, required this.select});
+
+  final String select;
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final _searchPanelController = Get.put(MySearchController());
+      final searchPanelController = Get.put(MySearchController());
       var myselect = select == "end"
-          ? _searchPanelController.currentRangeValuesPrice.value.end
-          : _searchPanelController.currentRangeValuesPrice.value.start;
+          ? searchPanelController.currentRangeValuesPrice.value.end
+          : searchPanelController.currentRangeValuesPrice.value.start;
       return AutoSizeText(
         overflow: TextOverflow.clip,
         select == "end" ? "${myselect / 1000}K" : "${myselect / 1000}K - ",
@@ -202,18 +203,6 @@ class PropertySearchCardSearchRangeSliderSelectedValue extends StatelessWidget {
         style: kTextDefaultStyle,
       );
     });
-  }
-}
-
-class dummyTextWidget extends StatelessWidget {
-  final _searchPanelController = Get.put(MySearchController());
-
-  dummyTextWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-        _searchPanelController.currentRangeValuesPrice.value.start.toString());
   }
 }
 
@@ -249,8 +238,8 @@ class _PropertyTypeDropDownState extends State<PropertyTypeDropDown> {
                   searchPanelController.selectedPropertyType.value =
                       value.toString();
                   searchPanelController.selectedPropertySubType.value =
-                  maxRoomsDD[
-                  searchPanelController.selectedPropertyType.value]![0];
+                      maxRoomsDD[
+                          searchPanelController.selectedPropertyType.value]![0];
                   searchPanelController.getPropertySubType(value);
                 }
               });
@@ -274,7 +263,7 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () {
+      () {
         final searchPanelController = Get.put(MySearchController());
         return DropdownButtonHideUnderline(
           child: Padding(
@@ -294,7 +283,7 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
                 items: searchPanelController.propertySubTypeMenu,
                 onChanged: (value) {
                   setState(
-                        () {
+                    () {
                       searchPanelController.selectedPropertySubType.value =
                           value.toString();
                     },
@@ -305,6 +294,45 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
           ),
         );
       },
+    );
+  }
+}
+
+class SaleOrRent extends StatefulWidget {
+  const SaleOrRent({super.key});
+
+  @override
+  State<SaleOrRent> createState() => _SaleOrRentState();
+}
+
+class _SaleOrRentState extends State<SaleOrRent> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              "Rent",
+              style: kTextDefaultStyle,
+            ),
+            Switch(
+              value: searchPanelController.selectedPropertyFor.value,
+              onChanged: (value) {
+                setState(
+                  () {
+                    searchPanelController.selectedPropertyFor.value = value;
+                  },
+                );
+              },
+            ),
+            Text(
+              "Sale",
+              style: kTextDefaultStyle,
+            )
+          ]),
     );
   }
 }
@@ -320,7 +348,7 @@ class _CityDropDownState extends State<CityDropDown> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () {
+      () {
         final searchPanelController = Get.put(MySearchController());
         return DropdownButtonHideUnderline(
           child: Padding(
@@ -338,7 +366,7 @@ class _CityDropDownState extends State<CityDropDown> {
                 items: getMenuItems(citiesList),
                 onChanged: (value) {
                   setState(
-                        () {
+                    () {
                       searchPanelController.selectedCity.value =
                           value.toString();
                     },
