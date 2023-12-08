@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'PropertySearchWidgets.dart';
 
-
 class PropertySearchPanel extends StatelessWidget {
-  const PropertySearchPanel({Key? key}) : super(key: key);
-  
+  const PropertySearchPanel({super.key});
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -23,15 +24,19 @@ class PropertySearchPanel extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Expanded(
-                      child: PropertySearchCardSearchField(),
-                    ),
-                    const Expanded(
-                      child: PropertyTypeDropDown(),
-                    ),
+                    const Expanded(child: SaleOrRent()),
+                    const Expanded(child: CityDropDown()),
                     Expanded(
-                      child: PropertySubTypeDropDown(),
-                    )
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black12)),
+                            child: AutoCompleteTextField()),
+                      ), // PropertySearchCardSearchField(),
+                    ),
+                    const Expanded(child: PropertyTypeDropDown()),
+                    const Expanded(child: PropertySubTypeDropDown())
                   ],
                 ),
                 Padding(
@@ -51,9 +56,9 @@ class PropertySearchPanel extends StatelessWidget {
                                 style: kTextDefaultStyle,
                               ),
                             ),
-                            PropertySearchCardSearchRangeSliderSelectedValue(
+                            const PropertySearchCardSearchRangeSliderSelectedValue(
                                 select: "start"),
-                            PropertySearchCardSearchRangeSliderSelectedValue(
+                            const PropertySearchCardSearchRangeSliderSelectedValue(
                                 select: "end"),
                           ],
                         ),
@@ -70,14 +75,14 @@ class PropertySearchPanel extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: MyButton(
-                                    title: "Search"
-
+                                  title: "Search",
+                                  onTap: () {
+                                    propertyController.searchProperty();
+                                    GoRouter.of(context).go('/property');
+                                  },
                                 ),
                               ),
                             ),
-                            // const SizedBox(
-                            //   width: 120,
-                            // )
                           ],
                         ),
                       ),

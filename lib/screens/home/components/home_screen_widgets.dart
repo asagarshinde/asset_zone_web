@@ -92,7 +92,6 @@ class _PropertyTileState extends State<PropertyTile> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("building PropertyTile ------------>");
     return InkWell(
       onHover: (value) {
         if (value) {

@@ -26,7 +26,6 @@ class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           AutoCompleteTextField._kOption = {...snapshot.data!};
-          debugPrint("autocomplete snapshot ${snapshot.data.toString()}");
           return Autocomplete<String>(
             // initialValue: const TextEditingValue(text: "Enter the search area"),
             fieldViewBuilder:

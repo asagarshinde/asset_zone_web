@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
-import 'package:the_asset_zone_web/controllers/search_controller.dart';
-import 'package:the_asset_zone_web/screens/add_property/add_property_widgets.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'PropertySearchWidgets.dart';
 import 'package:the_asset_zone_web/constants/controllers.dart';

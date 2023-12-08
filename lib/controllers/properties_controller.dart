@@ -47,8 +47,9 @@ class PropertyController extends GetxController {
     String searchLocation = searchPanelController.searchLocation;
     String city = searchPanelController.selectedCity.value;
     bool isRent = searchPanelController.selectedPropertyFor.value;
+    propertiesList.value = [];
     debugPrint(
-        "Searching properties $propertyType and $propertySubType from location $searchLocation in city $city");
+        "Searching properties is rented $isRent, $propertyType and $propertySubType from location $searchLocation in city $city ");
 
     var querySnapshot = firestoreDB
         .collection("PropertyDetails")
@@ -71,9 +72,7 @@ class PropertyController extends GetxController {
         }
       },
     );
-
     debugPrint("Searched properties length is ${propertiesList.length}");
-    dummyVar.value = getRandString(5);
   }
 
   updatePropertyDetails(PropertyDetails propertyDetails) async {
@@ -148,20 +147,13 @@ class PropertyController extends GetxController {
           .get();
       return snapshot.docs.map(
         (docSnapshot) {
-          debugPrint("in retrieve property id is ${docSnapshot.data()['id']}");
           PropertyDetails propertyDetails =
               PropertyDetails.fromMap(docSnapshot.data());
-          debugPrint(
-              "property details from map then id is  ${propertyDetails.id}");
           if (isRent) {
             propertyDetails.setRentDetails(docSnapshot.data()["rentDetails"]);
-            debugPrint("rent details are set");
           } else {
             propertyDetails.setSaleDetails(docSnapshot.data()["saleDetails"]);
-            debugPrint("sale details are set");
           }
-          debugPrint("in retrieve property");
-
           return propertyDetails;
         },
       ).toList();
