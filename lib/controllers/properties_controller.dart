@@ -46,11 +46,12 @@ class PropertyController extends GetxController {
     String propertyType = searchPanelController.selectedPropertyType.value;
     String searchLocation = searchPanelController.searchLocation;
     String city = searchPanelController.selectedCity.value;
-    debugPrint("Searching properties $propertyType and $propertySubType from location $searchLocation in city $city");
+    debugPrint(
+        "Searching properties $propertyType and $propertySubType from location $searchLocation in city $city");
 
     var querySnapshot = firestoreDB
         .collection("PropertyDetails")
-    .where("address.city", isEqualTo: city)
+        .where("address.city", isEqualTo: city)
         .where("address.localityOrArea", isEqualTo: searchLocation)
         .where("propertyAbout.propertySubType", isEqualTo: propertySubType)
         .where("propertyAbout.propertyType", isEqualTo: propertyType)
@@ -62,10 +63,11 @@ class PropertyController extends GetxController {
           debugPrint(doc.data().toString());
           tempPropertyList.add(PropertyDetails.fromMap(doc.data()));
           propertiesList.value = tempPropertyList;
-          debugPrint("Searched properties are ${doc}");
+          debugPrint("Searched properties  ${doc}");
         }
       },
     );
+    debugPrint("Searched properties length is ${propertiesList.length}");
     dummyVar.value = getRandString(5);
   }
 
@@ -93,6 +95,25 @@ class PropertyController extends GetxController {
     return snapshot.docs.map((docSnapshot) {
       return PropertyDetails.fromMap(docSnapshot.data());
     }).toList();
+  }
+
+  Future<List<String>> getLocalityList(String city) async {
+    try {
+      List<String> localityList = [];
+      var querySnapshot = await firestoreDB
+          .collection("PropertyDetails")
+          .where("address.city", isEqualTo: city)
+          .get();
+      for (var doc in querySnapshot.docs) {
+        PropertyDetails property = PropertyDetails.fromMap(doc.data());
+        localityList.add(property.address.localityOrArea.toLowerCase());
+      }
+      debugPrint(localityList.toString());
+      return localityList;
+    } catch (e) {
+      debugPrint("Error: $e");
+      return []; // Return an empty list in case of an error
+    }
   }
 
   setPropertyList() async {
@@ -150,9 +171,7 @@ class PropertiesList {
     String? carpetArea = "";
     var properties =
         await dbservice.retrievePropertyDetails(propertiesFor, limit: limit);
-    // print("retrieved properties ${properties}");
     for (var property in properties) {
-      print(property.propertyAbout);
       if (property.isRent) {
         carpetArea = property.rentDetails?.carpetArea;
         propertiesFor = "Rent";
@@ -161,13 +180,11 @@ class PropertiesList {
         propertiesFor = "Sale";
       }
       carpetArea ??= "0";
-      debugPrint("in property list loop ${carpetArea}");
       List<String> values = [
         property.propertyAbout.bedrooms.toString(),
         property.propertyAbout.bathrooms.toString(),
         carpetArea
       ];
-      debugPrint("arguments for property tile values: $values, propertiesFor : $propertiesFor, gallery: ${property.gallery[0]}");
       try {
         Widget tile = PropertyTile(
             propertyStatus: propertiesFor,
@@ -180,7 +197,6 @@ class PropertiesList {
             propertyDetails: property);
         propertyList.add(tile);
       } catch (e) {
-        debugPrint("Error while creating tile checking $e");
         Widget tile = const Text(
             "Error while loading properties, please connect to admin.");
         propertyList.add(tile);

@@ -156,8 +156,6 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                               title: "Details",
                                               height: 30,
                                               onTap: () {
-                                                print(
-                                                    "i dont know how come ontap tapped. ");
                                                 GoRouter.of(context).go(
                                                     '/singleproperty',
                                                     extra: property.toMap());
@@ -165,7 +163,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: 100,)
+                                        const SizedBox(height: 100,)
                                       ],
                                     ),
                                   )
@@ -193,8 +191,7 @@ class DescriptionRowElement extends StatelessWidget {
   final String value;
 
   const DescriptionRowElement(
-      {Key? key, required this.icon, required this.text, required this.value})
-      : super(key: key);
+      {super.key, required this.icon, required this.text, required this.value});
 
   @override
   Widget build(BuildContext context) {

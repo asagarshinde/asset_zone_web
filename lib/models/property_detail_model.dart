@@ -86,9 +86,7 @@ class PropertyDetails {
     }
 
     propertyAbout = PropertyAbout.fromMap(map['propertyAbout']);
-    debugPrint("property details from map ${propertyAbout.parking}");
     contactDetails = OwnerDetails.fromMap(map['contactDetails']);
-    debugPrint("property details from map ${contactDetails.name}");
     try {
       uploadDate = map['uploadDate'] as Timestamp;
     } catch (e) {
@@ -119,7 +117,6 @@ class PropertyDetails {
 
     PropertyAreaDetails propertyAreaDetails =
         PropertyAreaDetails.fromMap(map["propertyAreaDetails"]);
-    debugPrint("property details from map ${propertyAreaDetails.carpetArea}");
     PropertyDetails propertyDetails = PropertyDetails(
         id: id,
         propertyAbout: propertyAbout,
@@ -131,11 +128,9 @@ class PropertyDetails {
         propertyAreaDetails: propertyAreaDetails);
 
     if (map["isRent"]) {
-      debugPrint("------- setting rent -------------");
       propertyDetails.setRentDetails(map["rentDetails"]);
     } else {
       propertyDetails.setSaleDetails(map["saleDetails"]);
-      debugPrint("------- setting sale -------------");
     }
     return propertyDetails;
   }
