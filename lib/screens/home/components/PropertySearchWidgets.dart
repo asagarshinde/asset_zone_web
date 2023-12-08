@@ -1,13 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import '../../../constants/constants.dart';
 import '../../../controllers/search_controller.dart';
 
 class AutoCompleteTextField extends StatefulWidget {
   AutoCompleteTextField({super.key});
 
-  static const List<String> _kOption = <String>["rajiv nagar", "sapana nagar"];
+  static Set<String> _kOption = <String>{"rajiv nagar", "sapana nagar"};
   final _searchPanelController = Get.put(MySearchController());
 
   @override
@@ -19,67 +20,79 @@ class _AutoCompleteTextFieldState extends State<AutoCompleteTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      // initialValue: const TextEditingValue(text: "Enter the search area"),
-      fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          textAlign: TextAlign.center,
-          onChanged: (value) {
-            if (value.isNotEmpty) {
-              // Clear initial value when the user starts typing
-              setState(() {
-                widget._searchPanelController.searchLocation = "null";
-              });
-            }
-          },
-          decoration: const InputDecoration(
-            hintText: 'Start typing area...',
-          ),
-          onEditingComplete: onEditingComplete,
-        );
-      },
-      optionsViewBuilder:
-          (BuildContext context, var onSelected, Iterable options) {
-        return Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            child: Container(
-              width: 300,
-              color: kSecondaryColor,
-              child: ListView.builder(
-                itemCount: options.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final option = options.elementAt(index);
-                  return GestureDetector(
-                    onTap: () {
-                      onSelected(option);
-                    },
-                    child: ListTile(
-                      title: Text(
-                        option,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  );
+    return FutureBuilder<List<String>>(
+      future: propertyController.getLocalityList(searchPanelController.selectedCity.value),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          AutoCompleteTextField._kOption = {...snapshot.data!};
+          debugPrint("autocomplete snapshot ${snapshot.data.toString()}");
+          return Autocomplete<String>(
+            // initialValue: const TextEditingValue(text: "Enter the search area"),
+            fieldViewBuilder:
+                (context, controller, focusNode, onEditingComplete) {
+              return TextField(
+                controller: controller,
+                focusNode: focusNode,
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    // Clear initial value when the user starts typing
+                    setState(() {
+                      widget._searchPanelController.searchLocation = "null";
+                    });
+                  }
                 },
-              ),
-            ),
-          ),
-        );
-      },
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == "") {
-          return const Iterable<String>.empty();
+                decoration: const InputDecoration(
+                  hintText: 'Start typing area...',
+                ),
+                onEditingComplete: onEditingComplete,
+              );
+            },
+            optionsViewBuilder:
+                (BuildContext context, var onSelected, Iterable options) {
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Material(
+                  child: Container(
+                    width: 300,
+                    color: kSecondaryColor,
+                    child: ListView.builder(
+                      itemCount: options.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final option = options.elementAt(index);
+                        return GestureDetector(
+                          onTap: () {
+                            onSelected(option);
+                          },
+                          child: ListTile(
+                            title: Text(
+                              option,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+            optionsBuilder: (TextEditingValue textEditingValue) {
+              if (textEditingValue.text == "") {
+                return const Iterable<String>.empty();
+              }
+              return AutoCompleteTextField._kOption.where((option) {
+                return option.contains(textEditingValue.text.toLowerCase());
+              });
+            },
+            onSelected: (String selection) {
+              widget._searchPanelController.searchLocation = selection;
+              debugPrint('You just selected $selection');
+            },
+          );
+        } else {
+          return Text(snapshot.error.toString());
         }
-        return AutoCompleteTextField._kOption.where((option) {
-          return option.contains(textEditingValue.text.toLowerCase());
-        });
-      },
-      onSelected: (String selection) {
-        widget._searchPanelController.searchLocation = selection;
-        debugPrint('You just selected $selection');
       },
     );
   }
@@ -296,14 +309,11 @@ class _PropertySubTypeDropDownState extends State<PropertySubTypeDropDown> {
   }
 }
 
-
 class CityDropDown extends StatefulWidget {
-
   const CityDropDown({super.key});
 
   @override
-  State<CityDropDown> createState() =>
-      _CityDropDownState();
+  State<CityDropDown> createState() => _CityDropDownState();
 }
 
 class _CityDropDownState extends State<CityDropDown> {
@@ -329,7 +339,8 @@ class _CityDropDownState extends State<CityDropDown> {
                 onChanged: (value) {
                   setState(
                         () {
-                          searchPanelController.selectedCity.value = value.toString();
+                      searchPanelController.selectedCity.value =
+                          value.toString();
                     },
                   );
                 },
