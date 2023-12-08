@@ -8,13 +8,12 @@ import 'components/advance_search_vertical_panel.dart';
 import 'components/property_card_grid_view_stateless.dart';
 
 class PropertyScreen extends StatelessWidget {
-  PropertyScreen({Key? key}) : super(key: key);
+  PropertyScreen({super.key});
   final ScrollController scrollController = ScrollController();
   final AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("PropertyScreen ${authController.getIsAuthenticated()} --> ${authController.isAuthenticated}");
     return Material(
       child: Scaffold(
         appBar: Responsive.isDesktop(context)
@@ -60,8 +59,10 @@ class PropertyScreen extends StatelessWidget {
                     const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Expanded(flex: 2, child: SizedBox()),
                         Expanded(flex: 2, child: AdvanceSearchVerticalPanel()),
-                        Expanded(flex: 5, child: PropertyCardGridViewStateless()),
+                        Expanded(flex: 6, child: PropertyCardGridViewStateless()),
+                        Expanded(flex: 2, child: SizedBox()),
                       ],
                     ),
                   if (Responsive.isMobile(context))
@@ -75,6 +76,9 @@ class PropertyScreen extends StatelessWidget {
                     ),
                 ],
               ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: 50,),
             ),
             SliverToBoxAdapter(
               child: SizedBox(

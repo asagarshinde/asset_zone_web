@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
-import 'package:the_asset_zone_web/controllers/properties_controller.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
-import '../../../widgets/helper_widgets.dart';
-import 'package:the_asset_zone_web/controllers/nav_bar_controller.dart';
 
 class HomePageText extends StatelessWidget {
-  const HomePageText({Key? key}) : super(key: key);
+  const HomePageText({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +62,11 @@ class HomePageText extends StatelessWidget {
 
 class PropertyTile extends StatefulWidget {
   final String inputImagePath;
-
   final String propertyType;
   final String propertyStatus;
   final String price;
   final List<String> values;
-  final propertyDetails;
+  final PropertyDetails propertyDetails;
 
   const PropertyTile(
       {super.key,
@@ -95,6 +92,7 @@ class _PropertyTileState extends State<PropertyTile> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("building PropertyTile ------------>");
     return InkWell(
       onHover: (value) {
         if (value) {
@@ -108,16 +106,9 @@ class _PropertyTileState extends State<PropertyTile> {
         }
       },
       onTap: () {
-        // GoRouter.of(context).go("/singleproperty",
-        //     extra: widget.propertyDetails);
-        // print(widget.propertyDetails);
-        getSinglePageProperty(propertyId: widget.propertyDetails["id"]);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  SinglePagePropertyView(widget.propertyDetails)),
-        );
+        // getSinglePageProperty(propertyId: widget.propertyDetails.id);
+        GoRouter.of(context)
+            .goNamed("singleProperty", pathParameters: {'propertyId': widget.propertyDetails.id});
       },
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -167,54 +158,15 @@ class _PropertyTileState extends State<PropertyTile> {
                     ),
                   ),
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Padding(
-                //           padding: const EdgeInsets.all(8.0),
-                //           child: Text(
-                //             widget.propertyStatus,
-                //             style: GoogleFonts.rubik(
-                //                 fontSize: 25, color: Colors.white70),
-                //           ),
-                //         ),
-                //         Padding(
-                //           padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                //           child: Text(
-                //             widget.price,
-                //             style: GoogleFonts.rubik(
-                //                 fontSize: 15, color: Colors.white70),
-                //           ),
-                //         )
-                //       ],
-                //     ),
-                //   ],
-                // ),
-                // Positioned(
-                //   bottom: _isHover ? 0 : -100,
-                //   child: AnimatedOpacity(
-                //     opacity: _isHover ? 1 : 0,
-                //     // duration: Duration(milliseconds: _isHover ? 10000 : 5000),
-                //     duration: Duration(milliseconds: 300),
-                //     child: onHoverStrip(
-                //       values: widget.values,
-                //     ),
-                //   ),
-                // )
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
                   transform: Matrix4.translationValues(
-                      0.0,
-                      _isHover ? 0.0 : 110.0,
-                      0.0),
+                      0.0, _isHover ? 0.0 : 110.0, 0.0),
                   child: onHoverStrip(
-                    values: widget.values,
-                    price: widget.price,
-                    propertyStatus: widget.propertyStatus
-                  ), // Adjust the 50.0 for distance
+                      values: widget.values,
+                      price: widget.price,
+                      locality: widget
+                          .propertyDetails.address.localityOrArea), // Adjust the 50.0 for distance
                 ),
               ],
             ),
@@ -232,7 +184,7 @@ class onHoverStrip extends StatelessWidget {
       {Key? key,
       required this.values,
       required this.price,
-      required this.propertyStatus})
+      required this.locality})
       : super(key: key);
   List<Widget> items = [];
   List<Color> colors = [
@@ -244,7 +196,7 @@ class onHoverStrip extends StatelessWidget {
   List<String> text1 = ["Beds", "Baths", "Carpet Area"];
   final List<String> values;
   final String price;
-  final String propertyStatus;
+  final String locality;
 
   // List<String> text2 = values;
 
@@ -266,7 +218,7 @@ class onHoverStrip extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
-              propertyStatus,
+              locality,
               style: GoogleFonts.rubik(fontSize: 20, color: Colors.white70),
             ),
           ),

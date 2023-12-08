@@ -35,3 +35,40 @@ panValidator(value) {
     return null;
   }
 }
+
+
+isValidPincode(String pincode) {
+  // Check if the pincode is a 6-digit number
+  if (pincode.isEmpty) {
+    return "Please enter pincode";
+  }
+
+  // Remove any non-digit characters (like spaces)
+  String cleanedPincode = pincode.replaceAll(RegExp(r'[^0-9]'), '');
+
+  // Check if the cleaned pincode has exactly 6 digits
+  if (cleanedPincode.length != 6) {
+    return "Pincode should be 6 digits";
+  }
+
+  return null; // Return true if the pincode is valid
+}
+
+
+isValidDouble(String input) {
+  if (input.isEmpty) {
+    return "Please enter valid numbers";
+  }
+
+  // Remove any non-digit characters except for the decimal point
+  String cleanedInput = input.replaceAll(RegExp(r'[^\d.]'), '');
+
+  // Check if the cleaned input is a valid number
+  try {
+    double parsedValue = double.parse(cleanedInput);
+    // You can also add additional conditions for valid price range, if needed
+    return parsedValue; // Check for positive value
+  } catch (e) {
+    return null;
+  }
+}

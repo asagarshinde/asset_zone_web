@@ -5,17 +5,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/controllers/single_page_property_controller.dart';
 import 'package:the_asset_zone_web/footer_section/footer_page.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/home/components/properties_for_rent_cards.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/right_side_controller_container.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/single_page_property_middle_about_container.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/components/single_page_prperty_middle_location_container.dart';
-import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class SinglePagePropertyMiddleDesktop extends StatefulWidget {
   const SinglePagePropertyMiddleDesktop(
-      {Key? key, required this.propertyDetails})
-      : super(key: key);
-  final propertyDetails;
+      {super.key, required this.propertyDetails});
+  final PropertyDetails propertyDetails;
 
   @override
   State<SinglePagePropertyMiddleDesktop> createState() =>
@@ -24,7 +23,6 @@ class SinglePagePropertyMiddleDesktop extends StatefulWidget {
 
 class _SinglePagePropertyMiddleDesktopState
     extends State<SinglePagePropertyMiddleDesktop> {
-  //late bool _isHover = false;
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -86,7 +84,7 @@ class _SinglePagePropertyMiddleDesktopState
                       PropertiesForCardsView(
                         limit: 4,
                           width: width,
-                          propertiesFor: "all",
+                          propertiesFor: "sale",
                           showDescription: false),
                     ],
                   ),
@@ -120,14 +118,14 @@ class _SinglePagePropertyMiddleDesktopState
         height: width / 2,
         width: width,
         child: SinglePagePropertyMiddleLocationContainer(
-          location: widget.propertyDetails["location"],
+          location: const {"lat": 23.00, "lon": 24.0},
         ),
       );
     } else if (menuValue == "ABOUT") {
       return SizedBox(
         width: width,
         child: SinglePagePropertyMiddleAboutContainer(
-          propertyDetails: widget.propertyDetails["property_about"],
+          propertyDetails: widget.propertyDetails,
         ),
       );
     } else if (menuValue == "FEATURE") {

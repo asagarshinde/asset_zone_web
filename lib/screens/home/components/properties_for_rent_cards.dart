@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 
-
 class PropertiesForCardsView extends StatefulWidget {
   final double width;
-
   final String propertiesFor;
   final bool showDescription;
   final int limit;
+
   const PropertiesForCardsView(
-      {super.key, required this.width, required this.propertiesFor, this.showDescription = true, this.limit = 3});
+      {super.key,
+      required this.width,
+      this.showDescription = true,
+      this.limit = 3,
+      required this.propertiesFor});
 
   @override
   State<PropertiesForCardsView> createState() => _PropertiesForCardsViewState();
@@ -20,7 +23,8 @@ class PropertiesForCardsView extends StatefulWidget {
 class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
   Future<List<Widget>?> getData() async {
     PropertiesList propertiesList = PropertiesList();
-    List<Widget>? pl = await propertiesList.propertyList(widget.propertiesFor, limit: widget.limit);
+    List<Widget>? pl =
+        await propertiesList.propertyList(widget.propertiesFor, limit: widget.limit);
     return pl;
   }
 
@@ -36,12 +40,13 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
                 widget.width > 1200 ? widget.width * 0.085 : 10, 0, 0, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 if (widget.showDescription) ...propertiesForText(
-                    width: widget.width,
-                    heading: "Properties ${widget.propertiesFor}",
-                    subheading:
-                        "Elegant retreat in Coral Gables setting. This home provides entertaining spaces with kitchen opening"),
+              children: [
+                if (widget.showDescription)
+                  ...propertiesForText(
+                      width: widget.width,
+                      heading: "Properties ${widget.propertiesFor}",
+                      subheading:
+                          "Elegant retreat in Coral Gables setting. This home provides entertaining spaces with kitchen opening"),
                 const SizedBox(height: 20),
                 Wrap(
                   alignment: WrapAlignment.spaceBetween,
@@ -54,7 +59,7 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Text(" This is error from ${snapshot.error}");
         } else {
           return const CircularProgressIndicator();
         }
@@ -63,6 +68,7 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
   }
 }
 
+// 9819714503
 class PaddedTextHeading extends StatelessWidget {
   const PaddedTextHeading(
       {Key? key,

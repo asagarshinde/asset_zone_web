@@ -12,6 +12,8 @@ const kDefaultSizedBoxHeight = 10.0;
 const kDefaultSizedBoxWidth = 10.0;
 const kElevation = 10.0;
 const kdropDownTitleStyle = 14.0;
+const kformMaxWidth = 900.0;
+const kformVerticalDivider = SizedBox(height: 70, child: VerticalDivider(thickness: 2, color: kPrimaryColor,width: 40),);
 
 DateFormat kDateformat = DateFormat('MMMM dd, yyyy');
 
@@ -47,10 +49,12 @@ const menus = {
   "property": ["New Property", "Resell Properties", "Rental Properties"],
   "project": [""],
   "services": ["Interior Design", "Vastu", "Legal Advisor"],
-  "city": ["Nashik", "Igatpuri"]
+  "city": ["Nashik", "Igatpuri", "Pune"]
 };
 
 const menuList = ["home", "property", "about us", "city"];
+
+const citiesList = { "City": ["Nashik", "Igatpuri", "Pune"]};
 
 const propertySearch = {
   "Property Type": ["Residential", "Commercial", "Plot", "Industrial"]

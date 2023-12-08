@@ -1,29 +1,45 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 
-class SinglePagePropertyMiddleAboutContainer extends StatelessWidget {
-  var propertyDetails;
+class SinglePagePropertyMiddleAboutContainer1 extends StatelessWidget {
+  final PropertyDetails propertyDetails;
 
-  SinglePagePropertyMiddleAboutContainer(
-      {Key? key, required this.propertyDetails})
-      : super(key: key);
+  const SinglePagePropertyMiddleAboutContainer1({super.key, required this.propertyDetails});
 
   @override
   Widget build(BuildContext context) {
-    var propertyAbout = propertyDetails;
-    String propertyType = propertyAbout["property_type"].toString();
-    String price = propertyAbout["price"].toString();
-    String propertyId = propertyAbout["property_id"].toString();
-    String propertySize = propertyAbout["carpet_area"].toString();
-    String propertyStatus = propertyAbout["property_status"].toString();
-    String balcony = propertyAbout["balcony"].toString();
-    String city = propertyAbout["city"].toString();
-    String bedrooms = propertyAbout["bedrooms"].toString();
-    String bathrooms = propertyAbout["bathrooms"].toString();
+    String propertyType = propertyDetails.propertyAbout.propertyType;
+    debugPrint(" this is the 3309304909 ${propertyDetails.saleDetails.toString()}");
+    // String price = (!propertyDetails.isRent) ? propertyDetails.rentDetails!.rent.toString() : propertyDetails.saleDetails!.price.toString();
 
+    return Container(
+      child: Text(propertyDetails.id),
+    );
+  }
+}
+
+class SinglePagePropertyMiddleAboutContainer extends StatelessWidget {
+  final PropertyDetails propertyDetails;
+
+  const SinglePagePropertyMiddleAboutContainer(
+      {super.key, required this.propertyDetails});
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("SinglePagePropertyMiddleAboutContainer: ${propertyDetails.toString()}");
+    String propertyType = propertyDetails.propertyAbout.propertyType;
+    String price = (propertyDetails.isRent) ? propertyDetails.rentDetails!.rent.toString() : propertyDetails.saleDetails!.price.toString();
+    String propertyId = propertyDetails.id;
+    String propertySize = propertyDetails.propertyAreaDetails.carpetArea.toString();
+    String propertyStatus = "property Status";
+    String balcony = propertyDetails.propertyAbout.balcony.toString();
+    String city = propertyDetails.address.city;
+    String bedrooms = propertyDetails.propertyAbout.bedrooms.toString();
+    String bathrooms = propertyDetails.propertyAbout.bathrooms.toString();
+
+    debugPrint("propertyType $propertyType, $price, $propertyId, $propertySize, $propertyStatus, $balcony, $city, $bedrooms, $bathrooms");
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -59,10 +75,10 @@ class SinglePagePropertyMiddleAboutContainer extends StatelessWidget {
 }
 
 class AboutSingleRow extends StatelessWidget {
-  AboutSingleRow({Key? key, required this.descriptionList}) : super(key: key);
+  AboutSingleRow({super.key, required this.descriptionList});
 
   final Map<String, String> descriptionList;
-  var rows = [];
+  final rows = [];
 
   getRow() {
     descriptionList.forEach(

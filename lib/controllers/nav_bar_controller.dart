@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
 import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
+import 'package:the_asset_zone_web/screens/individual_property/individualProperty.dart';
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
+import 'package:the_asset_zone_web/screens/test_screen/test_page.dart';
 
 class NavBarController extends GetxController {
   static NavBarController instance = Get.find();
@@ -82,10 +85,18 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/singleproperty',
+      path: '/singleproperty/:propertyId',
+      name: 'singleProperty',
       builder: (BuildContext context, GoRouterState state) {
-        print(state.extra);
-        return SinglePagePropertyView(state.extra);
+        // print(state.extra);
+        String propertyId = state.pathParameters["propertyId"].toString();
+        return SinglePagePropertyView(propertyId);
+      },
+    ),
+    GoRoute(
+      path: '/individualproperty/:propertyId',
+      builder: (BuildContext context, GoRouterState state) {
+        return IndividualProperty(state.pathParameters);
       },
     ),
     GoRoute(

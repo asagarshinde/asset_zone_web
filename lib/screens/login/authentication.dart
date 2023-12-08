@@ -14,7 +14,7 @@ String? userEmail;
 Future<User?> registerWithEmailPassword(String email, String password) async {
   await Firebase.initializeApp();
   User? user;
-
+  debugPrint("inside registerWithEmailPassword");
   try {
     UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);

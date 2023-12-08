@@ -1,12 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
-// import 'package:the_asset_zone_web/search/propety_screen.dart';
+import 'package:the_asset_zone_web/controllers/search_controller.dart';
+import 'package:the_asset_zone_web/screens/add_property/add_property_widgets.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'PropertySearchWidgets.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 
 class PropertySearchMobileView extends StatelessWidget {
-  PropertySearchMobileView({Key? key}) : super(key: key);
+  const PropertySearchMobileView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -21,10 +24,15 @@ class PropertySearchMobileView extends StatelessWidget {
             margin: const EdgeInsets.all(0.0),
             child: Column(
               children: [
-                AutoCompleteTextField(),
-                // const PropertySearchCardSearchField(),
+                const CityDropDown(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 30, 15, 5),
+                  child: Container(
+                      decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
+                      child: AutoCompleteTextField()),
+                ),
                 const PropertyTypeDropDown(),
-                PropertySubTypeDropDown(),
+                const PropertySubTypeDropDown(),
                 const PropertySearchCardSearchRangeSlider(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,6 +60,7 @@ class PropertySearchMobileView extends StatelessWidget {
                   child: MyButton(
                     title: "Search",
                     height: 40,
+                    onTap: propertyController.searchProperty,
                   ),
                 ),
                 const SizedBox(
