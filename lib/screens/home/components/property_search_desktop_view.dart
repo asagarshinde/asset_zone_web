@@ -78,7 +78,7 @@ class PropertySearchPanel extends StatelessWidget {
                                   title: "Search",
                                   onTap: () {
                                     propertyController.searchProperty();
-                                    GoRouter.of(context).go('/property');
+                                    GoRouter.of(context).go('/search');
                                   },
                                 ),
                               ),

@@ -8,9 +8,10 @@ import 'components/advance_search_vertical_panel.dart';
 import 'components/property_card_grid_view_stateless.dart';
 
 class PropertyScreen extends StatelessWidget {
-  PropertyScreen({super.key});
+  PropertyScreen({super.key, required this.isQueried});
   final ScrollController scrollController = ScrollController();
   final AuthController authController = AuthController();
+  final bool isQueried ;
 
   @override
   Widget build(BuildContext context) {
@@ -56,22 +57,22 @@ class PropertyScreen extends StatelessWidget {
                   const SizedBox(height: 80),
                   if (Responsive.isDesktop(context) ||
                       Responsive.isTablet(context))
-                    const Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(flex: 2, child: SizedBox()),
-                        Expanded(flex: 2, child: AdvanceSearchVerticalPanel()),
-                        Expanded(flex: 6, child: PropertyCardGridViewStateless()),
-                        Expanded(flex: 2, child: SizedBox()),
+                        const Expanded(flex: 2, child: SizedBox()),
+                        const Expanded(flex: 2, child: AdvanceSearchVerticalPanel()),
+                        Expanded(flex: 6, child: PropertyCardGridViewStateless(isQueried: isQueried)),
+                        const Expanded(flex: 2, child: SizedBox()),
                       ],
                     ),
                   if (Responsive.isMobile(context))
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Center(child: AdvanceSearchVerticalPanel()),
+                        const Center(child: AdvanceSearchVerticalPanel()),
                         // PropertyCardGridView(),
-                        PropertyCardGridViewStateless(),
+                        PropertyCardGridViewStateless(isQueried: isQueried),
                       ],
                     ),
                 ],

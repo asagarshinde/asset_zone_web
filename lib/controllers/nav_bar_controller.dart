@@ -1,7 +1,9 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:the_asset_zone_web/models/property_detail_model.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/screens/about_us/about_us_screen.dart';
 import 'package:the_asset_zone_web/screens/add_property/form_add_firebase.dart';
 import 'package:the_asset_zone_web/screens/city/city_screen.dart';
@@ -10,10 +12,10 @@ import 'package:the_asset_zone_web/screens/individual_property/individualPropert
 import 'package:the_asset_zone_web/screens/project/project_screen.dart';
 import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 import 'package:the_asset_zone_web/screens/property/propety_screen.dart';
-import 'package:the_asset_zone_web/screens/test_screen/test_page.dart';
 
 class NavBarController extends GetxController {
   static NavBarController instance = Get.find();
+
   // reactive map is not working. when clicked on any menu color is not changing.
   // after converting the Map to RxMap it started working.
   // Ref:- https://stackoverflow.com/questions/68249333/flutter-getx-updating-item-in-children-list-is-not-reactive
@@ -60,10 +62,23 @@ GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/property',
+        path: '/property',
+        builder: (BuildContext context, GoRouterState state) {
+          // bool isQueried = bool.parse(state.pathParameters["queried"]!) ?? false;
+          propertyController.setPropertyList();
+          return PropertyScreen(isQueried: true);
+        },
+        routes: [
+          GoRoute(
+              path: 'search',
+              builder: (context, state) => PropertyScreen(isQueried: false)),
+        ]),
+    GoRoute(
+      path: '/search',
+      name: 'search',
       builder: (BuildContext context, GoRouterState state) {
-        return PropertyScreen();
-      },
+        return PropertyScreen(isQueried: false);
+      }
     ),
     GoRoute(
       path: '/project',
@@ -102,8 +117,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/propertyadd',
       builder: (BuildContext context, GoRouterState state) {
-        print(state.extra);
-        return FormAddFirebase();
+        return const FormAddFirebase();
       },
     ),
   ],
