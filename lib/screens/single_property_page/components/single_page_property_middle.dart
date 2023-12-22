@@ -14,6 +14,7 @@ import 'package:the_asset_zone_web/screens/single_property_page/components/singl
 class SinglePagePropertyMiddleDesktop extends StatefulWidget {
   const SinglePagePropertyMiddleDesktop(
       {super.key, required this.propertyDetails});
+
   final PropertyDetails propertyDetails;
 
   @override
@@ -23,7 +24,6 @@ class SinglePagePropertyMiddleDesktop extends StatefulWidget {
 
 class _SinglePagePropertyMiddleDesktopState
     extends State<SinglePagePropertyMiddleDesktop> {
-
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController message = TextEditingController();
@@ -62,9 +62,9 @@ class _SinglePagePropertyMiddleDesktopState
                             BoxShadow(blurRadius: 8.0, color: Colors.black12)
                           ],
                         ),
-                        child: Column(
+                        child: Wrap(
                           children: [
-                            Row(children: buildMenuBar()),
+                            Wrap(children: buildMenuBar()),
                             getMiddleWidget(
                                 controller.middle_widget.value, width),
                           ],
@@ -82,7 +82,7 @@ class _SinglePagePropertyMiddleDesktopState
                         ),
                       ),
                       PropertiesForCardsView(
-                        limit: 4,
+                          limit: 4,
                           width: width,
                           propertiesFor: "sale",
                           showDescription: false),
@@ -368,11 +368,10 @@ class ReviewTileMobile extends StatelessWidget {
 }
 
 class SinglePagePropertyMiddleMobile extends StatefulWidget {
-  final propertyDetails;
-
   const SinglePagePropertyMiddleMobile(
-      {Key? key, required this.propertyDetails})
-      : super(key: key);
+      {super.key, required this.propertyDetails});
+
+  final PropertyDetails propertyDetails;
 
   @override
   State<SinglePagePropertyMiddleMobile> createState() =>
@@ -381,13 +380,14 @@ class SinglePagePropertyMiddleMobile extends StatefulWidget {
 
 class _SinglePagePropertyMiddleMobileState
     extends State<SinglePagePropertyMiddleMobile> {
+  final controller = Get.put(SinglePagePropertyController());
   SizedBox getMiddleWidget(String menuValue, double width) {
     if (menuValue == "LOCATION") {
       return SizedBox(
           height: width / 2,
           width: width,
           child: SinglePagePropertyMiddleLocationContainer(
-            location: widget.propertyDetails["location"],
+            location: const {"lat": 23.00, "lon": 24.0},
           ));
     } else if (menuValue == "ABOUT") {
       return SizedBox(
@@ -395,21 +395,21 @@ class _SinglePagePropertyMiddleMobileState
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SinglePagePropertyMiddleAboutContainer(
-              propertyDetails: widget.propertyDetails["property_about"],
+              propertyDetails: widget.propertyDetails,
             ),
           ));
     } else if (menuValue == "FEATURE") {
       return SizedBox(
-          width: width, child: SinglePagePropertyMiddleFeaturesContainer());
+          width: width, child: const SinglePagePropertyMiddleFeaturesContainer());
     } else if (menuValue == "GALLERY") {
       return SizedBox(
-          width: width, child: SinglePagePropertyMiddleGalleryContainer());
+          width: width, child: const SinglePagePropertyMiddleGalleryContainer());
     } else if (menuValue == "VIDEO") {
       return SizedBox(
-          width: width, child: SinglePagePropertyMiddleVideoContainer());
+          width: width, child: const SinglePagePropertyMiddleVideoContainer());
     } else if (menuValue == "FLOOR PLAN") {
       return SizedBox(
-          width: width, child: SinglePagePropertyMiddleFloorPlanContainer());
+          width: width, child: const SinglePagePropertyMiddleFloorPlanContainer());
     } else {
       return const SizedBox(
         width: 10,
@@ -422,7 +422,6 @@ class _SinglePagePropertyMiddleMobileState
   TextEditingController email = TextEditingController();
   TextEditingController message = TextEditingController();
 
-  final controller = Get.put(SinglePagePropertyController());
 
   List<Widget> buildMenuBar() {
     List<Widget> menu = [];
@@ -479,129 +478,142 @@ class _SinglePagePropertyMiddleMobileState
               const SizedBox(
                 height: 20,
               ),
-              const Divider(
-                color: Colors.grey,
-              ),
-              ReviewWidget(isMobile: true),
-              const SizedBox(
-                height: 20,
-              ),
-              const Divider(
-                color: Colors.grey,
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: AutoSizeText(
-                  "Write A Review",
-                  style: GoogleFonts.rubik(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              // const Divider(
+              //   color: Colors.grey,
+              // ),
+              // ReviewWidget(isMobile: true),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // const Divider(
+              //   color: Colors.grey,
+              // ),
+              // Align(
+              //   alignment: Alignment.topCenter,
+              //   child: AutoSizeText(
+              //     "Write A Review",
+              //     style: GoogleFonts.rubik(
+              //         fontSize: 25,
+              //         fontWeight: FontWeight.w600,
+              //         color: Colors.black),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: SizedBox(
+              //     width: 400,
+              //     child: Form(
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           TextFormField(
+              //             controller: name,
+              //             decoration: const InputDecoration(
+              //               icon: Icon(Icons.person,
+              //                   color: Colors.deepOrangeAccent),
+              //               //hintText: 'Enter your full name',
+              //               labelText: 'Name',
+              //               labelStyle: TextStyle(
+              //                 color: Colors.deepOrangeAccent,
+              //               ),
+              //               focusedBorder: OutlineInputBorder(
+              //                   borderSide:
+              //                       BorderSide(color: Colors.deepOrangeAccent)),
+              //               border:
+              //                   OutlineInputBorder(borderSide: BorderSide()),
+              //             ),
+              //           ),
+              //           const SizedBox(
+              //             height: 10,
+              //           ),
+              //           TextFormField(
+              //             controller: email,
+              //             decoration: const InputDecoration(
+              //               icon: Icon(
+              //                 Icons.email,
+              //                 color: Colors.deepOrangeAccent,
+              //               ),
+              //               // hintText: 'Enter your Email',
+              //               labelText: 'Email ID',
+              //               labelStyle: TextStyle(
+              //                 color: Colors.deepOrangeAccent,
+              //               ),
+              //               focusedBorder: OutlineInputBorder(
+              //                   borderSide:
+              //                       BorderSide(color: Colors.deepOrangeAccent)),
+              //               border:
+              //                   OutlineInputBorder(borderSide: BorderSide()),
+              //             ),
+              //           ),
+              //           const SizedBox(
+              //             height: 10,
+              //           ),
+              //           TextFormField(
+              //             controller: message,
+              //             minLines: 1,
+              //             maxLines: 5,
+              //             keyboardType: TextInputType.multiline,
+              //             decoration: const InputDecoration(
+              //               icon: Icon(
+              //                 Icons.message,
+              //                 color: Colors.deepOrangeAccent,
+              //               ),
+              //               //hintText: 'Message',
+              //               labelText: 'Message',
+              //               labelStyle: TextStyle(
+              //                 color: Colors.deepOrangeAccent,
+              //               ),
+              //               focusedBorder: OutlineInputBorder(
+              //                   borderSide:
+              //                       BorderSide(color: Colors.deepOrangeAccent)),
+              //               border:
+              //                   OutlineInputBorder(borderSide: BorderSide()),
+              //             ),
+              //           ),
+              //           const SizedBox(
+              //             height: 20,
+              //           ),
+              //           Center(
+              //             child: ElevatedButton(
+              //               onPressed: () {
+              //                 Map<String, dynamic> data = {
+              //                   "reviews": {
+              //                     "name": name.text,
+              //                     "email": email.text,
+              //                     "message": message.text,
+              //                   },
+              //                 };
+              //               },
+              //               style: ElevatedButton.styleFrom(
+              //                 primary: Colors.deepOrangeAccent,
+              //               ),
+              //               child: const Text(
+              //                 "Submit",
+              //               ),
+              //             ),
+              //           ),
+              //           SizedBox(width: width, child: const FooterPage()),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 400,
-                  child: Form(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextFormField(
-                          controller: name,
-                          decoration: const InputDecoration(
-                            icon: Icon(Icons.person,
-                                color: Colors.deepOrangeAccent),
-                            //hintText: 'Enter your full name',
-                            labelText: 'Name',
-                            labelStyle: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepOrangeAccent)),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: email,
-                          decoration: const InputDecoration(
-                            icon: Icon(
-                              Icons.email,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                            // hintText: 'Enter your Email',
-                            labelText: 'Email ID',
-                            labelStyle: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepOrangeAccent)),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: message,
-                          minLines: 1,
-                          maxLines: 5,
-                          keyboardType: TextInputType.multiline,
-                          decoration: const InputDecoration(
-                            icon: Icon(
-                              Icons.message,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                            //hintText: 'Message',
-                            labelText: 'Message',
-                            labelStyle: TextStyle(
-                              color: Colors.deepOrangeAccent,
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepOrangeAccent)),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Map<String, dynamic> data = {
-                                "reviews": {
-                                  "name": name.text,
-                                  "email": email.text,
-                                  "message": message.text,
-                                },
-                              };
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.deepOrangeAccent,
-                            ),
-                            child: const Text(
-                              "Submit",
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: width, child: const FooterPage()),
-                      ],
-                    ),
-                  ),
+                padding: const EdgeInsets.all(16.0),
+                child: AutoSizeText(
+                  "Similar properties",
+                  style: kTextHeader1Style,
                 ),
               ),
+              PropertiesForCardsView(
+                  limit: 4,
+                  width: width,
+                  propertiesFor: "sale",
+                  showDescription: false),
+              SizedBox(width: width, child: const FooterPage()),
             ],
           ),
         ),

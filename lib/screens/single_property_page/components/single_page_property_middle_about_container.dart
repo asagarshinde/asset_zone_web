@@ -6,17 +6,12 @@ import 'package:the_asset_zone_web/models/property_detail_model.dart';
 class SinglePagePropertyMiddleAboutContainer1 extends StatelessWidget {
   final PropertyDetails propertyDetails;
 
-  const SinglePagePropertyMiddleAboutContainer1({super.key, required this.propertyDetails});
+  const SinglePagePropertyMiddleAboutContainer1(
+      {super.key, required this.propertyDetails});
 
   @override
   Widget build(BuildContext context) {
-    String propertyType = propertyDetails.propertyAbout.propertyType;
-    debugPrint(" this is the 3309304909 ${propertyDetails.saleDetails.toString()}");
-    // String price = (!propertyDetails.isRent) ? propertyDetails.rentDetails!.rent.toString() : propertyDetails.saleDetails!.price.toString();
-
-    return Container(
-      child: Text(propertyDetails.id),
-    );
+    return Text(propertyDetails.id);
   }
 }
 
@@ -28,48 +23,79 @@ class SinglePagePropertyMiddleAboutContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("SinglePagePropertyMiddleAboutContainer: ${propertyDetails.toString()}");
+    debugPrint(
+        "SinglePagePropertyMiddleAboutContainer: ${propertyDetails.toString()}");
     String propertyType = propertyDetails.propertyAbout.propertyType;
-    String price = (propertyDetails.isRent) ? propertyDetails.rentDetails!.rent.toString() : propertyDetails.saleDetails!.price.toString();
+    String price = (propertyDetails.isRent)
+        ? propertyDetails.rentDetails!.rent.toString()
+        : propertyDetails.saleDetails!.price.toString();
     String propertyId = propertyDetails.id;
-    String propertySize = propertyDetails.propertyAreaDetails.carpetArea.toString();
+    String propertySize =
+        propertyDetails.propertyAreaDetails.carpetArea.toString();
     String propertyStatus = "property Status";
     String balcony = propertyDetails.propertyAbout.balcony.toString();
     String city = propertyDetails.address.city;
     String bedrooms = propertyDetails.propertyAbout.bedrooms.toString();
     String bathrooms = propertyDetails.propertyAbout.bathrooms.toString();
 
-    debugPrint("propertyType $propertyType, $price, $propertyId, $propertySize, $propertyStatus, $balcony, $city, $bedrooms, $bathrooms");
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: AutoSizeText(
-              "Property Details",
-              style: GoogleFonts.rubik(
-                  fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
-            ),
+    debugPrint(
+        "propertyType $propertyType, $price, $propertyId, $propertySize, $propertyStatus, $balcony, $city, $bedrooms, $bathrooms");
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        double width = constraints.maxWidth;
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: AutoSizeText("Property Details",
+                      maxLines: 1,
+                      style: GoogleFonts.rubik(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black))),
+              if (width < 600)
+                AboutSingleRow(
+                    descriptionList: {"Property Type": propertyType}),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"price": price}),
+              if (width < 600) AboutSingleRow(descriptionList: {"city": city}),
+              if (width > 600)
+                AboutSingleRow(descriptionList: {
+                  "Property Type": propertyType,
+                  "price": price,
+                  "city": city
+                }),
+              if (width < 600)
+                AboutSingleRow(descriptionList: { "Property ID ": propertyId}),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"Property Size ": propertySize}),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"Bedrooms": bedrooms}),
+              if (width > 600)
+              AboutSingleRow(descriptionList: {
+                "Property ID ": propertyId,
+                "Property Size :": propertySize,
+                "Bedrooms": bedrooms
+              }),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"Property status ": propertyStatus}),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"Balcony ": balcony}),
+              if (width < 600)
+                AboutSingleRow(descriptionList: {"Bathrooms": bathrooms}),
+              if (width > 600)
+              AboutSingleRow(descriptionList: {
+                "Property status ": propertyStatus,
+                "Balcony ": balcony,
+                "Bathrooms": bathrooms
+              }),
+            ],
           ),
-          AboutSingleRow(descriptionList: {
-            "Property Type": propertyType,
-            "price": price,
-            "city": city
-          }),
-          AboutSingleRow(descriptionList: {
-            "Property ID ": propertyId,
-            "Property Size :": propertySize,
-            "Bedrooms": bedrooms
-          }),
-          AboutSingleRow(descriptionList: {
-            "Property status ": propertyStatus,
-            "Balcony ": balcony,
-            "Bathrooms": bathrooms
-          }),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -93,6 +119,7 @@ class AboutSingleRow extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: AutoSizeText(
+                      maxLines: 1,
                       "$key :",
                       style: GoogleFonts.montserrat(
                           fontSize: 16,
@@ -128,7 +155,7 @@ class AboutSingleRow extends StatelessWidget {
 }
 
 class SinglePagePropertyMiddleFeaturesContainer extends StatelessWidget {
-  const SinglePagePropertyMiddleFeaturesContainer({Key? key}) : super(key: key);
+  const SinglePagePropertyMiddleFeaturesContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +171,7 @@ class SinglePagePropertyMiddleFeaturesContainer extends StatelessWidget {
 }
 
 class SinglePagePropertyMiddleGalleryContainer extends StatelessWidget {
-  const SinglePagePropertyMiddleGalleryContainer({Key? key}) : super(key: key);
+  const SinglePagePropertyMiddleGalleryContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +187,7 @@ class SinglePagePropertyMiddleGalleryContainer extends StatelessWidget {
 }
 
 class SinglePagePropertyMiddleVideoContainer extends StatelessWidget {
-  const SinglePagePropertyMiddleVideoContainer({Key? key}) : super(key: key);
+  const SinglePagePropertyMiddleVideoContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +203,7 @@ class SinglePagePropertyMiddleVideoContainer extends StatelessWidget {
 }
 
 class SinglePagePropertyMiddleFloorPlanContainer extends StatelessWidget {
-  const SinglePagePropertyMiddleFloorPlanContainer({Key? key})
-      : super(key: key);
+  const SinglePagePropertyMiddleFloorPlanContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
