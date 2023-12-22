@@ -9,12 +9,13 @@ import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 import '../../home/components/home_screen_widgets.dart';
 
-class leftColumn extends StatelessWidget {
-  const leftColumn({super.key, required this.propertyDetails});
+class LeftColumn extends StatelessWidget {
+  const LeftColumn({super.key, required this.propertyDetails});
+
   final PropertyDetails propertyDetails;
 
-  List<Widget> getFlatDetailsRow(context, bedrooms, halls, area, bathrooms,
-      garage) {
+  List<Widget> getFlatDetailsRow(
+      context, bedrooms, halls, area, bathrooms, garage) {
     List<String> flatDetails = [
       "Bedrooms",
       "Bathrooms",
@@ -41,54 +42,58 @@ class leftColumn extends StatelessWidget {
     for (int i = 0; i < flatDetails.length; i++) {
       Responsive.isMobile(context)
           ? children.add(
-        Row(
-          children: [
-            Icon(
-              flatDetailsIcons[i],
-              color: const Color(0xFF1c2d3a),
-
-            ),
-            Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: AutoSizeText(values[i]),
-            ),
-            AutoSizeText(
-              flatDetails[i],
-              maxFontSize: 14,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF1c2d3a)),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
-      )
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                children: [
+                  Icon(
+                    flatDetailsIcons[i],
+                    color: const Color(0xFF1c2d3a),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: AutoSizeText(values[i]),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: AutoSizeText(
+                      flatDetails[i],
+                      maxFontSize: 14,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF1c2d3a)),
+                    ),
+                  ),
+                ],
+              ),
+            )
           : children.add(
-        Row(
-          children: [
-            Icon(
-              flatDetailsIcons[i],
-              color: const Color(0xFF1c2d3a),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: AutoSizeText(values[i]),
-            ),
-            AutoSizeText(
-              flatDetails[i],
-              maxFontSize: 14,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF1c2d3a)),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
-      );
+              Wrap(
+                children: [
+                  Icon(
+                    flatDetailsIcons[i],
+                    color: const Color(0xFF1c2d3a),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: AutoSizeText(values[i]),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                    child: AutoSizeText(
+                      flatDetails[i],
+                      maxFontSize: 14,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF1c2d3a)),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+            );
     }
     return children;
   }
@@ -125,24 +130,24 @@ class leftColumn extends StatelessWidget {
           ),
           Responsive.isDesktop(context)
               ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Row(
-              children:
-              getFlatDetailsRow(context,
-                  "2",
-                  // propertyDetails["property_about"]["bedrooms"].toString(),
-                  propertyDetails.propertyAbout.bathrooms.toString(),
-                  propertyDetails.propertyAbout.balcony.toString(), "2",
-                  "0"),
-            ),
-          )
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Wrap(
+                    children: getFlatDetailsRow(
+                        context,
+                        propertyDetails.propertyAbout.bedrooms.toString(),
+                        propertyDetails.propertyAbout.bathrooms.toString(),
+                        propertyDetails.propertyAbout.balcony.toString(),
+                        propertyDetails.propertyAreaDetails.carpetArea.toString(),
+                        propertyDetails.propertyAbout.parking),
+                  ),
+                )
               : Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Column(
-              children:
-              getFlatDetailsRow(context, "2", "2", "300", "2", "0"),
-            ),
-          ),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Column(
+                    children:
+                        getFlatDetailsRow(context, "2", "2", "300", "2", "0"),
+                  ),
+                ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Wrap(
@@ -203,8 +208,7 @@ class leftColumn extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.0),
                             child: Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
                               child: Icon(Icons.print),
                             ),
                           ),
@@ -265,7 +269,8 @@ class leftColumnMobile extends StatelessWidget {
         children: [
           Column(
             children: [
-              AutoSizeText(textAlign: TextAlign.center,
+              AutoSizeText(
+                textAlign: TextAlign.center,
                 "Orchard House",
                 minFontSize: 15,
                 style: GoogleFonts.montserrat(
@@ -337,5 +342,3 @@ class leftColumnMobile extends StatelessWidget {
     );
   }
 }
-
-

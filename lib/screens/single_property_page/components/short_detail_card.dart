@@ -18,7 +18,7 @@ class ShortDetailCardDesktop extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Expanded(flex: 5, child: leftColumn(propertyDetails: propertyDetails,)),
+              Expanded(flex: 5, child: LeftColumn(propertyDetails: propertyDetails,)),
               // Expanded(flex: 1, child: Spacer()),
               const Expanded(flex: 2, child: rightColumn())
             ],
@@ -43,7 +43,7 @@ class ShortDetailCardMobile extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              leftColumn(propertyDetails: propertyDetails,),
+              LeftColumn(propertyDetails: propertyDetails,),
               SizedBox(
                 height: 10,
               ),
