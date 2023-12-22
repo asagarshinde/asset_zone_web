@@ -28,13 +28,13 @@ class _PropertyPhotoCarouselState extends State<PropertyPhotoCarousel> {
               width: constraints.maxWidth,
               height: 316,
               child: GFCarousel(
-                viewportFraction: 1.0,
+                viewportFraction: 1.1,
                 autoPlay: true,
                 height: 316,
                 items: imageList.map<Widget>(
                   (url) {
                     return Container(
-                      margin: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       child: SizedBox(
                         width: constraints.maxWidth,
                         height: 316,

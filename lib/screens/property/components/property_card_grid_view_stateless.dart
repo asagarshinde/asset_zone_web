@@ -10,7 +10,8 @@ import 'package:the_asset_zone_web/screens/property/components/property_photo_ca
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class PropertyCardGridViewStateless extends StatelessWidget {
-  const PropertyCardGridViewStateless({super.key});
+  const PropertyCardGridViewStateless({super.key, required this.isQueried});
+  final bool isQueried;
 
   List<Widget> getIconDescriptionRow(index) {
     List<IconData> icons = [
@@ -48,7 +49,17 @@ class PropertyCardGridViewStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    propertyController.setPropertyList();
+    debugPrint("1. Building PropertyCardGridViewStateless.");
+    debugPrint("2. Calling propertyController.setPropertyList();" );
+    // if(isQueried){
+    //   // propertyController.propertiesList.value = [];
+    //   debugPrint("4. is it queried $isQueried");
+    //   propertyController.setPropertyList();
+    // } else {
+    //   // propertyController.setPropertyList();
+    //   propertyController.searchProperty();
+    // }
+
     return Obx(
       () => MediaQuery.removePadding(
         context: context,
@@ -63,8 +74,8 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                   GoogleFonts.rubik(fontSize: 24, fontWeight: FontWeight.w700),
             ),
             const Divider(),
-            Container(
-              padding: const EdgeInsets.all(8),
+            SizedBox(
+              // padding: const EdgeInsets.symmetric(horizontal: 8),
               height: 600,
               child: GridView.builder(
                 shrinkWrap: true,
@@ -76,6 +87,7 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                 padding: kDefaultPadding,
                 itemCount: propertyController.propertiesList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  debugPrint("5. length of properties in grid builder is ${propertyController.propertiesList.length} with iter $index .");
                   PropertyDetails property =
                       propertyController.propertiesList[index];
                   return LayoutBuilder(

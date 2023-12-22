@@ -5,7 +5,7 @@ import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class LookingToBuyNewProperty extends StatefulWidget {
-  const LookingToBuyNewProperty({Key? key}) : super(key: key);
+  const LookingToBuyNewProperty({super.key});
 
   @override
   State<LookingToBuyNewProperty> createState() =>
@@ -20,6 +20,7 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
         children: [
           SizedBox(
             width: double.infinity,
+            height: double.infinity,
             // height: MediaQuery.of(context).size.height,
             child: Image.asset(
               'assets/image.jpg',
@@ -60,13 +61,17 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                 height: 400,
                 width: 800,
                 color: Colors.white.withOpacity(0.2),
-                child: Column(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 20,
+                  verticalDirection: VerticalDirection.down,
                   children: [
                     Container(
                       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Center(
                         child: AutoSizeText(
                           "T H E  |  A S S E T S  |  Z O N E  |  R E A L E  |  S T A T E",
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.montserrat(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -80,6 +85,7 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                     Center(
                       child: AutoSizeText(
                         "Looking To Buy A New Property Or Sell An ",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
@@ -91,11 +97,12 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                     ),
                     Center(
                       child: AutoSizeText(
-                        "Existing One? Real Homes Provides An Easy",
+                        "Existing One? The Asset Zone Provides An Easy",
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: const Color.fromRGBO(255, 255, 255, 1)),
+                            color: Colors.white), //const Color.fromRGBO(255, 255, 255, 1)
                       ),
                     ),
                     const SizedBox(
@@ -113,24 +120,18 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                     const SizedBox(
                       height: 50,
                     ),
-                    Row(
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 50,
+                      runSpacing: 20,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(170, 0, 0, 0),
-                          child: MyButton(
-                            title: "Submit Property",
-                            width: 200,
-                          ),
+                        MyButton(
+                          title: "Submit Property",
+                          width: 200,
                         ),
-                        const SizedBox(
-                          width: 50,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
-                          child: MyButton(
-                            title: "Browse Property",
-                            width: 200,
-                          ),
+                        MyButton(
+                          title: "Browse Property",
+                          width: 200,
                         ),
                       ],
                     )

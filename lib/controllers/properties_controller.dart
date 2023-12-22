@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/search_controller.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/screens/home/components/home_screen_widgets.dart';
@@ -121,11 +122,13 @@ class PropertyController extends GetxController {
   }
 
   setPropertyList() async {
-    propertiesList.clear();
+    debugPrint("3. PropertyController Setting properties list.");
+    List<PropertyDetails> tempPropertyList = [];
     List<PropertyDetails> properties = await retrieveAllPropertyDetails();
     for (var property in properties) {
-      propertiesList.add(property);
+      tempPropertyList.add(property);
     }
+    propertyController.propertiesList.value = tempPropertyList;
   }
 
   Future<List<PropertyDetails>> retrievePropertyDetails(String propertiesFor,

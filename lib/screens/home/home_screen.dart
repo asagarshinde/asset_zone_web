@@ -15,7 +15,6 @@ import 'package:the_asset_zone_web/screens/home/components/property_search_table
 import '../../models/property_detail_model.dart';
 import '../../responsive.dart';
 import '../../widgets/helper_widgets.dart';
-import 'package:the_asset_zone_web/constants/controllers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required String title});
@@ -40,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
 }
   @override
   Widget build(BuildContext context) {
-    isAuthenticate().then((value) => print("from shared preferences $value"));
     final width = MediaQuery.of(context).size.width;
     return SelectionArea(
       child: Scaffold(

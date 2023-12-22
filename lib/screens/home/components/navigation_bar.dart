@@ -36,7 +36,7 @@ class MySimpleDrawer extends StatelessWidget {
               DrawerHeader(
                 child: Text(
                   "The Assets Zone",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
               ...getMenuList(navBarController.menuSelectedMap)
@@ -65,8 +65,10 @@ class MyMenuButton extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: InkWell(
           onTap: () {
+            String routeName = "/${text.replaceAll(' ', '')}";
+            debugPrint("Navigating to route $routeName");
             _navigationBarController.setSelectedMenu(text);
-            GoRouter.of(context).go("/${text.replaceAll(' ', '')}");
+            GoRouter.of(context).go(routeName);
           },
           highlightColor: Colors.deepOrangeAccent,
           child: Text(text,
