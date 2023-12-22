@@ -211,8 +211,8 @@ class onHoverStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 150,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(4.0),
