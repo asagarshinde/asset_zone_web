@@ -89,7 +89,7 @@ GoRouter router = GoRouter(
     GoRoute(
       path: '/aboutus',
       builder: (BuildContext context, GoRouterState state) {
-        return const AboutUs();
+        return AboutUs();
       },
     ),
     GoRoute(
