@@ -33,10 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<bool?> isAuthenticate() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  return prefs.getBool("auth");
-}
+    return prefs.getBool("auth");
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        // when row not starting with start of axis then use expanded.
+                        // Note. When row not starting with start of axis then use expanded.
                         child: Stack(
                           children: [
                             SizedBox(
@@ -77,17 +78,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const HomePageText(),
                                 HomePageSecondSection(
                                     width: width, constraints: constraints),
-                                PropertiesForCardsView(key: searchPanelController.forRentScroll,
-                                    width: width, propertiesFor: "rent"),
-                                PropertiesForCardsView(key: searchPanelController.forBuyScroll,
-                                    width: width, propertiesFor: "sale"),
+                                PropertiesForCardsView(
+                                    key: searchPanelController.forRentScroll,
+                                    width: width,
+                                    propertiesFor: "rent"),
+                                PropertiesForCardsView(
+                                    key: searchPanelController.forBuyScroll,
+                                    width: width,
+                                    propertiesFor: "sale"),
                                 featuredProject(context: context, width: width),
                                 const SizedBox(height: 50),
                                 const DeveloperWorkWithUs(),
                                 const SizedBox(height: 50),
                                 SizedBox(
-                                    height: MediaQuery.of(context).size.height,
-                                    child: const LookingToBuyNewProperty())
+                                  height: MediaQuery.of(context).size.height,
+                                  child: const LookingToBuyNewProperty(),
+                                )
                               ],
                             ),
                           ],
@@ -127,11 +133,22 @@ class HomePageSecondSection extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
-                child: MyButton(title: "For Rent", onTap: () { Scrollable.ensureVisible(searchPanelController.forRentScroll.currentContext!);},),
+                child: MyButton(
+                  title: "For Rent",
+                  onTap: () {
+                    Scrollable.ensureVisible(
+                        searchPanelController.forRentScroll.currentContext!);
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 45, 8, 8),
-                child: MyButton(title: "For Buy", onTap: () { Scrollable.ensureVisible(searchPanelController.forBuyScroll.currentContext!);}),
+                child: MyButton(
+                    title: "For Buy",
+                    onTap: () {
+                      Scrollable.ensureVisible(
+                          searchPanelController.forBuyScroll.currentContext!);
+                    }),
               ),
             ],
           ),

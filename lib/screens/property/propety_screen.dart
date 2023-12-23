@@ -37,10 +37,11 @@ class PropertyScreen extends StatelessWidget {
                       if (Responsive.isDesktop( context) || Responsive.isTablet(context))
                       SizedBox(
                         width: double.infinity,
-                        height: 800,
+                        height: 500,
                         child: Image.asset(
                           'assets/inner-background.jpg',
                           fit: BoxFit.fitWidth,
+                          alignment: Alignment.topCenter,
                         ),
                       ),
                       if (Responsive.isMobile(context))

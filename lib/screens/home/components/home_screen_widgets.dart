@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
-import 'package:the_asset_zone_web/screens/single_property_page/single_page_property.dart';
 
 class HomePageText extends StatelessWidget {
   const HomePageText({super.key});
@@ -106,8 +105,8 @@ class _PropertyTileState extends State<PropertyTile> {
       },
       onTap: () {
         // getSinglePageProperty(propertyId: widget.propertyDetails.id);
-        GoRouter.of(context)
-            .goNamed("singleProperty", pathParameters: {'propertyId': widget.propertyDetails.id});
+        GoRouter.of(context).goNamed("singleProperty",
+            pathParameters: {'propertyId': widget.propertyDetails.id});
       },
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -161,11 +160,11 @@ class _PropertyTileState extends State<PropertyTile> {
                   duration: const Duration(milliseconds: 500),
                   transform: Matrix4.translationValues(
                       0.0, _isHover ? 0.0 : 110.0, 0.0),
-                  child: onHoverStrip(
+                  child: OnHoverStrip(
                       values: widget.values,
                       price: widget.price,
-                      locality: widget
-                          .propertyDetails.address.localityOrArea), // Adjust the 50.0 for distance
+                      locality: widget.propertyDetails.address
+                          .localityOrArea), // Adjust the 50.0 for distance
                 ),
               ],
             ),
@@ -176,32 +175,28 @@ class _PropertyTileState extends State<PropertyTile> {
   }
 }
 
-class onHoverStrip extends StatelessWidget {
-  // static List<String> values = [];
-
-  onHoverStrip(
-      {Key? key,
+class OnHoverStrip extends StatelessWidget {
+  OnHoverStrip(
+      {super.key,
       required this.values,
       required this.price,
-      required this.locality})
-      : super(key: key);
-  List<Widget> items = [];
-  List<Color> colors = [
+      required this.locality});
+
+  final List<Widget> items = [];
+  final List<Color> colors = [
     Colors.white12,
     Colors.white30,
     Colors.white60,
     Colors.white70,
   ];
-  List<String> text1 = ["Beds", "Baths", "Carpet Area"];
+  final List<String> text1 = ["Beds", "Baths", "Carpet Area"];
   final List<String> values;
   final String price;
   final String locality;
 
-  // List<String> text2 = values;
-
   List<Widget> getTiles() {
     for (int i = 0; i <= 2; i++) {
-      items.add(onHoverSingleTile(
+      items.add(OnHoverSingleTile(
           color: colors[i], text1: text1[i], text2: values[i]));
     }
     return items;
@@ -213,6 +208,7 @@ class onHoverStrip extends StatelessWidget {
       height: 150,
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.start,
+        alignment: WrapAlignment.spaceAround,
         children: [
           Padding(
             padding: const EdgeInsets.all(4.0),
@@ -222,7 +218,7 @@ class onHoverStrip extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Text(
               "Price: $price",
               style: GoogleFonts.rubik(fontSize: 20, color: Colors.white70),
@@ -235,13 +231,16 @@ class onHoverStrip extends StatelessWidget {
   }
 }
 
-class onHoverSingleTile extends StatelessWidget {
-  final color;
-  final text1;
-  final text2;
+class OnHoverSingleTile extends StatelessWidget {
+  const OnHoverSingleTile(
+      {super.key,
+      required this.color,
+      required this.text1,
+      required this.text2});
 
-  onHoverSingleTile({Key? key, this.color, this.text1, this.text2})
-      : super(key: key);
+  final Color color;
+  final String text1;
+  final String text2;
 
   @override
   Widget build(BuildContext context) {
@@ -274,12 +273,11 @@ class CustomTextStyle extends StatelessWidget {
   final color;
 
   const CustomTextStyle(
-      {Key? key,
+      {super.key,
       required this.title,
       this.size = 15.0,
       this.fontWeight = FontWeight.normal,
-      this.color = Colors.white})
-      : super(key: key);
+      this.color = Colors.white});
 
   @override
   Widget build(BuildContext context) {

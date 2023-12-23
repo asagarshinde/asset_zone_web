@@ -15,44 +15,41 @@ class SinglePagePropertyView extends StatelessWidget {
   final Key singlePropertyKey = const Key("singlePageProperty");
   final String propertyId;
 
-  // Future<PropertyDetails> getSinglePageProperty({@required propertyId}) async {
-  //   PropertyController property = PropertyController();
-  //   PropertyDetails propertyDetails = await property.getPropertyFromId(propertyId: propertyId).then(
-  //           (value) => value);
-  //   return propertyDetails;
-  // }
-
   @override
   Widget build(BuildContext context) {
-    debugPrint("showing single page property");
     PropertyController property = PropertyController();
     return Scaffold(
       appBar: Responsive.isDesktop(context)
           ? PreferredSize(
               preferredSize: Size(MediaQuery.of(context).size.width, 70),
               child: const SimpleMenuBar() //MyNavigationBar(),
-            )
+              )
           : AppBar(backgroundColor: kPrimaryColor),
       drawer: const MySimpleDrawer(),
       body: FutureBuilder<PropertyDetails>(
-          future: property.getPropertyFromId(propertyId: propertyId),
-          builder: (context, snapshot) {
-            debugPrint("propertyid is $propertyId, snapshot: ");
-            if (snapshot.connectionState == ConnectionState.waiting){
-              return const Center(child: CircularProgressIndicator(),);
-            } else if (snapshot.hasError){
-              debugPrint("propertyid in error $propertyId, snapshot: ");
-              return Center(child: Text('Error: ${snapshot.error}')); // Display an error message if an error occurs
-            } else if (!snapshot.hasData){
-              return const Center(child: Text('No data available'));
-            } else{
-              PropertyDetails propertyDetails = snapshot.data!;
-              return SingleProperty(scrollController: scrollController, singlePropertyKey: singlePropertyKey, propertyDetails: propertyDetails);
-            }
+        future: property.getPropertyFromId(propertyId: propertyId),
+        builder: (context, snapshot) {
+          debugPrint("propertyid is $propertyId, snapshot: ");
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            debugPrint("propertyid in error $propertyId, snapshot: ");
+            return Center(
+                child: Text(
+                    'Error: ${snapshot.error}')); // Display an error message if an error occurs
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('No data available'));
+          } else {
+            PropertyDetails propertyDetails = snapshot.data!;
+            return SingleProperty(
+                scrollController: scrollController,
+                singlePropertyKey: singlePropertyKey,
+                propertyDetails: propertyDetails);
           }
-      )
-      
-
+        },
+      ),
     );
   }
 }
@@ -85,8 +82,7 @@ class SingleProperty extends StatelessWidget {
               ),
               Responsive(
                 key: singlePropertyKey,
-                mobile:
-                    ShortDetailCardMobile(propertyDetails: propertyDetails),
+                mobile: ShortDetailCardMobile(propertyDetails: propertyDetails),
                 tablet: ShortDetailCardDesktop(
                   propertyDetails: propertyDetails,
                 ),
@@ -115,6 +111,3 @@ class SingleProperty extends StatelessWidget {
     );
   }
 }
-
-
-
