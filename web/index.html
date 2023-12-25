@@ -39,9 +39,11 @@
 
 
 
+
     </script>
     <script type="text/javascript">
     window.flutterWebRenderer = "html";
+
 
 
 
@@ -67,6 +69,7 @@
         display: none;
     }
 
+
     </style>
 
 </head>
@@ -78,6 +81,7 @@
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
+        entrypointUrl: "/main.dart.js",
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         }
@@ -87,6 +91,7 @@
         return appRunner.runApp();
       });
     });
+
 
 
 
@@ -115,6 +120,7 @@
 
 
 
+
 </script>
 <script>
 window.onload = function () {
@@ -125,6 +131,7 @@ loadingIndicator.remove();
 }
 }, 10000);
 };
+
 
 
 </script>
