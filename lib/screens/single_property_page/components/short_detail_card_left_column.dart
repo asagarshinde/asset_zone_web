@@ -2,12 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
-import '../../home/components/home_screen_widgets.dart';
 
 class LeftColumn extends StatelessWidget {
   const LeftColumn({super.key, required this.propertyDetails});

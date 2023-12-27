@@ -1,14 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-
-// import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/models/property_detail_model.dart';
-import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class WhatAreYouLookingFor extends StatelessWidget {
-  WhatAreYouLookingFor({Key? key, required this.propertyDetails})
-      : super(key: key);
+  WhatAreYouLookingFor({super.key, required this.propertyDetails});
   final List<PropertyDetails> propertyDetails;
 
   final ScrollController scrollController = ScrollController();

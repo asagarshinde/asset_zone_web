@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 
 class PropertiesForCardsView extends StatefulWidget {
@@ -21,17 +23,17 @@ class PropertiesForCardsView extends StatefulWidget {
 }
 
 class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
-  Future<List<Widget>?> getData() async {
+  Future<List<Widget>?> getData(city) async {
     PropertiesList propertiesList = PropertiesList();
     List<Widget>? pl =
-        await propertiesList.propertyList(widget.propertiesFor, limit: widget.limit);
+        await propertiesList.propertyList(widget.propertiesFor, limit: widget.limit, city: city);
     return pl;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List?>(
-      future: getData(),
+    return Obx(() => FutureBuilder<List?>(
+      future: getData(navBarController.navBarSelectedCity.value),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Widget> data = snapshot.data! as List<Widget>;
@@ -46,7 +48,7 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
                       width: widget.width,
                       heading: "Properties ${widget.propertiesFor}",
                       subheading:
-                          "Elegant retreat in Coral Gables setting. This home provides entertaining spaces with kitchen opening"),
+                      "Elegant retreat in Coral Gables setting. This home provides entertaining spaces with kitchen opening"),
                 const SizedBox(height: 20),
                 Wrap(
                   alignment: WrapAlignment.spaceBetween,
@@ -64,7 +66,7 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
           return const CircularProgressIndicator();
         }
       },
-    );
+    ));
   }
 }
 

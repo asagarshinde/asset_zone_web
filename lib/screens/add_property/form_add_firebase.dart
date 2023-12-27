@@ -8,6 +8,7 @@ import 'package:the_asset_zone_web/controllers/upload_form_controller.dart';
 import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 import 'package:the_asset_zone_web/screens/home/home_screen.dart';
+import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 import 'add_property_widgets.dart';
 
 class FormAddFirebase extends StatefulWidget {

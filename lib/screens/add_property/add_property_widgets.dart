@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
 
 class SimpleTextField extends StatelessWidget {
@@ -42,53 +41,6 @@ class SimpleTextField extends StatelessWidget {
   }
 }
 
-
-class CustomDropDown extends StatelessWidget {
-  final String label;
-  final Icon icon;
-  final selectedValue;
-
-  // if we omit the type declaration of options we will get error
-  //  Expected a value of type 'List<DropdownMenuItem<Object>>?', but got one of type 'List<dynamic>'
-  final List<String> options;
-
-  const CustomDropDown(
-      {super.key,
-      required this.label,
-      required this.icon,
-      this.selectedValue,
-      required this.options});
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        padding: const EdgeInsets.all(0),
-        child: DropdownButtonFormField(
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            prefixIcon: icon,
-            labelStyle: const TextStyle(color: kPrimaryColor),
-            label: Text(
-              label,
-            ),
-          ),
-          value: selectedValue.value,
-          items: options.map((String e) {
-            return DropdownMenuItem<Object>(
-              value: e,
-              child: Text(e, style: const TextStyle(color: kSecondaryColor)),
-            );
-          }).toList(),
-          onChanged: (val) {
-            selectedValue.value = val;
-          },
-          menuMaxHeight: 5*48,
-        ),
-      ),
-    );
-  }
-}
 
 class HorizontalDividerWithText extends StatelessWidget {
   final String text;

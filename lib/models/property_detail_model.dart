@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 class PropertyDetails {
   late String id;
@@ -378,12 +377,12 @@ class RentDetails {
 
   Map<String, dynamic> toMap() {
     return {
-      'carpetArea': this.carpetArea,
-      'furnished': this.furnished,
-      'maintenance': this.maintenance,
-      'preferredTenant': this.preferredTenant,
-      'rent': this.rent,
-      'securityDeposit': this.securityDeposit,
+      'carpetArea': carpetArea,
+      'furnished': furnished,
+      'maintenance': maintenance,
+      'preferredTenant': preferredTenant,
+      'rent': rent,
+      'securityDeposit': securityDeposit,
     };
   }
 

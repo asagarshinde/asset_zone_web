@@ -132,7 +132,7 @@ class PropertyController extends GetxController {
   }
 
   Future<List<PropertyDetails>> retrievePropertyDetails(String propertiesFor,
-      {int limit = 3}) async {
+      {int limit = 3, String city = ""}) async {
     bool isRent = (propertiesFor == "rent") ? true : false;
     if (propertiesFor == "all") {
       QuerySnapshot<Map<String, dynamic>> snapshot =
@@ -143,11 +143,21 @@ class PropertyController extends GetxController {
         return propertyDetails;
       }).toList();
     } else {
-      QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
-          .collection("PropertyDetails")
-          .where("isRent", isEqualTo: isRent)
-          .limit(limit)
-          .get();
+
+      Query<Map<String, dynamic>> query = firestoreDB.collection("PropertyDetails").where("isRent", isEqualTo: isRent);
+
+      if (city != "Select City") {
+        debugPrint("Selected city is ${city}");
+        query = query.where("address.city", isEqualTo: city);
+      }
+
+      QuerySnapshot<Map<String, dynamic>> snapshot = await query.limit(limit).get();
+
+      // QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
+      //     .collection("PropertyDetails")
+      //     .where("isRent", isEqualTo: isRent)
+      //     .limit(limit)
+      //     .get();
       return snapshot.docs.map(
         (docSnapshot) {
           PropertyDetails propertyDetails =
@@ -165,12 +175,12 @@ class PropertyController extends GetxController {
 }
 
 class PropertiesList {
-  Future<List<Widget>?> propertyList(propertiesFor, {limit = 3}) async {
+  Future<List<Widget>?> propertyList(propertiesFor, {limit = 3, city = ""}) async {
     PropertyController dbservice = PropertyController();
     List<Widget> propertyList = [];
     String? carpetArea = "";
     var properties =
-        await dbservice.retrievePropertyDetails(propertiesFor, limit: limit);
+        await dbservice.retrievePropertyDetails(propertiesFor, limit: limit, city: city);
     for (var property in properties) {
       if (property.isRent) {
         carpetArea = property.rentDetails?.carpetArea;

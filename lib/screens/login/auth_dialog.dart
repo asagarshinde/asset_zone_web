@@ -92,9 +92,6 @@ class _AuthDialogState extends State<AuthDialog> {
       } else {
         return null;
       }
-
-
-    return null;
   }
 
   Future<bool?> getAuthStatus() async {
