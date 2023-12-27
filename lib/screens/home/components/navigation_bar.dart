@@ -6,6 +6,7 @@ import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/controllers/nav_bar_controller.dart';
 import 'package:the_asset_zone_web/screens/login/auth_dialog.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class MySimpleDrawer extends StatelessWidget {
   const MySimpleDrawer({super.key});
@@ -99,11 +100,19 @@ class _SimpleMenuBarState extends State<SimpleMenuBar> {
         );
       },
     );
+    menuWidgets.add(SizedBox(
+      width: 150,
+      child: CustomNavBarDropDown(
+          label: "city",
+          selectedValue: navBarController.navBarSelectedCity,
+          icon: const Icon(Icons.location_city),
+          options: navBarController.navBarCitiesList),
+    ));
     return menuWidgets;
   }
 
   @override
-  initState(){
+  initState() {
     super.initState();
     // authController.getAuthStatus();
   }

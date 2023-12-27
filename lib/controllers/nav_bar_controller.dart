@@ -21,8 +21,11 @@ class NavBarController extends GetxController {
     "home": true,
     "property": false,
     "about us": false,
-    "city": false,
   }.obs;
+
+  RxString navBarSelectedCity = "Select City".obs;
+
+  List<String> navBarCitiesList = ["Select City", "Nashik", "Igatpuri", "Pune"];
 
   bool homeSelected = true;
 
