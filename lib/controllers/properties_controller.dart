@@ -52,14 +52,46 @@ class PropertyController extends GetxController {
     debugPrint(
         "Searching properties is rented $isRent, $propertyType and $propertySubType from location $searchLocation in city $city ");
 
-    var querySnapshot = firestoreDB
-        .collection("PropertyDetails")
-        .where("isRent", isEqualTo: isRent)
-        .where("address.city", isEqualTo: city)
-        .where("address.localityOrArea", isEqualTo: searchLocation)
-        .where("propertyAbout.propertySubType", isEqualTo: propertySubType)
-        .where("propertyAbout.propertyType", isEqualTo: propertyType)
-        .get();
+    // var querySnapshot = firestoreDB
+    //     .collection("PropertyDetails")
+    //     .where("isRent", isEqualTo: isRent)
+    //     .where("address.city", isEqualTo: city)
+    //     .where("address.localityOrArea", isEqualTo: searchLocation)
+    //     .where("propertyAbout.propertySubType", isEqualTo: propertySubType)
+    //     .where("propertyAbout.propertyType", isEqualTo: propertyType)
+    //     .get();
+
+    Query<Map<String, dynamic>> collectionReference =
+        firestoreDB.collection("PropertyDetails");
+
+    collectionReference =
+        collectionReference.where("isRent", isEqualTo: isRent);
+
+    if (city != "City") {
+      debugPrint("selected city is $city");
+      collectionReference =
+          collectionReference.where("address.city", isEqualTo: city);
+    }
+
+    if (searchLocation != "") {
+      debugPrint("selected location is $searchLocation");
+      collectionReference = collectionReference.where("address.localityOrArea",
+          isEqualTo: searchLocation);
+    }
+
+    if (propertySubType != "Property Sub Type") {
+      debugPrint("selected property sub type $propertySubType");
+      collectionReference = collectionReference
+          .where("propertyAbout.propertySubType", isEqualTo: propertySubType);
+    }
+
+    if (propertyType != "Property Type") {
+      debugPrint("selected property type is $propertyType");
+      collectionReference = collectionReference
+          .where("propertyAbout.propertyType", isEqualTo: propertyType);
+    }
+
+    var querySnapshot = collectionReference.get();
 
     querySnapshot.then(
       (value) {
@@ -143,15 +175,17 @@ class PropertyController extends GetxController {
         return propertyDetails;
       }).toList();
     } else {
-
-      Query<Map<String, dynamic>> query = firestoreDB.collection("PropertyDetails").where("isRent", isEqualTo: isRent);
+      Query<Map<String, dynamic>> query = firestoreDB
+          .collection("PropertyDetails")
+          .where("isRent", isEqualTo: isRent);
 
       if (city != "Select City") {
         debugPrint("Selected city is ${city}");
         query = query.where("address.city", isEqualTo: city);
       }
 
-      QuerySnapshot<Map<String, dynamic>> snapshot = await query.limit(limit).get();
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await query.limit(limit).get();
 
       // QuerySnapshot<Map<String, dynamic>> snapshot = await firestoreDB
       //     .collection("PropertyDetails")
@@ -175,12 +209,13 @@ class PropertyController extends GetxController {
 }
 
 class PropertiesList {
-  Future<List<Widget>?> propertyList(propertiesFor, {limit = 3, city = ""}) async {
+  Future<List<Widget>?> propertyList(propertiesFor,
+      {limit = 3, city = ""}) async {
     PropertyController dbservice = PropertyController();
     List<Widget> propertyList = [];
     String? carpetArea = "";
-    var properties =
-        await dbservice.retrievePropertyDetails(propertiesFor, limit: limit, city: city);
+    var properties = await dbservice.retrievePropertyDetails(propertiesFor,
+        limit: limit, city: city);
     for (var property in properties) {
       if (property.isRent) {
         carpetArea = property.rentDetails?.carpetArea;
