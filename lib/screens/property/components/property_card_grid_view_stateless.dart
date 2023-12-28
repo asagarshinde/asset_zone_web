@@ -160,9 +160,8 @@ class PropertyCardGridViewStateless extends StatelessWidget {
                                               title: "Details",
                                               height: 30,
                                               onTap: () {
-                                                GoRouter.of(context).go(
-                                                    '/singleproperty',
-                                                    extra: property.toMap());
+                                                GoRouter.of(context).goNamed("singleProperty",
+                                                    pathParameters: {'propertyId': property.id});
                                               },
                                             ),
                                           ],

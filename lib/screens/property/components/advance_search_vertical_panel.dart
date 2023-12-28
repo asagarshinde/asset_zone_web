@@ -20,7 +20,7 @@ class AdvanceSearchVerticalPanel extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                padding: const EdgeInsets.only(left: 30, top: 20),
+                padding: const EdgeInsets.only( top: 20, bottom: 8),
                 child: Text(
                   "Advance search",
                   style: GoogleFonts.montserrat(
@@ -31,22 +31,19 @@ class AdvanceSearchVerticalPanel extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: Container(
-                padding: const EdgeInsets.only(left: 30),
-                child: Text(
-                  "Filter",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: const Color.fromRGBO(88, 97, 103, 1)),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(bottom: 8.0),
+            //     child: Text(
+            //       "Filter",
+            //       style: GoogleFonts.montserrat(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w600,
+            //           color: const Color.fromRGBO(88, 97, 103, 1)),
+            //       textAlign: TextAlign.left,
+            //     ),
+            //   ),
+            // ),
             const PropertySearchMobileView(),
           ],
         ),
