@@ -24,7 +24,7 @@ jobs:
         run: flutter pub get
 
       - name: Build
-        run: flutter build web
+        run: flutter build web --web-renderer html
 
       - name: Copy index.html to 404.html
         run: cp ./build/web/index.html ./build/web/404.html
