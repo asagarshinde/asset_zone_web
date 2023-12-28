@@ -51,14 +51,6 @@ class PropertyCardGridViewStateless extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("1. Building PropertyCardGridViewStateless.");
     debugPrint("2. Calling propertyController.setPropertyList();" );
-    // if(isQueried){
-    //   // propertyController.propertiesList.value = [];
-    //   debugPrint("4. is it queried $isQueried");
-    //   propertyController.setPropertyList();
-    // } else {
-    //   // propertyController.setPropertyList();
-    //   propertyController.searchProperty();
-    // }
 
     return Obx(
       () => MediaQuery.removePadding(

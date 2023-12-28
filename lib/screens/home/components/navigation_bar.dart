@@ -100,14 +100,17 @@ class _SimpleMenuBarState extends State<SimpleMenuBar> {
         );
       },
     );
-    menuWidgets.add(SizedBox(
-      width: 150,
-      child: CustomNavBarDropDown(
-          label: "city",
-          selectedValue: navBarController.navBarSelectedCity,
-          icon: const Icon(Icons.location_city),
-          options: navBarController.navBarCitiesList),
-    ));
+    if (navBarController.menuSelectedMap["home"]!) {
+      menuWidgets.add(SizedBox(
+        width: 150,
+        child: CustomNavBarDropDown(
+            label: "city",
+            selectedValue: navBarController.navBarSelectedCity,
+            icon: const Icon(Icons.location_city),
+            options: navBarController.navBarCitiesList),
+      ));
+    }
+
     return menuWidgets;
   }
 
@@ -148,10 +151,18 @@ class _SimpleMenuBarState extends State<SimpleMenuBar> {
                 flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(40, 8, 40, 8),
-                  child: Text(
-                    "The Asset Zone",
-                    style: kTextDefaultStyle.copyWith(
-                        fontWeight: FontWeight.w400, fontSize: 20),
+                  child: GestureDetector(
+
+                    onTap: () {
+                      GoRouter.of(context).go(
+                        '/',
+                      );
+                    },
+                    child: Text(
+                      "The Asset Zone",
+                      style: kTextDefaultStyle.copyWith(
+                          fontWeight: FontWeight.w400, fontSize: 20),
+                    ),
                   ),
                 ),
               ),

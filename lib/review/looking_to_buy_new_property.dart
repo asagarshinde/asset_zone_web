@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/constants/constants.dart';
+import 'package:the_asset_zone_web/constants/controllers.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class LookingToBuyNewProperty extends StatefulWidget {
@@ -102,7 +104,8 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                         style: GoogleFonts.montserrat(
                             fontSize: 28,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white), //const Color.fromRGBO(255, 255, 255, 1)
+                            color: Colors
+                                .white), //const Color.fromRGBO(255, 255, 255, 1)
                       ),
                     ),
                     const SizedBox(
@@ -128,10 +131,32 @@ class _LookingToBuyNewPropertyState extends State<LookingToBuyNewProperty> {
                         MyButton(
                           title: "Submit Property",
                           width: 200,
+                          onTap: () {
+                            if (authController.isAuthenticatedShared.value) {
+                              GoRouter.of(context).go(
+                                '/propertyadd',
+                              );
+                            } else {
+                              debugPrint("Please login first");
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const AlertDialog(
+                                    title: Text("Please login first."),
+                                  );
+                                },
+                              );
+                            }
+                          },
                         ),
                         MyButton(
                           title: "Browse Property",
                           width: 200,
+                          onTap: () {
+                            GoRouter.of(context).go(
+                              '/property',
+                            );
+                          },
                         ),
                       ],
                     )
