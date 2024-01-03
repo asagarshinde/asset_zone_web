@@ -15,6 +15,7 @@ import 'package:the_asset_zone_web/screens/home/components/property_search_table
 import '../../models/property_detail_model.dart';
 import '../../responsive.dart';
 import '../../widgets/helper_widgets.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required String title});
@@ -26,9 +27,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final String title = 'The Assets Zone';
   List<PropertyDetails> lstPropDetails = <PropertyDetails>[];
+  late ScrollController _scrollController;
 
   @override
   void initState() {
+    _scrollController = ScrollController();
     super.initState();
   }
 
@@ -52,60 +55,65 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: kPrimaryColor,
               ),
         drawer: const MySimpleDrawer(),
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        // Note. When row not starting with start of axis then use expanded.
-                        child: Stack(
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              height: 1000,
-                              child: Image.asset(
-                                'assets/building.jpg',
-                                fit: BoxFit.cover,
+        body: WebSmoothScroll(
+          controller: _scrollController,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          // Note. When row not starting with start of axis then use expanded.
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                height: 1000,
+                                child: Image.asset(
+                                  'assets/building.jpg',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const HomePageText(),
-                                HomePageSecondSection(
-                                    width: width, constraints: constraints),
-                                PropertiesForCardsView(
-                                    key: searchPanelController.forRentScroll,
-                                    width: width,
-                                    propertiesFor: "rent"),
-                                PropertiesForCardsView(
-                                    key: searchPanelController.forBuyScroll,
-                                    width: width,
-                                    propertiesFor: "sale"),
-                                featuredProject(context: context, width: width),
-                                const SizedBox(height: 50),
-                                const DeveloperWorkWithUs(),
-                                const SizedBox(height: 50),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: const LookingToBuyNewProperty(),
-                                )
-                              ],
-                            ),
-                          ],
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const HomePageText(),
+                                  HomePageSecondSection(
+                                      width: width, constraints: constraints),
+                                  PropertiesForCardsView(
+                                      key: searchPanelController.forRentScroll,
+                                      width: width,
+                                      propertiesFor: "rent"),
+                                  PropertiesForCardsView(
+                                      key: searchPanelController.forBuyScroll,
+                                      width: width,
+                                      propertiesFor: "sale"),
+                                  featuredProject(
+                                      context: context, width: width),
+                                  const SizedBox(height: 50),
+                                  const DeveloperWorkWithUs(),
+                                  const SizedBox(height: 50),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height,
+                                    child: const LookingToBuyNewProperty(),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: width, child: const FooterPage()),
-                ],
-              ),
-            );
-          },
+                      ],
+                    ),
+                    SizedBox(width: width, child: const FooterPage()),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
