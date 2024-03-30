@@ -278,7 +278,7 @@ class _AuthDialogState extends State<AuthDialog> {
                           width: double.maxFinite,
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              primary: Colors.blueGrey.shade800,
+                              // primary: Colors.blueGrey.shade800,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
@@ -380,7 +380,7 @@ class _AuthDialogState extends State<AuthDialog> {
                           width: double.maxFinite,
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              primary: kSecondaryColor,
+                              // primary: kSecondaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -531,7 +531,7 @@ class _GoogleButtonState extends State<GoogleButton> {
       ),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          primary: Colors.blueGrey.shade100,
+          // primary: Colors.blueGrey.shade100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: const BorderSide(color: Colors.blueGrey, width: 3),
