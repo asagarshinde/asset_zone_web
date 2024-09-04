@@ -493,7 +493,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     'By proceeding, you agree to our Terms of Use and confirm you have read our Privacy Policy.',
                     maxLines: 2,
                     style: TextStyle(
-                      color: Theme.of(context).textTheme.subtitle2!.color,
+                      color: Theme.of(context).textTheme.titleSmall!.color,
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
                       // letterSpacing: 3,

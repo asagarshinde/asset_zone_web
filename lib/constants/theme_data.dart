@@ -7,7 +7,7 @@ ThemeData themeData = ThemeData(
   primarySwatch: Colors.deepOrange,
   // accentColor: Colors.white,
   scaffoldBackgroundColor: Colors.white,
-  toggleableActiveColor: Colors.black,
+  // toggleableActiveColor: Colors.black,
   // inputDecorationTheme: InputDecorationTheme(
   //   border: const OutlineInputBorder(
   //     borderSide: BorderSide(color: Colors.black),
