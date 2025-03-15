@@ -180,7 +180,7 @@ class PropertyController extends GetxController {
           .where("isRent", isEqualTo: isRent);
 
       if (city != "Select City") {
-        debugPrint("Selected city is ${city}");
+        debugPrint("Selected city is $city");
         query = query.where("address.city", isEqualTo: city);
       }
 

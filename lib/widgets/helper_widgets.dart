@@ -52,13 +52,13 @@ class DynamicButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const DynamicButton({
-    Key? key,
+    super.key,
     required this.text,
     this.backgroundColor = Colors.blue,
     this.textColor = Colors.white,
     this.textSize = 16,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

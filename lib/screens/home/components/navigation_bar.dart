@@ -132,7 +132,7 @@ class _SimpleMenuBarState extends State<SimpleMenuBar> {
       (value) => {
         if (value != null && value == true)
           {
-            print("********** from shared ${value} **********"),
+            print("********** from shared $value **********"),
             navBarController.authIcon.value = Icons.logout
           }
         else

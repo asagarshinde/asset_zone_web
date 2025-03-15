@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FooterPage extends StatelessWidget {
-  const FooterPage({Key? key}) : super(key: key);
+  const FooterPage({super.key});
 
   @override
   Widget build(BuildContext context) {

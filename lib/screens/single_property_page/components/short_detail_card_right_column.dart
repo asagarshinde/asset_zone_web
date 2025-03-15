@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class rightColumn extends StatelessWidget {
-  const rightColumn({Key? key}) : super(key: key);
+  const rightColumn({super.key});
 
   @override
   Widget build(BuildContext context) {

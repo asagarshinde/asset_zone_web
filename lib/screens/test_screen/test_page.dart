@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:getwidget/getwidget.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class TestPage extends StatelessWidget {
 }
 
 class CarouselTest extends StatefulWidget {
-  const CarouselTest({Key? key}) : super(key: key);
+  const CarouselTest({super.key});
 
   @override
   State<CarouselTest> createState() => _CarouselTestState();

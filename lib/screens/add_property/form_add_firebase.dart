@@ -516,7 +516,7 @@ class _FormAddFirebaseState extends State<FormAddFirebase> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateColor.resolveWith(
+                                backgroundColor: WidgetStateColor.resolveWith(
                                     (states) => kSecondaryColor)),
                             onPressed: () async {
                               final image =

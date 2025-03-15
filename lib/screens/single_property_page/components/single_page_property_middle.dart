@@ -198,7 +198,7 @@ class _SinglePagePropertyMiddleDesktopState
 class ReviewWidget extends StatelessWidget {
   final bool isMobile;
 
-  ReviewWidget({Key? key, required this.isMobile}) : super(key: key);
+  const ReviewWidget({super.key, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -233,8 +233,8 @@ class ReviewWidget extends StatelessWidget {
 
 class ReviewTile extends StatelessWidget {
   const ReviewTile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -300,8 +300,8 @@ class ReviewTile extends StatelessWidget {
 
 class ReviewTileMobile extends StatelessWidget {
   const ReviewTileMobile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

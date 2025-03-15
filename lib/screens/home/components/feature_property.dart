@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../constants/constants.dart';
 
 class FeatureProperty extends StatelessWidget {
-  const FeatureProperty({Key? key}) : super(key: key);
+  const FeatureProperty({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +220,7 @@ class FeatureProperty extends StatelessWidget {
 }
 
 class FeaturePropertyTablet extends StatelessWidget {
-  const FeaturePropertyTablet({Key? key}) : super(key: key);
+  const FeaturePropertyTablet({super.key});
 
   @override
   Widget build(BuildContext context) {

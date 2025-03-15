@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:the_asset_zone_web/widgets/helper_widgets.dart';
 
 class testinominal extends StatefulWidget {
-  const testinominal({Key? key}) : super(key: key);
+  const testinominal({super.key});
 
   @override
   State<testinominal> createState() => _testinominalState();
@@ -91,7 +91,7 @@ class _testinominalState extends State<testinominal> {
                     //border: Border.all(color: Colors.black, width: 4),
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
-                      new BoxShadow(
+                      BoxShadow(
                         color: Colors.purple,
                       ),
                     ],

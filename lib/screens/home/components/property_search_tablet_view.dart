@@ -5,7 +5,7 @@ import 'PropertySearchWidgets.dart';
 
 
 class PropertySearchTabletView extends StatelessWidget {
-  const PropertySearchTabletView({Key? key}) : super(key: key);
+  const PropertySearchTabletView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -73,13 +73,12 @@ class _PropertiesForCardsViewState extends State<PropertiesForCardsView> {
 // 9819714503
 class PaddedTextHeading extends StatelessWidget {
   const PaddedTextHeading(
-      {Key? key,
+      {super.key,
       required this.width,
       required this.text,
       this.fontSize = 30,
       required this.font,
-      this.fontWeight = FontWeight.w100})
-      : super(key: key);
+      this.fontWeight = FontWeight.w100});
 
   final double width;
   final String text;

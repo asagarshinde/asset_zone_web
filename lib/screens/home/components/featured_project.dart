@@ -6,7 +6,7 @@ import 'package:the_asset_zone_web/screens/home/components/home_screen_widgets.d
 import '../../../constants/constants.dart';
 
 class FeatureProjectLayer2 extends StatelessWidget {
-  const FeatureProjectLayer2({Key? key}) : super(key: key);
+  const FeatureProjectLayer2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +31,11 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
   final String projectDescription;
 
   const FeaturedProjectDescriptionTile({
-    Key? key,
+    super.key,
     required this.cityName,
     required this.projectType,
     required this.projectDescription,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +198,7 @@ class FeaturedProjectDescriptionTile extends StatelessWidget {
 }
 
 class FeaturedProjectDesktop extends StatelessWidget {
-  const FeaturedProjectDesktop({Key? key}) : super(key: key);
+  const FeaturedProjectDesktop({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +273,7 @@ class FeaturedProjectDesktop extends StatelessWidget {
 }
 
 class FeaturedProjectTablet extends StatelessWidget {
-  const FeaturedProjectTablet({Key? key}) : super(key: key);
+  const FeaturedProjectTablet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +349,7 @@ class FeaturedProjectTablet extends StatelessWidget {
 }
 
 class FeaturedProjectMobile extends StatelessWidget {
-  const FeaturedProjectMobile({Key? key}) : super(key: key);
+  const FeaturedProjectMobile({super.key});
 
   @override
   Widget build(BuildContext context) {

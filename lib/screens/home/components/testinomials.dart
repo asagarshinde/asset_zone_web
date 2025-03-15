@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class testinomals extends StatelessWidget {
-  const testinomals({Key? key}) : super(key: key);
+  const testinomals({super.key});
 
   @override
   Widget build(BuildContext context) {

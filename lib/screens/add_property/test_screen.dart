@@ -3,7 +3,7 @@ import 'package:the_asset_zone_web/controllers/properties_controller.dart';
 // import 'package:the_asset_zone_web/controllers/list_mode.dart';
 
 class TestPageScreen extends StatefulWidget {
-  const TestPageScreen({Key? key}) : super(key: key);
+  const TestPageScreen({super.key});
 
   @override
   State<TestPageScreen> createState() => _TestPageScreenState();

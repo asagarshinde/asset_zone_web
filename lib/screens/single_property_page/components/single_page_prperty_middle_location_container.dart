@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class SinglePagePropertyMiddleLocationContainer extends StatefulWidget {
   final location;
 
-  SinglePagePropertyMiddleLocationContainer({Key? key,  this.location}) : super(key: key);
+  const SinglePagePropertyMiddleLocationContainer({super.key,  this.location});
 
   @override
   State<SinglePagePropertyMiddleLocationContainer> createState() => _SinglePagePropertyMiddleLocationContainerState();

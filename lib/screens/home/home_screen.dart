@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
         drawer: const MySimpleDrawer(),
         body: WebSmoothScroll(
+          scrollSpeed: 20,
           controller: _scrollController,
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {

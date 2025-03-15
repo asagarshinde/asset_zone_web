@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class TopImagesView extends StatelessWidget {
-  const TopImagesView({Key? key}) : super(key: key);
+  const TopImagesView({super.key});
 
   Widget drawImageWithConstraints(height, width, image) {
     return SizedBox(

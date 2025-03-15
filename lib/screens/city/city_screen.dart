@@ -4,7 +4,7 @@ import 'package:the_asset_zone_web/responsive.dart';
 import 'package:the_asset_zone_web/screens/home/components/navigation_bar.dart';
 
 class CityScreen extends StatelessWidget {
-  const CityScreen({Key? key}) : super(key: key);
+  const CityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

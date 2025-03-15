@@ -226,7 +226,7 @@ class LeftColumn extends StatelessWidget {
 }
 
 class leftColumnMobile extends StatelessWidget {
-  const leftColumnMobile({Key? key}) : super(key: key);
+  const leftColumnMobile({super.key});
 
   List<Widget> getFlatDetailsRow(bedrooms, halls, area, bathrooms, garage) {
     List<String> flatDetails = [

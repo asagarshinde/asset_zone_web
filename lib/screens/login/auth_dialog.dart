@@ -18,7 +18,7 @@ class SignInOutDialog extends StatelessWidget {
         .then((value) => authController.isAuthenticatedShared.value = value!);
     return Obx(
       () {
-        Widget dialog = Container(
+        Widget dialog = SizedBox(
           height: 100,
           width: 100,
           child: const Text("Signed Out"),
